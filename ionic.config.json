@@ -1,0 +1,7 @@
+{
+  "name": "archivex-admin",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular-standalone"
+}
