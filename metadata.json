@@ -1,0 +1,6 @@
+{
+  "name": "ArchivEx Admin",
+  "description": "Espace d'administration web ArchivEx pour la gestion des UE, ressources pédagogiques et validation des paiements",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
