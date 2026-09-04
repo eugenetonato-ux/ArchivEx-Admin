@@ -1,0 +1,38 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Gestion des Étudiants & Accès Premium</ion-title>
+  </ion-toolbar>
+  <ion-toolbar color="primary">
+    <ion-searchbar [(ngModel)]="filtre" placeholder="Rechercher par nom ou email... (Ctrl+K)"></ion-searchbar>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <div *ngIf="loading" class="ion-text-center ion-padding">
+    <ion-spinner></ion-spinner>
+  </div>
+
+  <ion-list *ngIf="!loading">
+    <ion-item *ngFor="let e of etudiantsFiltres">
+      <ion-label>
+        <h2>{{ e.full_name || 'Nom non renseigné' }}</h2>
+        <p>{{ e.email }}</p>
+      </ion-label>
+
+      <div slot="end" class="toggles-group">
+        <div class="toggle-item">
+          <span class="toggle-label">Pass S1</span>
+          <ion-toggle [checked]="e.premium_s1" (ionChange)="togglePass(e, 'premium_s1', $event.detail.checked)"></ion-toggle>
+        </div>
+
+        <div class="toggle-item">
+          <span class="toggle-label">Pass S2</span>
+          <ion-toggle [checked]="e.premium_s2" (ionChange)="togglePass(e, 'premium_s2', $event.detail.checked)"></ion-toggle>
+        </div>
+      </div>
+    </ion-item>
+  </ion-list>
+</ion-content>

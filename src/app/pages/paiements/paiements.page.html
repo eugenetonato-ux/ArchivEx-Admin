@@ -1,0 +1,49 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Validation des Paiements</ion-title>
+  </ion-toolbar>
+  <ion-toolbar color="primary">
+    <ion-segment [value]="filtreStatut" (ionChange)="changerFiltre($event)">
+      <ion-segment-button value="en_attente">
+        <ion-label>En attente</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="confirme">
+        <ion-label>Confirmés</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="rejete">
+        <ion-label>Rejetés</ion-label>
+      </ion-segment-button>
+    </ion-segment>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <div *ngIf="loading" class="ion-text-center ion-padding">
+    <ion-spinner></ion-spinner>
+  </div>
+
+  <div *ngIf="!loading && paiements.length === 0" class="ion-text-center ion-padding">
+    <p>Aucun paiement trouvé pour ce filtre.</p>
+  </div>
+
+  <ion-list *ngIf="!loading && paiements.length > 0">
+    <ion-item *ngFor="let p of paiements">
+      <ion-label>
+        <h2>{{ p.profile?.full_name || 'Étudiant' }} ({{ p.profile?.email }})</h2>
+        <p>Montant: {{ p.montant }} FCFA | Semestre: {{ p.semestre }}</p>
+        <p *ngIf="p.reference">Réf: {{ p.reference }}</p>
+      </ion-label>
+
+      <ion-badge slot="end" [color]="p.statut === 'confirme' ? 'success' : (p.statut === 'en_attente' ? 'warning' : 'danger')">
+        {{ p.statut }}
+      </ion-badge>
+
+      <ion-button *ngIf="p.statut === 'en_attente'" slot="end" color="success" (click)="valider(p.id)">
+        Valider
+      </ion-button>
+    </ion-item>
+  </ion-list>
+</ion-content>

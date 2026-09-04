@@ -1,0 +1,55 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Paramètres & Personnalisation</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>🎨 Thème Visuel & Mode Sombre</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-item lines="none">
+        <ion-label>Mode Sombre (Dark Mode)</ion-label>
+        <ion-toggle [checked]="themeSvc.darkMode()" (ionChange)="toggleDarkMode($event)"></ion-toggle>
+      </ion-item>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>🌈 Couleurs d'Accentuation Professionnelles</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <p class="description">Choisissez la teinte d'accentuation principale pour personnaliser votre portail d'administration :</p>
+      
+      <div class="accent-grid">
+        <div
+          *ngFor="let a of accents"
+          class="accent-card"
+          [class.active]="themeSvc.currentAccent().id === a.id"
+          (click)="selectAccent(a)"
+        >
+          <div class="color-circle" [style.background-color]="a.hex"></div>
+          <span class="accent-name">{{ a.name }}</span>
+        </div>
+      </div>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>👁️ Aperçu en temps réel</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <div class="preview-box">
+        <ion-button color="primary">Bouton Principal</ion-button>
+        <ion-badge color="primary">Badge Accentué</ion-badge>
+      </div>
+    </ion-card-content>
+  </ion-card>
+</ion-content>

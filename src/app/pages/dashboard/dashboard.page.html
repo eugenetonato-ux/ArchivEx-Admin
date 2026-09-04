@@ -1,0 +1,138 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Tableau de bord Analytique</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <div *ngIf="loading" class="ion-text-center ion-padding">
+    <ion-spinner></ion-spinner>
+  </div>
+
+  <div *ngIf="!loading">
+    <!-- KPI Cards Row -->
+    <ion-grid>
+      <ion-row>
+        <ion-col size="12" size-sm="6" size-md="3">
+          <ion-card class="kpi-card">
+            <ion-card-header>
+              <ion-card-subtitle>Recettes Globales</ion-card-subtitle>
+              <ion-card-title class="kpi-value">{{ stats.recettesEstimees | number }} FCFA</ion-card-title>
+            </ion-card-header>
+            <ion-card-content>
+              <ion-badge color="success">+18% ce mois</ion-badge>
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+
+        <ion-col size="12" size-sm="6" size-md="3">
+          <ion-card class="kpi-card">
+            <ion-card-header>
+              <ion-card-subtitle>Étudiants Premium</ion-card-subtitle>
+              <ion-card-title class="kpi-value">{{ stats.etudiantsPremium }}</ion-card-title>
+            </ion-card-header>
+            <ion-card-content>
+              <ion-badge color="primary">Pass S1 & S2 actifs</ion-badge>
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+
+        <ion-col size="12" size-sm="6" size-md="3">
+          <ion-card class="kpi-card">
+            <ion-card-header>
+              <ion-card-subtitle>Ressources</ion-card-subtitle>
+              <ion-card-title class="kpi-value">{{ stats.totalRessources }}</ion-card-title>
+            </ion-card-header>
+            <ion-card-content>
+              <ion-badge color="tertiary">Épreuves, Corrigés, Résumés</ion-badge>
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+
+        <ion-col size="12" size-sm="6" size-md="3">
+          <ion-card class="kpi-card">
+            <ion-card-header>
+              <ion-card-subtitle>File Paiements</ion-card-subtitle>
+              <ion-card-title class="kpi-value">{{ stats.paiementsEnAttente }}</ion-card-title>
+            </ion-card-header>
+            <ion-card-content>
+              <ion-badge color="warning">À valider</ion-badge>
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+      </ion-row>
+
+      <!-- Charts & Activity Feed Row -->
+      <ion-row class="ion-margin-top">
+        <ion-col size="12" size-lg="7">
+          <ion-card>
+            <ion-card-header>
+              <ion-card-title>📊 Performance & Tendances de Publication</ion-card-title>
+              <ion-card-subtitle>Volume de consultations et ajouts de ressources par semestre</ion-card-subtitle>
+            </ion-card-header>
+            <ion-card-content>
+              <div class="chart-container">
+                <svg viewBox="0 0 500 200" class="performance-chart">
+                  <defs>
+                    <linearGradient id="chartGrad" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="0%" stop-color="var(--ion-color-primary)" stop-opacity="0.4"/>
+                      <stop offset="100%" stop-color="var(--ion-color-primary)" stop-opacity="0.0"/>
+                    </linearGradient>
+                  </defs>
+                  <!-- Grid lines -->
+                  <line x1="0" y1="40" x2="500" y2="40" stroke="rgba(0,0,0,0.06)" />
+                  <line x1="0" y1="90" x2="500" y2="90" stroke="rgba(0,0,0,0.06)" />
+                  <line x1="0" y1="140" x2="500" y2="140" stroke="rgba(0,0,0,0.06)" />
+                  
+                  <!-- Area path -->
+                  <path d="M 0 160 Q 100 80, 200 120 T 400 50 L 500 90 L 500 180 L 0 180 Z" fill="url(#chartGrad)" />
+                  <!-- Line path -->
+                  <path d="M 0 160 Q 100 80, 200 120 T 400 50 L 500 90" fill="none" stroke="var(--ion-color-primary)" stroke-width="3" />
+
+                  <!-- Dots -->
+                  <circle cx="100" cy="110" r="5" fill="var(--ion-color-primary)" />
+                  <circle cx="200" cy="120" r="5" fill="var(--ion-color-primary)" />
+                  <circle cx="300" cy="70" r="5" fill="var(--ion-color-primary)" />
+                  <circle cx="400" cy="50" r="5" fill="var(--ion-color-primary)" />
+                  <circle cx="500" cy="90" r="5" fill="var(--ion-color-primary)" />
+                </svg>
+                <div class="chart-labels">
+                  <span>Oct</span>
+                  <span>Nov</span>
+                  <span>Déc</span>
+                  <span>Jan</span>
+                  <span>Fév</span>
+                  <span>Mar</span>
+                </div>
+              </div>
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+
+        <ion-col size="12" size-lg="5">
+          <ion-card>
+            <ion-card-header>
+              <ion-card-title>⚡ Flux d'Activité en Temps Réel</ion-card-title>
+              <ion-card-subtitle>Dernières actions sur la plateforme</ion-card-subtitle>
+            </ion-card-header>
+            <ion-card-content>
+              <ion-list lines="full">
+                <ion-item *ngFor="let item of activityFeed">
+                  <ion-icon [name]="item.icon" [color]="item.color" slot="start"></ion-icon>
+                  <ion-label>
+                    <h3>{{ item.title }}</h3>
+                    <p>{{ item.description }}</p>
+                  </ion-label>
+                  <span slot="end" class="activity-time">{{ item.time }}</span>
+                </ion-item>
+              </ion-list>
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
+</ion-content>
