@@ -1,5 +1,11 @@
-<aside class="admin-sidebar-inner" [class.is-collapsed]="collapsed">
-  <!-- Sidebar Header with Brand & Toggle -->
+<aside
+  class="admin-sidebar-inner"
+  [class.is-collapsed]="collapsed && !hoverExpanded()"
+  [class.is-hover-expanded]="collapsed && hoverExpanded()"
+  (mouseenter)="onMouseEnter()"
+  (mouseleave)="onMouseLeave()">
+
+  <!-- Sidebar Header with Brand & 3-Dots Hamburger Menu Trigger -->
   <div class="sidebar-header">
     <div class="brand-logo" routerLink="/dashboard" (click)="onNavItemClick()">
       <div class="logo-icon">
@@ -11,11 +17,17 @@
       </div>
     </div>
 
+    <!-- Stylish 3-Dots Hamburger Menu Toggle Button -->
     <button
-      class="collapse-btn desktop-only"
+      class="three-dots-toggle-btn desktop-only"
       (click)="onCollapseToggle()"
-      [title]="collapsed ? 'Déplier le menu' : 'Réduire le menu'">
-      <ion-icon name="chevron-back" class="toggle-icon" [class.rotated]="collapsed"></ion-icon>
+      (mouseenter)="onMouseEnter()"
+      [title]="collapsed ? 'Déplier le menu (Survoler ou Cliquer)' : 'Réduire le menu'">
+      <div class="dots-wrapper">
+        <span class="dot"></span>
+        <span class="dot"></span>
+        <span class="dot"></span>
+      </div>
     </button>
 
     <button
@@ -40,9 +52,11 @@
             routerLinkActive="active"
             (click)="onNavItemClick()"
             class="nav-link"
-            [title]="collapsed ? item.title : ''">
-            
-            <ion-icon [name]="item.icon" class="nav-icon"></ion-icon>
+            [title]="collapsed && !hoverExpanded() ? item.title : ''">
+
+            <div class="icon-glow-wrap">
+              <ion-icon [name]="item.icon" class="nav-icon"></ion-icon>
+            </div>
 
             <span class="nav-text">{{ item.title }}</span>
 
@@ -52,7 +66,7 @@
               class="nav-badge">
               {{ item.badge }}
             </ion-badge>
-            
+
             <!-- Tooltip preview when collapsed -->
             <div class="collapsed-tooltip">
               {{ item.title }}
@@ -63,7 +77,7 @@
     </div>
   </nav>
 
-  <!-- Sidebar Footer / User Profile & Logout -->
+  <!-- Sidebar Footer / User Profile & Logout Button -->
   <div class="sidebar-footer">
     <div class="user-profile">
       <div class="avatar">

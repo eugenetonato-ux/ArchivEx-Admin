@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { IonIcon, IonBadge } from '@ionic/angular/standalone';
@@ -38,6 +38,31 @@ export class SidebarNavComponent {
   @Output() linkClick = new EventEmitter<void>();
   @Output() logout = new EventEmitter<void>();
 
+  hoverExpanded = signal<boolean>(false);
+
+  onMouseEnter() {
+    if (this.collapsed) {
+      this.hoverExpanded.set(true);
+    }
+  }
+
+  onMouseLeave() {
+    this.hoverExpanded.set(false);
+  }
+
+  onCollapseToggle() {
+    this.toggleCollapse.emit();
+  }
+
+  onNavItemClick() {
+    this.hoverExpanded.set(false);
+    this.linkClick.emit();
+  }
+
+  onLogoutClick() {
+    this.logout.emit();
+  }
+
   get navGroups(): NavGroup[] {
     return [
       {
@@ -73,17 +98,5 @@ export class SidebarNavComponent {
         ]
       }
     ];
-  }
-
-  onCollapseToggle() {
-    this.toggleCollapse.emit();
-  }
-
-  onNavItemClick() {
-    this.linkClick.emit();
-  }
-
-  onLogoutClick() {
-    this.logout.emit();
   }
 }

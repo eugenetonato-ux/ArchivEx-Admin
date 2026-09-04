@@ -136,7 +136,7 @@ export class ActivityChartsComponent implements OnInit {
       legend: { display: false },
       tooltip: {
         callbacks: {
-          label: (context) => {
+          label: (context: any) => {
             const val = context.raw as number;
             return ` Volume: ${val.toLocaleString('fr-FR')} FCFA`;
           }
@@ -148,7 +148,7 @@ export class ActivityChartsComponent implements OnInit {
       y: {
         grid: { color: 'rgba(0,0,0,0.05)' },
         ticks: {
-          callback: (value) => `${Number(value) / 1000}k`
+          callback: (value: any) => `${Number(value) / 1000}k`
         }
       }
     }

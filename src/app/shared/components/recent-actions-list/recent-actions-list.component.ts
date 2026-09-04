@@ -1,7 +1,7 @@
 import { Component, OnInit, signal, computed, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonIcon, IonBadge, IonButton, IonSearchbar, IonSegment, IonSegmentButton, IonLabel } from '@ionic/angular/standalone';
+import { IonIcon, IonBadge } from '@ionic/angular/standalone';
 import { AdminActionsService } from '../../../core/services/admin-actions';
 import { AdminAction, ActionCategory } from '../../../core/models/admin-action.model';
 import { AuthService } from '../../../core/services/auth';
@@ -13,12 +13,7 @@ import { AuthService } from '../../../core/services/auth';
     CommonModule,
     FormsModule,
     IonIcon,
-    IonBadge,
-    IonButton,
-    IonSearchbar,
-    IonSegment,
-    IonSegmentButton,
-    IonLabel
+    IonBadge
   ],
   templateUrl: './recent-actions-list.component.html',
   styleUrls: ['./recent-actions-list.component.scss']
