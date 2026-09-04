@@ -1,0 +1,92 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Paiements</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  
+  <!-- Barre de filtres -->
+  <div class="filter-bar">
+    <ion-segment [value]="filtreStatut || 'tous'" (ionChange)="changerFiltre($event)">
+      <ion-segment-button value="en_attente">
+        <ion-icon name="hourglass-outline"></ion-icon>
+        <ion-label>En attente</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="confirme">
+        <ion-icon name="checkmark-circle-outline"></ion-icon>
+        <ion-label>Confirmés</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="tous">
+        <ion-icon name="card-outline"></ion-icon>
+        <ion-label>Tous</ion-label>
+      </ion-segment-button>
+    </ion-segment>
+  </div>
+
+  @if (loading) {
+    <div class="loading">
+      <ion-spinner name="crescent"></ion-spinner>
+    </div>
+  } @else {
+    <div class="page-container">
+      
+      @if (paiements.length === 0) {
+        <div class="empty-state">
+          <ion-icon name="checkmark-circle-outline"></ion-icon>
+          <h3>Aucun paiement</h3>
+          <p>Il n'y a aucun paiement dans cette catégorie pour le moment.</p>
+        </div>
+      } @else {
+        <div class="card list-card">
+          <ion-list lines="full" class="paiement-list">
+            
+            @for (p of paiements; track p.id) {
+              <ion-item class="paiement-item">
+                <div class="item-content">
+                  <!-- Infos utilisateur -->
+                  <div class="user-info">
+                    <h3 class="user-name">{{ p.profile?.full_name || 'Nom inconnu' }}</h3>
+                    <p class="user-email">{{ p.profile?.email }}</p>
+                    <div class="meta-tags">
+                      <span class="tag semestre">{{ p.semestre }}</span>
+                      <span class="tag date">{{ formatDate(p.created_at) }}</span>
+                      @if (p.reference) {
+                        <span class="tag ref">Réf: {{ p.reference }}</span>
+                      }
+                    </div>
+                  </div>
+
+                  <!-- Montant et Action -->
+                  <div class="amount-action">
+                    <div class="amount">{{ p.montant }} FCFA</div>
+                    
+                    @if (p.statut === 'en_attente') {
+                      <ion-badge class="status-badge" color="warning">En attente</ion-badge>
+                      <ion-button 
+                        size="small" 
+                        color="success" 
+                        (click)="valider(p.id)">
+                        <ion-icon slot="start" name="checkmark-circle-outline"></ion-icon>
+                        Valider
+                      </ion-button>
+                    } @else if (p.statut === 'confirme') {
+                      <ion-badge class="status-badge" color="success">Validé</ion-badge>
+                    } @else {
+                      <ion-badge class="status-badge" color="danger">Rejeté</ion-badge>
+                    }
+                  </div>
+                </div>
+              </ion-item>
+            }
+          </ion-list>
+        </div>
+      }
+
+    </div>
+  }
+
+</ion-content>

@@ -1,0 +1,109 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Ressources</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="isModalOpen = true">
+        <ion-icon slot="icon-only" name="add-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  
+  <!-- Barre de filtres -->
+  <div class="filter-bar">
+    <ion-select 
+      class="filter-select" 
+      label="Semestre" 
+      labelPlacement="stacked"
+      [(ngModel)]="filtreSemestre" 
+      (ionChange)="onFiltreChange()"
+      interface="popover">
+      <ion-select-option [value]="undefined">Tous</ion-select-option>
+      <ion-select-option value="S1">S1</ion-select-option>
+      <ion-select-option value="S2">S2</ion-select-option>
+    </ion-select>
+
+    <ion-select 
+      class="filter-select" 
+      label="Type" 
+      labelPlacement="stacked"
+      [(ngModel)]="filtreType" 
+      (ionChange)="onFiltreChange()"
+      interface="popover">
+      <ion-select-option [value]="undefined">Tous</ion-select-option>
+      <ion-select-option value="epreuve">Épreuves</ion-select-option>
+      <ion-select-option value="corrige">Corrigés</ion-select-option>
+      <ion-select-option value="resume">Résumés</ion-select-option>
+    </ion-select>
+  </div>
+
+  @if (loading) {
+    <div class="loading">
+      <ion-spinner name="crescent"></ion-spinner>
+    </div>
+  } @else {
+    <div class="page-container">
+      
+      @if (ressources.length === 0) {
+        <div class="empty-state">
+          <ion-icon name="document-attach-outline"></ion-icon>
+          <h3>Aucune ressource</h3>
+          <p>Aucune ressource ne correspond à vos filtres.</p>
+        </div>
+      } @else {
+        <div class="card list-card">
+          <ion-list lines="full" class="ressource-list">
+            
+            @for (r of ressources; track r.id) {
+              <ion-item class="ressource-item">
+                <div class="item-layout">
+                  <div class="icon-area">
+                    <ion-icon name="document-attach-outline"></ion-icon>
+                  </div>
+                  
+                  <div class="info-area">
+                    <div class="title-row">
+                      <h3 class="r-title">{{ r.titre }}</h3>
+                      @if (r.is_premium) {
+                        <ion-badge class="premium-badge">
+                          <ion-icon name="lock-closed-outline"></ion-icon>
+                          Premium
+                        </ion-badge>
+                      }
+                    </div>
+                    <div class="meta-row">
+                      <span class="meta-tag ue">{{ getUeName(r.ue_id) }}</span>
+                      <span class="meta-tag type">{{ r.type }}</span>
+                      <span class="meta-tag session">{{ r.session }} - {{ r.annee }}</span>
+                    </div>
+                  </div>
+
+                  <div class="action-area">
+                    <ion-button fill="clear" color="danger" (click)="supprimer(r.id)">
+                      <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
+                    </ion-button>
+                  </div>
+                </div>
+              </ion-item>
+            }
+          </ion-list>
+        </div>
+      }
+
+    </div>
+  }
+
+  <!-- Le Modal d'ajout de ressource -->
+  <app-ressource-form-modal 
+    [isOpen]="isModalOpen" 
+    [ues]="ues" 
+    (modalClose)="isModalOpen = false" 
+    (formSubmit)="ajouter($event.ressource, $event.fichier)">
+  </app-ressource-form-modal>
+
+</ion-content>

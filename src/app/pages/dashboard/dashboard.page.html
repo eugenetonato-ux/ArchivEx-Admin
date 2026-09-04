@@ -1,0 +1,84 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Dashboard</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="logout()" title="Se déconnecter">
+        <ion-icon slot="icon-only" name="log-out-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  
+  @if (loading) {
+    <div class="loading">
+      <ion-spinner name="crescent"></ion-spinner>
+    </div>
+  } @else {
+    <div class="dashboard-page">
+      
+      <h1>Tableau de bord</h1>
+
+      <!-- Alerte paiement -->
+      @if (paiementsEnAttente > 0) {
+        <a class="alert-paiements" routerLink="/paiements">
+          <ion-icon name="alert-circle-outline"></ion-icon>
+          <span>{{ paiementsEnAttente }} paiement(s) en attente de validation</span>
+        </a>
+      }
+
+      <!-- Grille KPI -->
+      <div class="kpi-grid">
+        <app-kpi-card 
+          icon="documents-outline" 
+          [value]="totalRessources" 
+          label="Total Ressources">
+        </app-kpi-card>
+
+        <app-kpi-card 
+          icon="lock-closed-outline" 
+          [value]="totalPremium" 
+          label="Ressources Premium">
+        </app-kpi-card>
+
+        <app-kpi-card 
+          icon="calendar-outline" 
+          [value]="totalS1" 
+          label="Ressources S1">
+        </app-kpi-card>
+
+        <app-kpi-card 
+          icon="calendar-outline" 
+          [value]="totalS2" 
+          label="Ressources S2">
+        </app-kpi-card>
+      </div>
+
+      <!-- Dernières ressources -->
+      <div class="dernieres-ressources">
+        <h2>Dernières ressources ajoutées</h2>
+        
+        @if (dernieresRessources.length === 0) {
+          <p class="vide">Aucune ressource pour le moment.</p>
+        } @else {
+          @for (r of dernieresRessources; track r.id) {
+            <div class="ressource-row">
+              <span class="titre">{{ r.titre }}</span>
+              <span class="type">{{ r.type }}</span>
+              <span class="semestre">{{ r.semestre }}</span>
+              @if (r.is_premium) {
+                <span class="premium">Premium</span>
+              }
+            </div>
+          }
+        }
+      </div>
+
+    </div>
+  }
+
+</ion-content>

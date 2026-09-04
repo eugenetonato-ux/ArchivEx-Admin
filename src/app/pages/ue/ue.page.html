@@ -1,0 +1,99 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Unités d'Enseignement</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  
+  @if (loading) {
+    <div class="loading">
+      <ion-spinner name="crescent"></ion-spinner>
+    </div>
+  } @else {
+    <div class="page-container">
+      
+      <!-- Formulaire d'ajout -->
+      <div class="card form-card">
+        <h2>Ajouter une nouvelle UE</h2>
+        <div class="form-grid">
+          <ion-input 
+            class="custom-input"
+            label="Nom de l'UE" 
+            labelPlacement="stacked"
+            type="text" 
+            [(ngModel)]="form.nom" 
+            placeholder="Ex: Mathématiques">
+          </ion-input>
+
+          <ion-input 
+            class="custom-input"
+            label="Code de l'UE" 
+            labelPlacement="stacked"
+            type="text" 
+            [(ngModel)]="form.code" 
+            placeholder="Ex: MAT101">
+          </ion-input>
+
+          <ion-select 
+            class="custom-input"
+            label="Semestre" 
+            labelPlacement="stacked"
+            [(ngModel)]="form.semestre"
+            interface="popover">
+            <ion-select-option value="S1">Semestre 1 (S1)</ion-select-option>
+            <ion-select-option value="S2">Semestre 2 (S2)</ion-select-option>
+          </ion-select>
+
+          <ion-button 
+            class="btn-submit" 
+            expand="block" 
+            (click)="ajouter()"
+            [disabled]="!form.nom || !form.code">
+            <ion-icon slot="start" name="add-circle-outline"></ion-icon>
+            Ajouter
+          </ion-button>
+        </div>
+      </div>
+
+      <!-- Liste des UE existantes -->
+      <div class="card list-card">
+        <h2>UE existantes ({{ ues.length }})</h2>
+        
+        @if (ues.length === 0) {
+          <div class="empty-state">
+            <ion-icon name="book-outline"></ion-icon>
+            <p>Aucune UE enregistrée pour le moment.</p>
+          </div>
+        } @else {
+          <ion-list lines="full" class="ue-list">
+            @for (ue of ues; track ue.id) {
+              <ion-item>
+                <div class="icon-area">
+                  <ion-icon name="book-outline"></ion-icon>
+                </div>
+                <ion-label>
+                  <h3 class="ue-nom">{{ ue.nom }}</h3>
+                  <p class="ue-code">{{ ue.code }}</p>
+                </ion-label>
+                <ion-badge slot="end" color="primary">{{ ue.semestre }}</ion-badge>
+                <ion-button 
+                  slot="end" 
+                  fill="clear" 
+                  color="danger" 
+                  (click)="supprimer(ue.id)">
+                  <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
+                </ion-button>
+              </ion-item>
+            }
+          </ion-list>
+        }
+      </div>
+
+    </div>
+  }
+
+</ion-content>

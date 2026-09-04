@@ -1,0 +1,139 @@
+.loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 60vh;
+
+  ion-spinner {
+    width: 40px;
+    height: 40px;
+    color: #1e3a5f;
+  }
+}
+
+.page-container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 24px 16px;
+}
+
+.card {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 8px 25px rgba(30, 41, 59, 0.05);
+  border: 1px solid rgba(226, 232, 240, 0.6);
+  margin-bottom: 24px;
+}
+
+h2 {
+  font-size: 16px;
+  font-weight: 700;
+  color: #182230;
+  margin: 0 0 16px;
+}
+
+/* --- Formulaire --- */
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+
+  @media (min-width: 768px) {
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    align-items: end;
+  }
+}
+
+.custom-input {
+  --background: #f8fafc;
+  --border-radius: 10px;
+  --padding-start: 12px;
+  --padding-end: 12px;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  max-height: 50px;
+}
+
+.btn-submit {
+  --background: #1e3a5f;
+  --border-radius: 10px;
+  --box-shadow: none;
+  height: 50px;
+  font-weight: 700;
+  text-transform: none;
+  
+  &:disabled {
+    --background: #94a3b8;
+  }
+}
+
+/* --- Liste --- */
+.empty-state {
+  text-align: center;
+  padding: 40px 20px;
+  color: #8a94a6;
+
+  ion-icon {
+    font-size: 40px;
+    color: #cbd5e1;
+    margin-bottom: 12px;
+  }
+
+  p {
+    font-size: 14px;
+  }
+}
+
+.ue-list {
+  background: transparent;
+  padding: 0;
+}
+
+ion-item {
+  --background: transparent;
+  --padding-start: 0;
+  --inner-padding-end: 0;
+  --border-color: rgba(226, 232, 240, 0.8);
+  
+  --inner-padding-top: 8px;
+  --inner-padding-bottom: 8px;
+}
+
+.icon-area {
+  margin-right: 16px;
+
+  ion-icon {
+    font-size: 24px;
+    color: #1e3a5f;
+    background: rgba(30, 58, 95, 0.1);
+    padding: 10px;
+    border-radius: 10px;
+  }
+}
+
+.ue-nom {
+  font-size: 15px;
+  font-weight: 700;
+  color: #182230;
+  margin-bottom: 2px;
+}
+
+.ue-code {
+  font-size: 13px;
+  color: #8a94a6;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+ion-badge {
+  font-size: 12px;
+  font-weight: 700;
+  margin-right: 8px;
+  padding: 6px 10px;
+  border-radius: 8px;
+}
+
+ion-button {
+  --box-shadow: none;
+}

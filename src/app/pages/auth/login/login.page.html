@@ -1,0 +1,56 @@
+<ion-content [fullscreen]="true" class="login-content">
+  <div class="login-wrapper">
+    
+    <div class="branding">
+      <h1>ArchivEx</h1>
+      <p>Espace Administrateur</p>
+    </div>
+
+    <div class="form-card">
+      
+      @if (error) {
+        <div class="error-box">
+          {{ error }}
+        </div>
+      }
+
+      <ion-input
+        class="custom-input"
+        label="Email"
+        labelPlacement="stacked"
+        type="email"
+        [(ngModel)]="email"
+        (keyup.enter)="login()"
+        placeholder="admin@archivex.com">
+        <ion-icon name="mail-outline" slot="start"></ion-icon>
+      </ion-input>
+
+      <ion-input
+        class="custom-input"
+        label="Mot de passe"
+        labelPlacement="stacked"
+        type="password"
+        [(ngModel)]="password"
+        (keyup.enter)="login()"
+        placeholder="••••••••">
+        <ion-icon name="lock-closed-outline" slot="start"></ion-icon>
+      </ion-input>
+
+      <ion-button 
+        class="btn-submit" 
+        expand="block" 
+        (click)="login()"
+        [disabled]="loading || !email || !password">
+        @if (loading) {
+          <ion-spinner name="crescent" slot="start"></ion-spinner>
+          Connexion...
+        } @else {
+          <ion-icon name="log-in-outline" slot="start"></ion-icon>
+          Se connecter
+        }
+      </ion-button>
+
+    </div>
+    
+  </div>
+</ion-content>

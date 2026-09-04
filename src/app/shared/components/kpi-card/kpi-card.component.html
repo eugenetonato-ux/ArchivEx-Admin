@@ -1,0 +1,9 @@
+<div class="kpi-card">
+  @if (icon()) {
+    <ion-icon [name]="icon()"></ion-icon>
+  }
+  <div class="kpi-content">
+    <div class="kpi-value">{{ value() }}</div>
+    <div class="kpi-label">{{ label() }}</div>
+  </div>
+</div>

@@ -1,0 +1,122 @@
+<ion-modal [isOpen]="isOpen()">
+  <ng-template>
+    <ion-header>
+      <ion-toolbar>
+        <ion-title>Ajouter une ressource</ion-title>
+        <ion-buttons slot="end">
+          <ion-button (click)="close()">
+            <ion-icon slot="icon-only" name="close-outline"></ion-icon>
+          </ion-button>
+        </ion-buttons>
+      </ion-toolbar>
+    </ion-header>
+
+    <ion-content class="modal-content">
+      <div class="form-wrapper">
+        <ion-list lines="none" class="form-list">
+          
+          <ion-item>
+            <ion-select 
+              label="Type de ressource" 
+              labelPlacement="stacked" 
+              [(ngModel)]="form.type" 
+              interface="popover">
+              <ion-select-option value="epreuve">Épreuve</ion-select-option>
+              <ion-select-option value="corrige">Corrigé</ion-select-option>
+              <ion-select-option value="resume">Résumé</ion-select-option>
+            </ion-select>
+          </ion-item>
+
+          <ion-item>
+            <ion-input 
+              label="Titre" 
+              labelPlacement="stacked" 
+              type="text" 
+              [(ngModel)]="form.titre" 
+              placeholder="Ex: Examen final 2023">
+            </ion-input>
+          </ion-item>
+
+          <ion-item>
+            <ion-select 
+              label="Unité d'enseignement (UE)" 
+              labelPlacement="stacked" 
+              [(ngModel)]="form.ue_id" 
+              interface="popover">
+              @for (ue of ues(); track ue.id) {
+                <ion-select-option [value]="ue.id">{{ ue.nom }} ({{ ue.code }})</ion-select-option>
+              }
+            </ion-select>
+          </ion-item>
+
+          <ion-item>
+            <ion-select 
+              label="Semestre" 
+              labelPlacement="stacked" 
+              [(ngModel)]="form.semestre" 
+              interface="popover">
+              <ion-select-option value="S1">Semestre 1</ion-select-option>
+              <ion-select-option value="S2">Semestre 2</ion-select-option>
+            </ion-select>
+          </ion-item>
+
+          <ion-item>
+            <ion-input 
+              label="Année" 
+              labelPlacement="stacked" 
+              type="number" 
+              [(ngModel)]="form.annee">
+            </ion-input>
+          </ion-item>
+
+          <ion-item>
+            <ion-select 
+              label="Session" 
+              labelPlacement="stacked" 
+              [(ngModel)]="form.session" 
+              interface="popover">
+              <ion-select-option value="normale">Normale</ion-select-option>
+              <ion-select-option value="rattrapage">Rattrapage</ion-select-option>
+            </ion-select>
+          </ion-item>
+
+          <ion-item class="toggle-item">
+            <ion-toggle 
+              [(ngModel)]="form.is_premium" 
+              [disabled]="premiumForce"
+              [checked]="premiumForce || form.is_premium">
+              Ressource Premium
+            </ion-toggle>
+            @if (premiumForce) {
+              <ion-note class="premium-note">Forcé (Corrigé/Résumé)</ion-note>
+            }
+          </ion-item>
+
+          <!-- Zone d'upload de fichier personnalisée -->
+          <ion-item button (click)="fileInput.click()" class="upload-item">
+            <ion-icon slot="start" name="cloud-upload-outline" color="primary"></ion-icon>
+            <ion-label>
+              @if (fichier) {
+                <h3 class="file-name">{{ fichier.name }}</h3>
+                <p>Fichier sélectionné</p>
+              } @else {
+                <h3>Choisir un fichier</h3>
+                <p>Cliquez pour parcourir (PDF, DOCX...)</p>
+              }
+            </ion-label>
+            <input #fileInput type="file" hidden (change)="onFichierChange($event)" />
+          </ion-item>
+
+        </ion-list>
+
+        <ion-button 
+          expand="block" 
+          class="btn-submit" 
+          (click)="submit()"
+          [disabled]="!fichier || !form.titre || !form.ue_id">
+          Enregistrer la ressource
+        </ion-button>
+      </div>
+    </ion-content>
+  </ng-template>
+</ion-modal>

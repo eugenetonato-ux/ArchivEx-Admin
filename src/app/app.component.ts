@@ -1,27 +1,41 @@
-
-import { Component } from '@angular/core';
-import { RouterLink, RouterLinkActive } from '@angular/router';
-import { IonApp, IonSplitPane, IonMenu, IonContent, IonList, IonListHeader, IonNote, IonMenuToggle, IonItem, IonIcon, IonLabel, IonRouterOutlet, IonRouterLink } from '@ionic/angular';
+import { Component, inject } from '@angular/core';
+import { RouterLink } from '@angular/router';
+import { 
+  IonApp, IonSplitPane, IonMenu, IonContent, 
+  IonList, IonListHeader, IonNote, IonMenuToggle, 
+  IonItem, IonIcon, IonLabel, IonRouterOutlet 
+} from '@ionic/angular';
 import { addIcons } from 'ionicons';
-import { mailOutline, mailSharp, paperPlaneOutline, paperPlaneSharp, heartOutline, heartSharp, archiveOutline, archiveSharp, trashOutline, trashSharp, warningOutline, warningSharp, bookmarkOutline, bookmarkSharp } from 'ionicons/icons';
+import { gridOutline, bookOutline, documentsOutline, cardOutline } from 'ionicons/icons';
+import { AuthService } from './core/services/auth'; // <-- Import du service
 
 @Component({
   selector: 'app-root',
-  templateUrl: 'app.component.html',
-  styleUrls: ['app.component.scss'],
-  imports: [RouterLink, RouterLinkActive, IonApp, IonSplitPane, IonMenu, IonContent, IonList, IonListHeader, IonNote, IonMenuToggle, IonItem, IonIcon, IonLabel, IonRouterLink, IonRouterOutlet],
+  standalone: true,
+  imports: [
+    RouterLink,
+    IonApp, IonSplitPane, IonMenu, IonContent, 
+    IonList, IonListHeader, IonNote, 
+    IonMenuToggle, IonItem, IonIcon, IonLabel,
+    IonRouterOutlet
+  ],
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  protected readonly appPages = [
-    { title: 'Inbox', url: '/folder/Inbox', icon: 'mail' },
-    { title: 'Outbox', url: '/folder/Outbox', icon: 'paper-plane' },
-    { title: 'Favorites', url: '/folder/Favorites', icon: 'heart' },
-    { title: 'Archived', url: '/folder/Archived', icon: 'archive' },
-    { title: 'Trash', url: '/folder/Trash', icon: 'trash' },
-    { title: 'Spam', url: '/folder/Spam', icon: 'warning' },
+  // On rend le service accessible dans le HTML
+  public auth = inject(AuthService); 
+
+  public appPages = [
+    { title: 'Dashboard', url: '/dashboard', icon: 'grid-outline' },
+    { title: 'UE', url: '/ue', icon: 'book-outline' },
+    { title: 'Ressources', url: '/ressources', icon: 'documents-outline' },
+    { title: 'Paiements', url: '/paiements', icon: 'card-outline' }
   ];
-  protected readonly labels = ['Family', 'Friends', 'Notes', 'Work', 'Travel', 'Reminders'];
+
+  public labels: Array<any> = [];
+
   constructor() {
-    addIcons({ mailOutline, mailSharp, paperPlaneOutline, paperPlaneSharp, heartOutline, heartSharp, archiveOutline, archiveSharp, trashOutline, trashSharp, warningOutline, warningSharp, bookmarkOutline, bookmarkSharp });
+    addIcons({ gridOutline, bookOutline, documentsOutline, cardOutline });
   }
 }

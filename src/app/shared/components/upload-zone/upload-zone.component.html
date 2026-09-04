@@ -1,0 +1,32 @@
+<div 
+  class="upload-container" 
+  [class.dragging]="isDragOver()"
+  [class.has-file]="selectedFile() !== null"
+  (click)="openFileDialog(fileInput)"
+  (dragover)="onDragOver($event)"
+  (dragleave)="onDragLeave($event)"
+  (drop)="onDrop($event)"
+>
+  <input #fileInput type="file" class="file-input" [accept]="accept()" (change)="onFileSelected($event)" />
+  
+  @if (selectedFile()) {
+    <!-- Vue : Fichier sélectionné -->
+    <div class="file-info">
+      <ion-icon name="document-attach-outline" class="file-icon"></ion-icon>
+      <div class="file-details">
+        <span class="file-name">{{ selectedFile()?.name }}</span>
+        <span class="file-size">{{ formatSize(selectedFile()!.size) }}</span>
+      </div>
+      <button class="remove-btn" (click)="removeFile($event)" aria-label="Supprimer le fichier">
+        <ion-icon name="trash-outline"></ion-icon>
+      </button>
+    </div>
+  } @else {
+    <!-- Vue : Vide (Attente de fichier) -->
+    <div class="placeholder">
+      <ion-icon name="cloud-upload-outline" class="upload-icon"></ion-icon>
+      <span class="placeholder-text">{{ label() }}</span>
+      <span class="placeholder-hint">PDF, DOCX, JPG, PNG...</span>
+    </div>
+  }
+</div>

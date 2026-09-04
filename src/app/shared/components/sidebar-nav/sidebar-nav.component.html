@@ -1,0 +1,24 @@
+<ion-menu [contentId]="contentId()" type="overlay">
+  <ion-content class="sidebar-content">
+    <div class="brand-header">
+      <h2>{{ titre() }}</h2>
+      <p>{{ sousTitre() }}</p>
+    </div>
+
+    <ion-list id="menu-list">
+      @for (p of pages(); track p.url) {
+        <ion-menu-toggle auto-hide="false">
+          <ion-item 
+            [routerLink]="[p.url]" 
+            routerLinkActive="active-link" 
+            [routerLinkActiveOptions]="{ exact: false }"
+            lines="none" 
+            [detail]="false">
+            <ion-icon slot="start" [name]="p.icon"></ion-icon>
+            <ion-label>{{ p.title }}</ion-label>
+          </ion-item>
+        </ion-menu-toggle>
+      }
+    </ion-list>
+  </ion-content>
+</ion-menu>

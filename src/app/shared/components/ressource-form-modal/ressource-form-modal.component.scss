@@ -1,0 +1,73 @@
+.modal-content {
+  --background: #f8fafc;
+}
+
+.form-wrapper {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 16px 0 32px;
+}
+
+.form-list {
+  background: transparent;
+  margin-bottom: 24px;
+}
+
+ion-item {
+  --background: #ffffff;
+  --border-radius: 12px;
+  --padding-start: 16px;
+  --inner-padding-end: 16px;
+  margin-bottom: 12px;
+  box-shadow: 0 2px 8px rgba(30, 41, 59, 0.03);
+  border: 1px solid rgba(226, 232, 240, 0.6);
+}
+
+.toggle-item {
+  display: flex;
+  align-items: center;
+  
+  ion-toggle {
+    margin-right: auto; // Pousse la note sur la droite
+  }
+}
+
+.premium-note {
+  font-size: 11px;
+  color: #f5a623;
+  font-weight: 700;
+}
+
+.upload-item {
+  cursor: pointer;
+  border: 2px dashed #cbd5e1 !important;
+  background: #f8fafc !important;
+
+  .file-name {
+    font-weight: 700;
+    color: #1e3a5f;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  p {
+    font-size: 12px;
+    color: #8a94a6;
+  }
+}
+
+.btn-submit {
+  --background: #1e3a5f;
+  --border-radius: 12px;
+  --box-shadow: none;
+  height: 50px;
+  font-weight: 700;
+  text-transform: none;
+  font-size: 15px;
+  margin: 0 16px;
+
+  &:disabled {
+    --background: #94a3b8;
+  }
+}
