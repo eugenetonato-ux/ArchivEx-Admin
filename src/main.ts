@@ -10,6 +10,7 @@ import {
 
 import { IonicRouteStrategy, provideIonicAngular } from '@ionic/angular/standalone';
 import { provideHttpClient } from '@angular/common/http';
+import { provideCharts, withDefaultRegisterables } from 'ng2-charts';
 
 import { routes } from './app/app.routes';
 import { AppComponent } from './app/app.component';
@@ -21,6 +22,7 @@ bootstrapApplication(AppComponent, {
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     provideIonicAngular(),
     provideRouter(routes, withComponentInputBinding()),
-    provideHttpClient()
+    provideHttpClient(),
+    provideCharts(withDefaultRegisterables())
   ]
 });

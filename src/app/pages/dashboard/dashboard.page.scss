@@ -1,20 +1,26 @@
 .actions-bar {
   display: flex;
-  gap: 12px;
+  gap: 14px;
   flex-wrap: wrap;
+
+  ion-button {
+    font-weight: 800;
+    font-size: 0.95rem;
+  }
 }
 
 .kpi-grid {
   ion-col {
-    padding: 6px;
+    padding: 8px;
   }
 }
 
 .kpi-card {
   margin: 0;
-  border-radius: 16px;
+  border-radius: 20px;
   border: 1px solid var(--ion-color-step-150, rgba(0, 0, 0, 0.08));
-  transition: transform 0.22s ease, box-shadow 0.22s ease;
+  padding: 8px 4px;
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s ease;
   position: relative;
   overflow: hidden;
 
@@ -22,70 +28,70 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: 6px;
+    margin-bottom: 8px;
 
     ion-card-subtitle {
-      font-size: 0.8rem;
-      font-weight: 600;
-      color: var(--ion-color-step-600, #718096);
+      font-size: 0.95rem;
+      font-weight: 800;
+      color: var(--ion-color-step-600, #64748b);
       margin: 0;
     }
   }
 
   .kpi-icon-box {
-    width: 36px;
-    height: 36px;
-    border-radius: 10px;
+    width: 46px;
+    height: 46px;
+    border-radius: 14px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.25rem;
+    font-size: 1.55rem;
 
     &.emerald {
-      background: rgba(5, 150, 105, 0.12);
-      color: #059669;
+      background: rgba(16, 185, 129, 0.15);
+      color: #10b981;
     }
 
     &.indigo {
-      background: rgba(91, 60, 196, 0.12);
-      color: #5b3cc4;
+      background: rgba(109, 74, 255, 0.15);
+      color: #6d4aff;
     }
 
     &.sky {
-      background: rgba(2, 132, 199, 0.12);
+      background: rgba(2, 132, 199, 0.15);
       color: #0284c7;
     }
 
     &.amber {
-      background: rgba(217, 119, 6, 0.12);
-      color: #d97706;
+      background: rgba(245, 158, 11, 0.15);
+      color: #f59e0b;
     }
   }
 
   // 1. Emerald Card Unique Color Theme
   &.kpi-card-emerald {
-    border-top: 3px solid #059669;
-    background: linear-gradient(180deg, rgba(5, 150, 105, 0.04) 0%, var(--ion-card-background, #ffffff) 100%);
+    border-top: 4px solid #10b981;
+    background: linear-gradient(180deg, rgba(16, 185, 129, 0.06) 0%, var(--ion-card-background, #ffffff) 100%);
 
     .emerald-text {
-      color: #059669;
+      color: #10b981;
     }
   }
 
   // 2. Indigo/Violet Card Unique Color Theme
   &.kpi-card-indigo {
-    border-top: 3px solid #5b3cc4;
-    background: linear-gradient(180deg, rgba(91, 60, 196, 0.04) 0%, var(--ion-card-background, #ffffff) 100%);
+    border-top: 4px solid #6d4aff;
+    background: linear-gradient(180deg, rgba(109, 74, 255, 0.06) 0%, var(--ion-card-background, #ffffff) 100%);
 
     .indigo-text {
-      color: #5b3cc4;
+      color: #6d4aff;
     }
   }
 
   // 3. Sky Blue Card Unique Color Theme
   &.kpi-card-sky {
-    border-top: 3px solid #0284c7;
-    background: linear-gradient(180deg, rgba(2, 132, 199, 0.04) 0%, var(--ion-card-background, #ffffff) 100%);
+    border-top: 4px solid #0284c7;
+    background: linear-gradient(180deg, rgba(2, 132, 199, 0.06) 0%, var(--ion-card-background, #ffffff) 100%);
 
     .sky-text {
       color: #0284c7;
@@ -94,11 +100,11 @@
 
   // 4. Amber Card Unique Color Theme
   &.kpi-card-amber {
-    border-top: 3px solid #d97706;
-    background: linear-gradient(180deg, rgba(217, 119, 6, 0.04) 0%, var(--ion-card-background, #ffffff) 100%);
+    border-top: 4px solid #f59e0b;
+    background: linear-gradient(180deg, rgba(245, 158, 11, 0.06) 0%, var(--ion-card-background, #ffffff) 100%);
 
     .amber-text {
-      color: #d97706;
+      color: #f59e0b;
     }
   }
 
@@ -106,21 +112,21 @@
     cursor: pointer;
 
     &:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+      transform: translateY(-5px);
+      box-shadow: 0 10px 28px rgba(0, 0, 0, 0.12);
     }
   }
 }
 
 .kpi-value {
-  font-size: 1.45rem;
+  font-size: 1.85rem;
   font-weight: 800;
   letter-spacing: -0.5px;
-  margin-top: 4px;
+  margin-top: 6px;
 }
 
 .activity-time {
-  font-size: 0.75rem;
+  font-size: 0.85rem;
   color: var(--ion-color-medium);
   white-space: nowrap;
 }
@@ -128,22 +134,22 @@
 // Dark Mode Support
 :host-context(body.dark) {
   .kpi-card {
-    border-color: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.1);
 
     &.kpi-card-emerald {
-      background: linear-gradient(180deg, rgba(5, 150, 105, 0.1) 0%, #1e1e2d 100%);
+      background: linear-gradient(180deg, rgba(16, 185, 129, 0.12) 0%, #151c2c 100%);
     }
 
     &.kpi-card-indigo {
-      background: linear-gradient(180deg, rgba(91, 60, 196, 0.1) 0%, #1e1e2d 100%);
+      background: linear-gradient(180deg, rgba(109, 74, 255, 0.12) 0%, #151c2c 100%);
     }
 
     &.kpi-card-sky {
-      background: linear-gradient(180deg, rgba(2, 132, 199, 0.1) 0%, #1e1e2d 100%);
+      background: linear-gradient(180deg, rgba(2, 132, 199, 0.12) 0%, #151c2c 100%);
     }
 
     &.kpi-card-amber {
-      background: linear-gradient(180deg, rgba(217, 119, 6, 0.1) 0%, #1e1e2d 100%);
+      background: linear-gradient(180deg, rgba(245, 158, 11, 0.12) 0%, #151c2c 100%);
     }
   }
 }

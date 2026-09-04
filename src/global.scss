@@ -10,62 +10,105 @@
 @import "@ionic/angular/css/flex-utils.css";
 
 :root {
-  --ion-color-primary: #5b3cc4;
-  --ion-color-primary-rgb: 91, 60, 196;
+  --ion-color-primary: #6d4aff;
+  --ion-color-primary-rgb: 109, 74, 255;
   --ion-color-primary-contrast: #ffffff;
   --ion-color-primary-contrast-rgb: 255, 255, 255;
-  --ion-color-primary-shade: #5035ad;
-  --ion-color-primary-tint: #6b50ca;
+  --ion-color-primary-shade: #5a3ce0;
+  --ion-color-primary-tint: #8162ff;
 
-  --ion-background-color: #f4f6f9;
-  --ion-background-color-rgb: 244, 246, 249;
-  --ion-text-color: #2b2f38;
+  --ion-background-color: #f8fafc;
+  --ion-background-color-rgb: 248, 250, 252;
+  --ion-text-color: #0f172a;
   --ion-card-background: #ffffff;
 }
 
 // ------------------------------------
-// COMPLETE DARK MODE THEMING
+// ENLARGED & HIGH-CONTRAST GLOBAL TYPOGRAPHY
+// ------------------------------------
+html, body {
+  font-size: 16px;
+  line-height: 1.6;
+  font-family: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  color: var(--ion-text-color, #0f172a);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--ion-text-color, #0f172a);
+}
+
+h1 { font-size: 1.85rem; }
+h2 { font-size: 1.55rem; }
+h3 { font-size: 1.3rem; }
+h4 { font-size: 1.15rem; }
+
+p, span, div, label, input, button {
+  font-size: 1rem;
+}
+
+// Custom Smooth Scrollbar
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.03);
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(109, 74, 255, 0.3);
+  border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(109, 74, 255, 0.6);
+}
+
+// ------------------------------------
+// COMPLETE DARK MODE THEMING (PREMIUM DEEP SPACE)
 // ------------------------------------
 body.dark, html.dark {
-  --ion-background-color: #12121e;
-  --ion-background-color-rgb: 18, 18, 30;
-  --ion-text-color: #f0f2f5;
-  --ion-text-color-rgb: 240, 242, 245;
+  --ion-background-color: #0b0f19;
+  --ion-background-color-rgb: 11, 15, 25;
+  --ion-text-color: #f8fafc;
+  --ion-text-color-rgb: 248, 250, 252;
 
-  --ion-card-background: #1e1e2d;
-  --ion-item-background: #1e1e2d;
-  --ion-toolbar-background: #1e1e2d;
+  --ion-card-background: #151c2c;
+  --ion-item-background: #151c2c;
+  --ion-toolbar-background: #151c2c;
 
-  --ion-color-step-50: #181826;
-  --ion-color-step-100: #222234;
-  --ion-color-step-150: #2a2a40;
-  --ion-color-step-200: #33334d;
-  --ion-color-step-300: #424263;
-  --ion-color-step-400: #626282;
-  --ion-color-step-500: #8282a2;
-  --ion-color-step-600: #a2a2c2;
-  --ion-color-step-700: #c2c2e2;
-  --ion-color-step-800: #e2e2f2;
-  --ion-color-step-900: #f4f4f8;
+  --ion-color-step-50: #101625;
+  --ion-color-step-100: #1a2337;
+  --ion-color-step-150: #222d45;
+  --ion-color-step-200: #2b3854;
+  --ion-color-step-300: #3b4c6e;
+  --ion-color-step-400: #576b91;
+  --ion-color-step-500: #8295b8;
+  --ion-color-step-600: #a7b8d4;
+  --ion-color-step-700: #cbd5e1;
+  --ion-color-step-800: #e2e8f0;
+  --ion-color-step-900: #f8fafc;
 
   ion-toolbar {
-    --background: #1e1e2d;
+    --background: #151c2c;
     --color: #ffffff;
   }
 
   ion-content {
-    --background: #12121e;
-    --color: #f0f2f5;
+    --background: #0b0f19;
+    --color: #f8fafc;
   }
 
   ion-card {
-    --background: #1e1e2d;
-    --color: #f0f2f5;
+    --background: #151c2c;
+    --color: #f8fafc;
   }
 
   ion-item {
-    --background: #1e1e2d;
-    --color: #f0f2f5;
+    --background: #151c2c;
+    --color: #f8fafc;
   }
 
   ion-list {
@@ -73,6 +116,6 @@ body.dark, html.dark {
   }
 
   ion-segment {
-    --background: #181826;
+    --background: #101625;
   }
 }
