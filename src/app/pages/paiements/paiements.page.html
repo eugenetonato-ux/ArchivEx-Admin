@@ -21,9 +21,11 @@
 </ion-header>
 
 <ion-content class="ion-padding">
-  <div *ngIf="loading" class="ion-text-center ion-padding">
-    <ion-spinner></ion-spinner>
-  </div>
+  <app-loading-spinner
+    *ngIf="loading"
+    message="Vérification et chargement de la file de transactions..."
+    size="medium">
+  </app-loading-spinner>
 
   <div *ngIf="!loading && paiements.length === 0" class="ion-text-center ion-padding">
     <p>Aucun paiement trouvé pour ce filtre.</p>

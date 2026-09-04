@@ -10,13 +10,7 @@ export interface EtudiantProfile {
   created_at?: string;
 }
 
-const INITIAL_ETUDIANTS: EtudiantProfile[] = [
-  { id: '1', full_name: 'Koffi Mensah', email: 'koffi.m@student.univ.bj', premium_s1: true, premium_s2: false },
-  { id: '2', full_name: 'Amina Lawson', email: 'amina.l@student.univ.bj', premium_s1: true, premium_s2: true },
-  { id: '3', full_name: 'Sessou Eric', email: 'eric.s@student.univ.bj', premium_s1: false, premium_s2: false },
-  { id: '4', full_name: 'Fatouma Diallo', email: 'fatou.d@student.univ.bj', premium_s1: false, premium_s2: true },
-  { id: '5', full_name: 'Marc Kouassi', email: 'marc.k@student.univ.bj', premium_s1: false, premium_s2: false }
-];
+const INITIAL_ETUDIANTS: EtudiantProfile[] = [];
 
 @Injectable({ providedIn: 'root' })
 export class EtudiantsService {

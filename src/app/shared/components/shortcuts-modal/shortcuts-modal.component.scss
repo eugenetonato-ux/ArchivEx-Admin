@@ -1,0 +1,206 @@
+.shortcuts-backdrop {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(15, 23, 42, 0.65);
+  backdrop-filter: blur(6px);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  animation: fadeIn 0.2s ease-out;
+}
+
+.shortcuts-modal-card {
+  background: var(--ion-card-background, #ffffff);
+  border: 1px solid var(--ion-color-step-150, rgba(0, 0, 0, 0.12));
+  border-radius: 20px;
+  width: 100%;
+  max-width: 640px;
+  max-height: 85vh;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+  overflow: hidden;
+  animation: scaleUp 0.24s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.modal-header {
+  padding: 20px 24px;
+  border-bottom: 1px solid var(--ion-color-step-150, rgba(0, 0, 0, 0.08));
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  .header-title {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+
+    .title-icon {
+      font-size: 1.8rem;
+      color: var(--ion-color-primary, #5b3cc4);
+      background: rgba(var(--ion-color-primary-rgb, 91, 60, 196), 0.1);
+      padding: 10px;
+      border-radius: 12px;
+    }
+
+    h2 {
+      margin: 0;
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--ion-text-color, #1e293b);
+    }
+
+    p {
+      margin: 2px 0 0 0;
+      font-size: 0.8rem;
+      color: var(--ion-color-step-500, #64748b);
+    }
+  }
+
+  .close-btn {
+    background: transparent;
+    border: none;
+    font-size: 1.4rem;
+    color: var(--ion-color-step-600, #64748b);
+    cursor: pointer;
+    padding: 6px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+
+    &:hover {
+      background: var(--ion-color-step-100, #f1f5f9);
+      color: var(--ion-text-color, #0f172a);
+    }
+  }
+}
+
+.modal-body {
+  padding: 20px 24px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.shortcut-group {
+  .group-title {
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    color: var(--ion-color-primary, #5b3cc4);
+    margin: 0 0 10px 0;
+  }
+
+  .shortcuts-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .shortcut-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 12px;
+    border-radius: 10px;
+    background: var(--ion-color-step-50, rgba(0, 0, 0, 0.02));
+    border: 1px solid var(--ion-color-step-100, rgba(0, 0, 0, 0.04));
+
+    .shortcut-desc {
+      font-size: 0.88rem;
+      color: var(--ion-color-step-800, #334155);
+      font-weight: 500;
+    }
+
+    .keys-wrapper {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .key-badge {
+      background: var(--ion-color-step-100, #e2e8f0);
+      color: var(--ion-text-color, #0f172a);
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: 0.78rem;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 6px;
+      border-bottom: 2px solid var(--ion-color-step-300, #cbd5e1);
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+      min-width: 24px;
+      text-align: center;
+    }
+  }
+}
+
+.modal-footer {
+  padding: 16px 24px;
+  background: var(--ion-color-step-50, rgba(0, 0, 0, 0.02));
+  border-top: 1px solid var(--ion-color-step-150, rgba(0, 0, 0, 0.08));
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+
+  .tip-text {
+    font-size: 0.8rem;
+    color: var(--ion-color-step-600, #64748b);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+
+    kbd {
+      background: var(--ion-color-step-150, #cbd5e1);
+      padding: 1px 5px;
+      border-radius: 4px;
+      font-weight: 700;
+      font-size: 0.75rem;
+    }
+  }
+
+  .understand-btn {
+    background: var(--ion-color-primary, #5b3cc4);
+    color: #ffffff;
+    border: none;
+    padding: 8px 18px;
+    border-radius: 10px;
+    font-size: 0.88rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: opacity 0.2s ease;
+
+    &:hover {
+      opacity: 0.9;
+    }
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes scaleUp {
+  from { transform: scale(0.94); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+:host-context(body.dark) {
+  .shortcut-row {
+    background: rgba(255, 255, 255, 0.04);
+    border-color: rgba(255, 255, 255, 0.06);
+  }
+
+  .key-badge {
+    background: #334155;
+    color: #f8fafc;
+    border-bottom-color: #1e293b;
+  }
+}

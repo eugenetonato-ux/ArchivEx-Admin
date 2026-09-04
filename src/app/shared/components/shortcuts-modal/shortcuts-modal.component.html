@@ -1,0 +1,41 @@
+<div class="shortcuts-backdrop" *ngIf="shortcutsSvc.showHelpModal()" (click)="close()">
+  <div class="shortcuts-modal-card" (click)="$event.stopPropagation()">
+    <!-- Header -->
+    <div class="modal-header">
+      <div class="header-title">
+        <ion-icon name="hardware-chip-outline" class="title-icon"></ion-icon>
+        <div>
+          <h2>Raccourcis Clavier de Productivité</h2>
+          <p>Naviguez et agissez instantanément sans toucher à la souris</p>
+        </div>
+      </div>
+      <button class="close-btn" (click)="close()" title="Fermer (Échap)">
+        <ion-icon name="close-outline"></ion-icon>
+      </button>
+    </div>
+
+    <!-- Content Body -->
+    <div class="modal-body">
+      <div *ngFor="let group of shortcutGroups" class="shortcut-group">
+        <h3 class="group-title">{{ group.category }}</h3>
+        <div class="shortcuts-list">
+          <div *ngFor="let item of group.shortcuts" class="shortcut-row">
+            <span class="shortcut-desc">{{ item.description }}</span>
+            <div class="keys-wrapper">
+              <span *ngFor="let key of item.keys" class="key-badge">{{ key }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer Tip -->
+    <div class="modal-footer">
+      <span class="tip-text">
+        <ion-icon name="information-circle-outline"></ion-icon>
+        Appuyez sur <kbd>H</kbd> ou <kbd>?</kbd> n'importe où pour basculer cette vue, ou <kbd>Échap</kbd> pour fermer.
+      </span>
+      <button class="understand-btn" (click)="close()">Compris !</button>
+    </div>
+  </div>
+</div>

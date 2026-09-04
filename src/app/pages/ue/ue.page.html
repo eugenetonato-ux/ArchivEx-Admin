@@ -48,9 +48,11 @@
     </ion-card-content>
   </ion-card>
 
-  <div *ngIf="loading" class="ion-text-center ion-padding">
-    <ion-spinner></ion-spinner>
-  </div>
+  <app-loading-spinner
+    *ngIf="loading"
+    message="Chargement des Unités d'Enseignement..."
+    size="medium">
+  </app-loading-spinner>
 
   <ion-list *ngIf="!loading">
     <ion-item *ngFor="let ue of uesFiltrees">

@@ -1,0 +1,68 @@
+<div class="shell-container" [class.collapsed]="sidebarCollapsed()" [class.mobile-open]="mobileMenuOpen()">
+  <!-- Backdrop Overlay for Mobile Screen -->
+  <div class="mobile-backdrop" (click)="closeMobileMenu()"></div>
+
+  <!-- Integrated Standalone Responsive Sidebar Component -->
+  <app-sidebar-nav
+    class="sidebar-host"
+    [collapsed]="sidebarCollapsed()"
+    [currentUserEmail]="authSvc.currentUser()?.email || 'admin@archivex.univ.bj'"
+    [pendingPaiementsCount]="pendingPaiementsCount()"
+    (toggleCollapse)="toggleSidebar()"
+    (linkClick)="closeMobileMenu()"
+    (logout)="logout()">
+  </app-sidebar-nav>
+
+  <!-- Main Content Layout Area -->
+  <div class="admin-main-wrapper">
+    <!-- Top Bar / Header -->
+    <header class="admin-topbar">
+      <div class="topbar-left">
+        <button class="mobile-toggle-btn mobile-only" (click)="toggleMobileMenu()" title="Ouvrir le menu navigation">
+          <ion-icon name="menu-outline"></ion-icon>
+        </button>
+        <h1 class="page-title">{{ pageTitle }}</h1>
+      </div>
+
+      <div class="topbar-right">
+        <!-- Global Command Palette Search Bar Component -->
+        <app-global-search></app-global-search>
+
+        <!-- Dark / Light Mode Quick Switcher with Persistence -->
+        <button
+          class="theme-toggle-pill"
+          (click)="themeSvc.toggleDarkMode()"
+          [title]="themeSvc.darkMode() ? 'Passer en mode clair' : 'Passer en mode sombre'"
+          [class.is-dark]="themeSvc.darkMode()">
+          <div class="theme-icon-wrap">
+            <ion-icon [name]="themeSvc.darkMode() ? 'sunny-outline' : 'moon-outline'"></ion-icon>
+          </div>
+          <span class="theme-label desktop-only">{{ themeSvc.darkMode() ? 'Clair' : 'Sombre' }}</span>
+        </button>
+
+        <!-- User Quick Badge -->
+        <div class="header-user-pill">
+          <div class="user-dot"></div>
+          <span>En ligne</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Viewport Slot -->
+    <main class="admin-content-area">
+      <ng-content></ng-content>
+    </main>
+  </div>
+
+  <!-- Floating Help Button for Keyboard Shortcuts (?) -->
+  <button
+    class="floating-shortcuts-btn"
+    (click)="shortcutsSvc.toggleHelpModal()"
+    title="Raccourcis clavier (?) ou H">
+    <span class="btn-symbol">?</span>
+    <span class="btn-tooltip">Raccourcis Clavier (?)</span>
+  </button>
+
+  <!-- Interactive Keyboard Shortcuts Modal -->
+  <app-shortcuts-modal></app-shortcuts-modal>
+</div>

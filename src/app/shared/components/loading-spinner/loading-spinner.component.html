@@ -1,0 +1,18 @@
+<div
+  class="spinner-wrapper"
+  [class.size-small]="size === 'small'"
+  [class.size-medium]="size === 'medium'"
+  [class.size-large]="size === 'large'"
+  [class.is-overlay]="overlay"
+  [class.is-inline]="inline">
+
+  <div class="spinner-content">
+    <div class="spinner-icon-ring">
+      <ion-spinner [name]="spinnerType" color="primary"></ion-spinner>
+    </div>
+
+    <p *ngIf="message" class="spinner-message">
+      {{ message }}
+    </p>
+  </div>
+</div>

@@ -1,25 +1,9 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterLink } from '@angular/router';
-import {
-  IonApp,
-  IonSplitPane,
-  IonMenu,
-  IonContent,
-  IonList,
-  IonListHeader,
-  IonNote,
-  IonMenuToggle,
-  IonItem,
-  IonIcon,
-  IonLabel,
-  IonRouterOutlet,
-  IonFab,
-  IonFabButton
-} from '@ionic/angular/standalone';
+import { Router } from '@angular/router';
+import { IonApp, IonRouterOutlet } from '@ionic/angular/standalone';
 import { ThemeService } from './core/services/theme';
-import { ShortcutsService } from './core/services/shortcuts';
-import { ShortcutsModalComponent } from './shared/components/shortcuts-modal/shortcuts-modal.component';
+import { ShellLayoutComponent } from './shared/components/shell-layout/shell-layout.component';
 
 @Component({
   selector: 'app-root',
@@ -28,33 +12,28 @@ import { ShortcutsModalComponent } from './shared/components/shortcuts-modal/sho
   standalone: true,
   imports: [
     CommonModule,
-    RouterLink,
     IonApp,
-    IonSplitPane,
-    IonMenu,
-    IonContent,
-    IonList,
-    IonListHeader,
-    IonNote,
-    IonMenuToggle,
-    IonItem,
-    IonIcon,
-    IonLabel,
     IonRouterOutlet,
-    IonFab,
-    IonFabButton,
-    ShortcutsModalComponent
+    ShellLayoutComponent
   ]
 })
 export class AppComponent {
-  public appPages = [
-    { title: 'Tableau de bord', url: '/dashboard', icon: 'grid' },
-    { title: 'Unités d\'Enseignement', url: '/ue', icon: 'book' },
-    { title: 'Ressources', url: '/ressources', icon: 'document-text' },
-    { title: 'Validation Paiements', url: '/paiements', icon: 'card' },
-    { title: 'Gestion Étudiants', url: '/etudiants', icon: 'people' },
-    { title: 'Paramètres & Thème', url: '/parametres', icon: 'settings' }
-  ];
+  constructor(
+    public themeSvc: ThemeService,
+    public router: Router
+  ) {}
 
-  constructor(public themeSvc: ThemeService, public shortcutsSvc: ShortcutsService) {}
+  get isLoginPage(): boolean {
+    return this.router.url.includes('/auth/login');
+  }
+
+  get currentPageTitle(): string {
+    const url = this.router.url;
+    if (url.includes('/ue')) return 'Unités d\'Enseignement (UE)';
+    if (url.includes('/ressources')) return 'Bibliothèque de Ressources';
+    if (url.includes('/paiements')) return 'Validation des Paiements';
+    if (url.includes('/etudiants')) return 'Gestion des Étudiants';
+    if (url.includes('/parametres')) return 'Paramètres & Thème';
+    return 'Tableau de bord Analytique';
+  }
 }

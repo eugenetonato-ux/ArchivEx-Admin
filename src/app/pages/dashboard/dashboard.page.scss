@@ -4,47 +4,146 @@
   flex-wrap: wrap;
 }
 
+.kpi-grid {
+  ion-col {
+    padding: 6px;
+  }
+}
+
 .kpi-card {
   margin: 0;
-  border-radius: 12px;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  border-radius: 16px;
+  border: 1px solid var(--ion-color-step-150, rgba(0, 0, 0, 0.08));
+  transition: transform 0.22s ease, box-shadow 0.22s ease;
+  position: relative;
+  overflow: hidden;
+
+  .kpi-card-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 6px;
+
+    ion-card-subtitle {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--ion-color-step-600, #718096);
+      margin: 0;
+    }
+  }
+
+  .kpi-icon-box {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.25rem;
+
+    &.emerald {
+      background: rgba(5, 150, 105, 0.12);
+      color: #059669;
+    }
+
+    &.indigo {
+      background: rgba(91, 60, 196, 0.12);
+      color: #5b3cc4;
+    }
+
+    &.sky {
+      background: rgba(2, 132, 199, 0.12);
+      color: #0284c7;
+    }
+
+    &.amber {
+      background: rgba(217, 119, 6, 0.12);
+      color: #d97706;
+    }
+  }
+
+  // 1. Emerald Card Unique Color Theme
+  &.kpi-card-emerald {
+    border-top: 3px solid #059669;
+    background: linear-gradient(180deg, rgba(5, 150, 105, 0.04) 0%, var(--ion-card-background, #ffffff) 100%);
+
+    .emerald-text {
+      color: #059669;
+    }
+  }
+
+  // 2. Indigo/Violet Card Unique Color Theme
+  &.kpi-card-indigo {
+    border-top: 3px solid #5b3cc4;
+    background: linear-gradient(180deg, rgba(91, 60, 196, 0.04) 0%, var(--ion-card-background, #ffffff) 100%);
+
+    .indigo-text {
+      color: #5b3cc4;
+    }
+  }
+
+  // 3. Sky Blue Card Unique Color Theme
+  &.kpi-card-sky {
+    border-top: 3px solid #0284c7;
+    background: linear-gradient(180deg, rgba(2, 132, 199, 0.04) 0%, var(--ion-card-background, #ffffff) 100%);
+
+    .sky-text {
+      color: #0284c7;
+    }
+  }
+
+  // 4. Amber Card Unique Color Theme
+  &.kpi-card-amber {
+    border-top: 3px solid #d97706;
+    background: linear-gradient(180deg, rgba(217, 119, 6, 0.04) 0%, var(--ion-card-background, #ffffff) 100%);
+
+    .amber-text {
+      color: #d97706;
+    }
+  }
 
   &.clickable {
     cursor: pointer;
+
     &:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+      transform: translateY(-4px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
     }
   }
 }
 
 .kpi-value {
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: var(--ion-color-primary);
-}
-
-.chart-container {
-  width: 100%;
-  padding-top: 8px;
-}
-
-.performance-chart {
-  width: 100%;
-  height: auto;
-  display: block;
-}
-
-.chart-labels {
-  display: flex;
-  justify-content: space-between;
-  padding: 8px 12px 0 12px;
-  font-size: 0.8rem;
-  color: var(--ion-color-medium);
+  font-size: 1.45rem;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  margin-top: 4px;
 }
 
 .activity-time {
   font-size: 0.75rem;
   color: var(--ion-color-medium);
   white-space: nowrap;
+}
+
+// Dark Mode Support
+:host-context(body.dark) {
+  .kpi-card {
+    border-color: rgba(255, 255, 255, 0.08);
+
+    &.kpi-card-emerald {
+      background: linear-gradient(180deg, rgba(5, 150, 105, 0.1) 0%, #1e1e2d 100%);
+    }
+
+    &.kpi-card-indigo {
+      background: linear-gradient(180deg, rgba(91, 60, 196, 0.1) 0%, #1e1e2d 100%);
+    }
+
+    &.kpi-card-sky {
+      background: linear-gradient(180deg, rgba(2, 132, 199, 0.1) 0%, #1e1e2d 100%);
+    }
+
+    &.kpi-card-amber {
+      background: linear-gradient(180deg, rgba(217, 119, 6, 0.1) 0%, #1e1e2d 100%);
+    }
+  }
 }

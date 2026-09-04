@@ -1,0 +1,119 @@
+.spinner-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  width: 100%;
+  box-sizing: border-box;
+
+  .spinner-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    text-align: center;
+
+    .spinner-icon-ring {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+
+      ion-spinner {
+        transform: scale(1.3);
+      }
+    }
+
+    .spinner-message {
+      margin: 0;
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: var(--ion-color-step-600, #4a5568);
+      letter-spacing: 0.2px;
+    }
+  }
+
+  // Size variations
+  &.size-small {
+    padding: 12px;
+    .spinner-content {
+      gap: 8px;
+      .spinner-icon-ring ion-spinner {
+        transform: scale(0.9);
+      }
+      .spinner-message {
+        font-size: 0.8rem;
+      }
+    }
+  }
+
+  &.size-large {
+    padding: 40px;
+    .spinner-content {
+      gap: 16px;
+      .spinner-icon-ring ion-spinner {
+        transform: scale(1.8);
+      }
+      .spinner-message {
+        font-size: 1.05rem;
+        font-weight: 600;
+        color: var(--ion-color-primary, #5b3cc4);
+      }
+    }
+  }
+
+  // Inline mode
+  &.is-inline {
+    display: inline-flex;
+    width: auto;
+    padding: 0;
+
+    .spinner-content {
+      flex-direction: row;
+      gap: 8px;
+
+      .spinner-icon-ring ion-spinner {
+        transform: scale(0.85);
+      }
+
+      .spinner-message {
+        font-size: 0.85rem;
+      }
+    }
+  }
+
+  // Full-Container Overlay Mode
+  &.is-overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 50;
+    background-color: rgba(255, 255, 255, 0.75);
+    backdrop-filter: blur(6px);
+    border-radius: inherit;
+
+    .spinner-content {
+      background: var(--ion-card-background, #ffffff);
+      padding: 24px 32px;
+      border-radius: 16px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+      border: 1px solid var(--ion-color-step-150, rgba(0,0,0,0.06));
+    }
+  }
+}
+
+// Dark Mode Adjustments
+:host-context(body.dark) {
+  .spinner-wrapper.is-overlay {
+    background-color: rgba(18, 18, 30, 0.8);
+
+    .spinner-content {
+      background: #1e1e2d;
+      border-color: rgba(255, 255, 255, 0.1);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+    }
+  }
+
+  .spinner-message {
+    color: var(--ion-color-step-400, #a0aec0);
+  }
+}

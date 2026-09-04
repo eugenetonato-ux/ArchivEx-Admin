@@ -1,0 +1,188 @@
+<div class="recent-actions-card">
+  <!-- Card Header with Actions & Status -->
+  <div class="actions-header">
+    <div class="header-left">
+      <div class="header-badge-icon">
+        <ion-icon name="time-outline"></ion-icon>
+      </div>
+      <div>
+        <h2 class="header-title">⚡ Historique Chronologique des Actions</h2>
+        <p class="header-subtitle">Suivi persistant des activités administratives (Supabase)</p>
+      </div>
+    </div>
+
+    <div class="header-right-btns">
+      <button class="icon-action-btn" (click)="refreshLogs()" title="Rafraîchir les logs">
+        <ion-icon name="refresh-outline" [class.spin]="adminActionsSvc.loading()"></ion-icon>
+      </button>
+
+      <button class="add-log-btn" (click)="showAddModal.set(true)" title="Enregistrer une action">
+        <ion-icon name="add-circle-outline"></ion-icon>
+        <span>Enregistrer Action</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Filters & Search Toolbar -->
+  <div class="toolbar-section">
+    <div class="search-wrap">
+      <ion-icon name="search-outline" class="search-icon"></ion-icon>
+      <input
+        type="text"
+        class="custom-search-input"
+        placeholder="Filtrer par titre, description ou email..."
+        [ngModel]="searchQuery()"
+        (ngModelChange)="searchQuery.set($event)" />
+    </div>
+
+    <div class="filter-chips">
+      <button
+        class="chip-btn"
+        [class.active]="activeFilter() === 'tous'"
+        (click)="activeFilter.set('tous')">
+        Toutes
+      </button>
+      <button
+        class="chip-btn"
+        [class.active]="activeFilter() === 'payment'"
+        (click)="activeFilter.set('payment')">
+        💳 Paiements
+      </button>
+      <button
+        class="chip-btn"
+        [class.active]="activeFilter() === 'ressource'"
+        (click)="activeFilter.set('ressource')">
+        📄 Ressources
+      </button>
+      <button
+        class="chip-btn"
+        [class.active]="activeFilter() === 'ue'"
+        (click)="activeFilter.set('ue')">
+        📚 UEs
+      </button>
+      <button
+        class="chip-btn"
+        [class.active]="activeFilter() === 'etudiant'"
+        (click)="activeFilter.set('etudiant')">
+        🎓 Étudiants
+      </button>
+    </div>
+  </div>
+
+  <!-- Actions Timeline List -->
+  <div class="actions-list-wrapper">
+    <div *ngIf="adminActionsSvc.loading()" class="loading-placeholder">
+      <ion-icon name="sync-outline" class="spin-icon"></ion-icon>
+      <span>Chargement de l'historique Supabase...</span>
+    </div>
+
+    <div *ngIf="!adminActionsSvc.loading() && filteredActions().length === 0" class="empty-state">
+      <ion-icon name="file-tray-outline" class="empty-icon"></ion-icon>
+      <p class="empty-title">Aucune action enregistrée</p>
+      <p class="empty-desc">Les nouvelles opérations administratives apparaîtront automatiquement ici.</p>
+    </div>
+
+    <div *ngIf="!adminActionsSvc.loading() && filteredActions().length > 0" class="timeline-container">
+      <div *ngFor="let act of filteredActions()" class="timeline-item">
+        <!-- Category Icon Badge -->
+        <div class="timeline-badge" [ngClass]="act.category">
+          <ion-icon [name]="getCategoryIcon(act.category)"></ion-icon>
+        </div>
+
+        <!-- Action Detail Content -->
+        <div class="timeline-content">
+          <div class="content-header">
+            <span class="action-title">{{ act.title }}</span>
+            <span class="action-time">{{ formatTimeAgo(act.created_at) }}</span>
+          </div>
+
+          <p class="action-description">{{ act.description }}</p>
+
+          <div class="content-footer">
+            <span class="actor-tag">
+              <ion-icon name="person-circle-outline"></ion-icon>
+              {{ act.actor_email }}
+            </span>
+
+            <ion-badge [color]="getStatusBadgeColor(act.status)" class="status-badge">
+              {{ act.status | uppercase }}
+            </ion-badge>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer Info Bar -->
+  <div class="card-footer-bar">
+    <span class="synced-indicator">
+      <span class="pulse-dot"></span>
+      Synchronisé avec la base Supabase ({{ filteredActions().length }} action(s))
+    </span>
+
+    <button class="clear-btn" (click)="clearHistory()" title="Effacer l'historique">
+      <ion-icon name="trash-outline"></ion-icon>
+      <span>Réinitialiser</span>
+    </button>
+  </div>
+</div>
+
+<!-- Modal for Adding Manual Admin Action -->
+<div class="modal-backdrop" *ngIf="showAddModal()" (click)="showAddModal.set(false)">
+  <div class="modal-card" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h3>✨ Enregistrer une Action Administrative</h3>
+      <button class="close-btn" (click)="showAddModal.set(false)">
+        <ion-icon name="close-outline"></ion-icon>
+      </button>
+    </div>
+
+    <div class="modal-body">
+      <div class="form-group">
+        <label>Titre de l'action *</label>
+        <input
+          type="text"
+          class="form-control"
+          placeholder="ex: Validation manuelle de la note d'examen"
+          [(ngModel)]="newActionForm.title" />
+      </div>
+
+      <div class="form-group">
+        <label>Description des détails</label>
+        <textarea
+          class="form-control"
+          rows="3"
+          placeholder="ex: Attestation de réussite délivrée à l'étudiant #INF-2024"
+          [(ngModel)]="newActionForm.description"></textarea>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group flex-1">
+          <label>Catégorie</label>
+          <select class="form-control" [(ngModel)]="newActionForm.category">
+            <option value="payment">💳 Paiement</option>
+            <option value="ressource">📄 Ressource</option>
+            <option value="ue">📚 Unité d'Enseignement</option>
+            <option value="etudiant">🎓 Étudiant</option>
+            <option value="system">⚙️ Système</option>
+          </select>
+        </div>
+
+        <div class="form-group flex-1">
+          <label>Statut</label>
+          <select class="form-control" [(ngModel)]="newActionForm.status">
+            <option value="success">Validé (Success)</option>
+            <option value="info">Information (Info)</option>
+            <option value="warning">Attention (Warning)</option>
+            <option value="danger">Avertissement (Danger)</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <button class="btn-secondary" (click)="showAddModal.set(false)">Annuler</button>
+      <button class="btn-primary" (click)="submitNewAction()">Enregistrer dans Supabase</button>
+    </div>
+  </div>
+</div>

@@ -10,60 +10,7 @@ export interface PaiementExtended extends Paiement {
   };
 }
 
-const INITIAL_PAIEMENTS: PaiementExtended[] = [
-  {
-    id: 'pay-1',
-    user_id: '1',
-    montant: 5000,
-    semestre: 'S1',
-    statut: 'en_attente',
-    reference: 'SB-99481',
-    created_at: new Date(Date.now() - 1800000).toISOString(),
-    profile: {
-      full_name: 'Koffi Mensah',
-      email: 'koffi.m@student.univ.bj'
-    }
-  },
-  {
-    id: 'pay-2',
-    user_id: '3',
-    montant: 5000,
-    semestre: 'S2',
-    statut: 'en_attente',
-    reference: 'MTN-88219',
-    created_at: new Date(Date.now() - 3600000 * 3).toISOString(),
-    profile: {
-      full_name: 'Sessou Eric',
-      email: 'eric.s@student.univ.bj'
-    }
-  },
-  {
-    id: 'pay-3',
-    user_id: '2',
-    montant: 5000,
-    semestre: 'S1',
-    statut: 'confirme',
-    reference: 'MOOV-44120',
-    created_at: new Date(Date.now() - 3600000 * 24).toISOString(),
-    profile: {
-      full_name: 'Amina Lawson',
-      email: 'amina.l@student.univ.bj'
-    }
-  },
-  {
-    id: 'pay-4',
-    user_id: '4',
-    montant: 5000,
-    semestre: 'S2',
-    statut: 'confirme',
-    reference: 'SB-11029',
-    created_at: new Date(Date.now() - 3600000 * 48).toISOString(),
-    profile: {
-      full_name: 'Fatouma Diallo',
-      email: 'fatou.d@student.univ.bj'
-    }
-  }
-];
+const INITIAL_PAIEMENTS: PaiementExtended[] = [];
 
 @Injectable({ providedIn: 'root' })
 export class PaiementsService {

@@ -11,7 +11,7 @@ export class ShortcutsService {
 
   private listen() {
     window.addEventListener('keydown', (e: KeyboardEvent) => {
-      // Ignore when typing in inputs/textareas
+      // Ignore shortcut actions when typing in text inputs or textareas
       const tag = (e.target as HTMLElement)?.tagName?.toLowerCase();
       if (tag === 'input' || tag === 'textarea' || tag === 'select') {
         if (e.key === 'Escape') {
@@ -20,6 +20,7 @@ export class ShortcutsService {
         return;
       }
 
+      // Ctrl+K or Cmd+K: Focus search
       if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') {
         e.preventDefault();
         const searchInput = document.querySelector('ion-searchbar input, input[type="search"]') as HTMLInputElement;
@@ -30,17 +31,23 @@ export class ShortcutsService {
         return;
       }
 
+      // H or ? : Toggle help modal
       if (e.key === '?' || e.key.toLowerCase() === 'h') {
         e.preventDefault();
         this.toggleHelpModal();
         return;
       }
 
+      // Escape: Close help modal & blur active elements
       if (e.key === 'Escape') {
         this.showHelpModal.set(false);
+        if (document.activeElement instanceof HTMLElement) {
+          document.activeElement.blur();
+        }
         return;
       }
 
+      // Navigation shortcuts
       switch (e.key.toLowerCase()) {
         case 'd':
           this.router.navigate(['/dashboard']);
@@ -49,7 +56,6 @@ export class ShortcutsService {
           this.router.navigate(['/ressources']);
           break;
         case 'm':
-        case 'u':
           this.router.navigate(['/ue']);
           break;
         case 'p':
@@ -60,6 +66,9 @@ export class ShortcutsService {
           break;
         case 'n':
           this.router.navigate(['/ressources'], { queryParams: { action: 'new' } });
+          break;
+        case 'u':
+          this.router.navigate(['/ue'], { queryParams: { action: 'new' } });
           break;
       }
     });

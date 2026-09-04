@@ -13,7 +13,6 @@ import {
   IonLabel,
   IonButton,
   IonIcon,
-  IonSpinner,
   IonCard,
   IonCardHeader,
   IonCardTitle,
@@ -27,10 +26,12 @@ import {
   IonSegment,
   IonSegmentButton
 } from '@ionic/angular/standalone';
+import { ActivatedRoute } from '@angular/router';
 import { RessourcesService } from '../../core/services/ressources';
 import { UeService } from '../../core/services/ue';
 import { Ressource, TypeRessource } from '../../core/models/ressource.model';
 import { UE } from '../../core/models/ue.model';
+import { LoadingSpinnerComponent } from '../../shared/components/loading-spinner/loading-spinner.component';
 
 @Component({
   selector: 'app-ressources',
@@ -49,7 +50,6 @@ import { UE } from '../../core/models/ue.model';
     IonLabel,
     IonButton,
     IonIcon,
-    IonSpinner,
     IonCard,
     IonCardHeader,
     IonCardTitle,
@@ -61,7 +61,8 @@ import { UE } from '../../core/models/ue.model';
     IonBadge,
     IonSearchbar,
     IonSegment,
-    IonSegmentButton
+    IonSegmentButton,
+    LoadingSpinnerComponent
   ],
   templateUrl: './ressources.page.html',
   styleUrls: ['./ressources.page.scss']
@@ -90,11 +91,17 @@ export class RessourcesPage implements OnInit {
 
   constructor(
     private ressourcesSvc: RessourcesService,
-    private ueSvc: UeService
+    private ueSvc: UeService,
+    private route: ActivatedRoute
   ) {}
 
   async ngOnInit() {
     await this.charger();
+    this.route.queryParams.subscribe(params => {
+      if (params['action'] === 'new') {
+        this.afficherFormulaire = true;
+      }
+    });
   }
 
   get premiumForce(): boolean {

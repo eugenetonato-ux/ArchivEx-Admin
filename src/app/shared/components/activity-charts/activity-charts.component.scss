@@ -1,0 +1,128 @@
+.charts-grid-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+}
+
+.chart-card {
+  background: var(--ion-card-background, #ffffff);
+  border-radius: 16px;
+  border: 1px solid var(--ion-color-step-150, rgba(0, 0, 0, 0.08));
+  padding: 20px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.03);
+  display: flex;
+  flex-direction: column;
+  transition: all 0.2s ease;
+
+  .chart-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 16px;
+
+    .chart-titles {
+      .chart-title {
+        font-size: 1.05rem;
+        font-weight: 700;
+        margin: 0 0 4px 0;
+        color: var(--ion-text-color, #2b2f38);
+      }
+
+      .chart-subtitle {
+        font-size: 0.8rem;
+        margin: 0;
+        color: var(--ion-color-step-500, #718096);
+      }
+    }
+
+    .time-range-pills {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      background: var(--ion-color-step-100, #f0f2f5);
+      padding: 4px;
+      border-radius: 20px;
+
+      .range-pill {
+        background: transparent;
+        border: none;
+        padding: 4px 12px;
+        border-radius: 14px;
+        font-size: 0.75rem;
+        font-weight: 600;
+        color: var(--ion-color-step-600, #4a5568);
+        cursor: pointer;
+        transition: all 0.2s ease;
+
+        &:hover {
+          color: var(--ion-color-primary, #5b3cc4);
+        }
+
+        &.active {
+          background: var(--ion-card-background, #ffffff);
+          color: var(--ion-color-primary, #5b3cc4);
+          box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+        }
+      }
+    }
+  }
+
+  .chart-body {
+    position: relative;
+    width: 100%;
+
+    canvas {
+      width: 100% !important;
+      max-width: 100%;
+    }
+  }
+
+  &.main-chart-card .line-chart-body {
+    height: 280px;
+  }
+}
+
+// Grid layout for doughnut and bar charts side by side
+.charts-row-split {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+
+  .doughnut-card .doughnut-chart-body {
+    height: 240px;
+  }
+
+  .bar-card .bar-chart-body {
+    height: 240px;
+  }
+}
+
+// Responsive layout
+@media (max-width: 991px) {
+  .charts-row-split {
+    grid-template-columns: 1fr;
+  }
+
+  .chart-card.main-chart-card .line-chart-body {
+    height: 220px;
+  }
+}
+
+// Dark Mode Support
+:host-context(body.dark) {
+  .chart-card {
+    background: #1e1e2d;
+    border-color: rgba(255, 255, 255, 0.08);
+
+    .chart-header .time-range-pills {
+      background: #181826;
+
+      .range-pill.active {
+        background: #2a2a40;
+        color: #f0f2f5;
+      }
+    }
+  }
+}

@@ -16,7 +16,6 @@ import {
   IonCardSubtitle,
   IonCardTitle,
   IonCardContent,
-  IonSpinner,
   IonIcon,
   IonBadge,
   IonList,
@@ -28,6 +27,9 @@ import { RessourcesService } from '../../core/services/ressources';
 import { PaiementsService } from '../../core/services/paiements';
 import { UeService } from '../../core/services/ue';
 import { EtudiantsService } from '../../core/services/etudiants';
+import { LoadingSpinnerComponent } from '../../shared/components/loading-spinner/loading-spinner.component';
+import { ActivityChartsComponent } from '../../shared/components/activity-charts/activity-charts.component';
+import { RecentActionsListComponent } from '../../shared/components/recent-actions-list/recent-actions-list.component';
 
 export interface ActivityItem {
   id: string;
@@ -59,13 +61,15 @@ export interface ActivityItem {
     IonCardSubtitle,
     IonCardTitle,
     IonCardContent,
-    IonSpinner,
     IonIcon,
     IonBadge,
     IonList,
     IonItem,
     IonLabel,
-    IonButton
+    IonButton,
+    LoadingSpinnerComponent,
+    ActivityChartsComponent,
+    RecentActionsListComponent
   ],
   templateUrl: './dashboard.page.html',
   styleUrls: ['./dashboard.page.scss']

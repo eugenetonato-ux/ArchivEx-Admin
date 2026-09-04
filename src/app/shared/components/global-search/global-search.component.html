@@ -1,0 +1,83 @@
+<!-- Command Palette Trigger Bar (Top Bar Search Control) -->
+<button class="header-search-bar" (click)="openModal()" title="Recherche globale rapide (Ctrl + K)">
+  <ion-icon name="search-outline" class="search-icon"></ion-icon>
+  <span class="search-label">Rechercher une section, UE, document...</span>
+  <div class="shortcut-badge">
+    <kbd>Ctrl</kbd> + <kbd>K</kbd>
+  </div>
+</button>
+
+<!-- Fullscreen Backdrop & Command Palette Modal Overlay -->
+<div class="search-modal-backdrop" *ngIf="isOpen()" (click)="closeModal()">
+  <div class="search-modal-card" (click)="$event.stopPropagation()">
+    <!-- Modal Input Header -->
+    <div class="modal-search-header">
+      <ion-icon name="search-outline" class="modal-search-icon"></ion-icon>
+      <input
+        #searchInput
+        type="text"
+        class="modal-search-input"
+        placeholder="Que recherchez-vous ? (ex: Algorithmique, Pass, Épreuve...)"
+        [ngModel]="query()"
+        (ngModelChange)="query.set($event); selectedIndex.set(0)"/>
+      
+      <button class="close-btn" (click)="closeModal()" title="Fermer (Échap)">
+        <kbd class="esc-kbd">Échap</kbd>
+      </button>
+    </div>
+
+    <!-- Results List Body -->
+    <div class="modal-results-body">
+      <div *ngIf="filteredResults.length === 0" class="empty-results-state">
+        <ion-icon name="search-dislike-outline" class="empty-icon"></ion-icon>
+        <p class="empty-title">Aucun résultat pour « {{ query() }} »</p>
+        <p class="empty-subtitle">Essayez avec un nom de matière, code UE (ex: INF101) ou statut d'étudiant.</p>
+      </div>
+
+      <div *ngIf="filteredResults.length > 0" class="results-list">
+        <div class="results-category-group">
+          <div
+            *ngFor="let res of filteredResults; let i = index"
+            class="result-item"
+            [class.selected]="i === selectedIndex()"
+            (click)="selectResult(res)"
+            (mouseenter)="selectedIndex.set(i)">
+            
+            <div class="item-icon-wrap" [class.is-section]="res.category === 'Section'">
+              <ion-icon [name]="res.icon"></ion-icon>
+            </div>
+
+            <div class="item-details">
+              <div class="item-title-row">
+                <span class="item-title">{{ res.title }}</span>
+                <span class="category-chip">{{ res.category }}</span>
+              </div>
+              <span class="item-subtitle" *ngIf="res.subtitle">{{ res.subtitle }}</span>
+            </div>
+
+            <ion-badge
+              *ngIf="res.badge"
+              [color]="res.badgeColor || 'primary'"
+              class="item-badge">
+              {{ res.badge }}
+            </ion-badge>
+            
+            <ion-icon name="chevron-forward" class="item-arrow"></ion-icon>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal Navigation Footer -->
+    <div class="modal-search-footer">
+      <div class="footer-tip">
+        <span class="key-combo"><kbd>↑</kbd> <kbd>↓</kbd> Naviguer</span>
+        <span class="key-combo"><kbd>↵</kbd> Sélectionner</span>
+        <span class="key-combo"><kbd>Échap</kbd> Fermer</span>
+      </div>
+      <div class="footer-branding">
+        <span>ArchivEx Admin Search</span>
+      </div>
+    </div>
+  </div>
+</div>

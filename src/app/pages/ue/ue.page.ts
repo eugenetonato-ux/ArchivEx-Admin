@@ -13,7 +13,6 @@ import {
   IonLabel,
   IonButton,
   IonIcon,
-  IonSpinner,
   IonCard,
   IonCardHeader,
   IonCardTitle,
@@ -26,7 +25,10 @@ import {
   IonSegmentButton
 } from '@ionic/angular/standalone';
 import { UeService } from '../../core/services/ue';
+import { AdminActionsService } from '../../core/services/admin-actions';
+import { AuthService } from '../../core/services/auth';
 import { UE, Semestre } from '../../core/models/ue.model';
+import { LoadingSpinnerComponent } from '../../shared/components/loading-spinner/loading-spinner.component';
 
 @Component({
   selector: 'app-ue',
@@ -45,7 +47,6 @@ import { UE, Semestre } from '../../core/models/ue.model';
     IonLabel,
     IonButton,
     IonIcon,
-    IonSpinner,
     IonCard,
     IonCardHeader,
     IonCardTitle,
@@ -55,7 +56,8 @@ import { UE, Semestre } from '../../core/models/ue.model';
     IonInput,
     IonBadge,
     IonSegment,
-    IonSegmentButton
+    IonSegmentButton,
+    LoadingSpinnerComponent
   ],
   templateUrl: './ue.page.html',
   styleUrls: ['./ue.page.scss']
@@ -71,7 +73,11 @@ export class UePage implements OnInit {
     semestre: 'S1' as Semestre
   };
 
-  constructor(private ueSvc: UeService) {}
+  constructor(
+    private ueSvc: UeService,
+    private adminActionsSvc: AdminActionsService,
+    private authSvc: AuthService
+  ) {}
 
   async ngOnInit() {
     await this.charger();
@@ -93,14 +99,37 @@ export class UePage implements OnInit {
 
   async ajouter() {
     if (!this.nouvelleUe.nom.trim() || !this.nouvelleUe.code.trim()) return;
+    const nom = this.nouvelleUe.nom;
+    const code = this.nouvelleUe.code;
+    const sem = this.nouvelleUe.semestre;
+
     await this.ueSvc.creer(this.nouvelleUe);
+
+    await this.adminActionsSvc.logAction({
+      title: 'Création d\'une UE',
+      description: `Matière "${nom}" (${code}) ajoutée au ${sem}`,
+      category: 'ue',
+      status: 'info',
+      actor_email: this.authSvc.currentUser()?.email || 'admin@archivex.univ.bj'
+    });
+
     this.nouvelleUe.nom = '';
     this.nouvelleUe.code = '';
     await this.charger();
   }
 
   async supprimer(id: string) {
+    const target = this.ues.find(u => u.id === id);
     await this.ueSvc.supprimer(id);
+
+    await this.adminActionsSvc.logAction({
+      title: 'Suppression d\'une UE',
+      description: target ? `Suppression de l'UE "${target.nom}" (${target.code})` : `Suppression UE #${id}`,
+      category: 'ue',
+      status: 'warning',
+      actor_email: this.authSvc.currentUser()?.email || 'admin@archivex.univ.bj'
+    });
+
     await this.charger();
   }
 }

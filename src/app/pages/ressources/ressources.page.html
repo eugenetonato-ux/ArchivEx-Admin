@@ -94,9 +94,11 @@
     </ion-card-content>
   </ion-card>
 
-  <div *ngIf="loading" class="ion-text-center ion-padding">
-    <ion-spinner></ion-spinner>
-  </div>
+  <app-loading-spinner
+    *ngIf="loading"
+    message="Chargement de la bibliothèque de documents..."
+    size="medium">
+  </app-loading-spinner>
 
   <div *ngIf="!loading && ressourcesFiltrees.length === 0" class="empty-state ion-text-center ion-padding">
     <ion-icon name="document-text-outline" size="large" color="medium"></ion-icon>

@@ -16,4 +16,63 @@
   --ion-color-primary-contrast-rgb: 255, 255, 255;
   --ion-color-primary-shade: #5035ad;
   --ion-color-primary-tint: #6b50ca;
+
+  --ion-background-color: #f4f6f9;
+  --ion-background-color-rgb: 244, 246, 249;
+  --ion-text-color: #2b2f38;
+  --ion-card-background: #ffffff;
+}
+
+// ------------------------------------
+// COMPLETE DARK MODE THEMING
+// ------------------------------------
+body.dark, html.dark {
+  --ion-background-color: #12121e;
+  --ion-background-color-rgb: 18, 18, 30;
+  --ion-text-color: #f0f2f5;
+  --ion-text-color-rgb: 240, 242, 245;
+
+  --ion-card-background: #1e1e2d;
+  --ion-item-background: #1e1e2d;
+  --ion-toolbar-background: #1e1e2d;
+
+  --ion-color-step-50: #181826;
+  --ion-color-step-100: #222234;
+  --ion-color-step-150: #2a2a40;
+  --ion-color-step-200: #33334d;
+  --ion-color-step-300: #424263;
+  --ion-color-step-400: #626282;
+  --ion-color-step-500: #8282a2;
+  --ion-color-step-600: #a2a2c2;
+  --ion-color-step-700: #c2c2e2;
+  --ion-color-step-800: #e2e2f2;
+  --ion-color-step-900: #f4f4f8;
+
+  ion-toolbar {
+    --background: #1e1e2d;
+    --color: #ffffff;
+  }
+
+  ion-content {
+    --background: #12121e;
+    --color: #f0f2f5;
+  }
+
+  ion-card {
+    --background: #1e1e2d;
+    --color: #f0f2f5;
+  }
+
+  ion-item {
+    --background: #1e1e2d;
+    --color: #f0f2f5;
+  }
+
+  ion-list {
+    background: transparent;
+  }
+
+  ion-segment {
+    --background: #181826;
+  }
 }

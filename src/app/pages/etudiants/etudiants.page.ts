@@ -11,11 +11,11 @@ import {
   IonList,
   IonItem,
   IonLabel,
-  IonSpinner,
   IonSearchbar,
   IonToggle
 } from '@ionic/angular/standalone';
 import { EtudiantsService, EtudiantProfile } from '../../core/services/etudiants';
+import { LoadingSpinnerComponent } from '../../shared/components/loading-spinner/loading-spinner.component';
 
 @Component({
   selector: 'app-etudiants',
@@ -32,9 +32,9 @@ import { EtudiantsService, EtudiantProfile } from '../../core/services/etudiants
     IonList,
     IonItem,
     IonLabel,
-    IonSpinner,
     IonSearchbar,
-    IonToggle
+    IonToggle,
+    LoadingSpinnerComponent
   ],
   templateUrl: './etudiants.page.html',
   styleUrls: ['./etudiants.page.scss']

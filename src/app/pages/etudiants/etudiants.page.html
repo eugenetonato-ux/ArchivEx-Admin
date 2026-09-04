@@ -11,9 +11,11 @@
 </ion-header>
 
 <ion-content class="ion-padding">
-  <div *ngIf="loading" class="ion-text-center ion-padding">
-    <ion-spinner></ion-spinner>
-  </div>
+  <app-loading-spinner
+    *ngIf="loading"
+    message="Chargement de l'annuaire des étudiants..."
+    size="medium">
+  </app-loading-spinner>
 
   <ion-list *ngIf="!loading">
     <ion-item *ngFor="let e of etudiantsFiltres">
