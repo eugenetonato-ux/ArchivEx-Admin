@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Menu, Plus, RefreshCw, Sparkles, Bell, CheckCircle2, Clock, Search, X, Sun, Moon, Maximize2, Minimize2 } from 'lucide-react';
+import { PWAInstallButton } from './PWAInstallButton';
 
 interface HeaderProps {
   title: string;
@@ -66,7 +67,7 @@ export const Header: React.FC<HeaderProps> = ({
   return (
     <header
       id="app-header"
-      className="sticky top-0 z-30 bg-[#5B3CC4] border-b border-[#4C2FB0] px-3.5 sm:px-6 py-2 flex items-center justify-between transition-colors shadow-2xs text-white"
+      className="sticky top-0 z-30 bg-accent border-b border-accent-hover px-3.5 sm:px-6 py-2 flex items-center justify-between transition-colors shadow-2xs text-white"
     >
       <div className="flex items-center gap-2.5">
         <button
@@ -94,7 +95,7 @@ export const Header: React.FC<HeaderProps> = ({
       {/* Global Search Bar */}
       <div className="flex-1 max-w-xs sm:max-w-sm md:max-w-md mx-2 sm:mx-4">
         <div className="relative group">
-          <span className="absolute inset-y-0 left-0 pl-2.5 flex items-center pointer-events-none text-white/60 group-focus-within:text-violet-600 transition-colors">
+          <span className="absolute inset-y-0 left-0 pl-2.5 flex items-center pointer-events-none text-white/60 group-focus-within:text-accent transition-colors">
             <Search className="w-3.5 h-3.5" />
           </span>
           <input
@@ -118,6 +119,9 @@ export const Header: React.FC<HeaderProps> = ({
       </div>
 
       <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
+        {/* PWA Install Button */}
+        <PWAInstallButton />
+
         {/* Dark Mode Toggle */}
         <button
           id="header-dark-mode-toggle"
@@ -173,9 +177,9 @@ export const Header: React.FC<HeaderProps> = ({
           <button
             id="header-new-ressource-btn"
             onClick={onNewRessource}
-            className="px-2.5 py-1 text-[#5B3CC4] bg-white hover:bg-violet-50 rounded-lg text-xs font-bold flex items-center gap-1 transition-all shadow-2xs active:scale-[0.98]"
+            className="px-2.5 py-1 text-accent bg-white hover:bg-accent-light rounded-lg text-xs font-bold flex items-center gap-1 transition-all shadow-2xs active:scale-[0.98]"
           >
-            <Plus className="w-3.5 h-3.5 text-[#5B3CC4]" />
+            <Plus className="w-3.5 h-3.5 text-accent" />
             <span className="hidden xs:inline">Ajouter</span>
           </button>
         )}

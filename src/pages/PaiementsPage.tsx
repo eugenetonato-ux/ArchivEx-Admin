@@ -100,45 +100,49 @@ export const PaiementsPage: React.FC<PaiementsPageProps> = ({
   return (
     <div id="paiements-page-container" className="space-y-4">
       {/* Financial Summary KPI Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-3.5">
-        <div className="bg-white p-3.5 rounded-xl border border-slate-200/90 shadow-2xs">
-          <div className="flex items-center justify-between text-[11px] font-semibold text-slate-500 uppercase">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5">
+        <div className="relative overflow-hidden bg-gradient-to-br from-[#062F20] to-[#0A4D34] text-white p-4 rounded-xl border border-emerald-500/25 shadow-md group hover:scale-[1.01] transition-transform duration-200">
+          <div className="absolute -right-6 -top-6 w-16 h-16 bg-emerald-500/25 rounded-full blur-xl group-hover:bg-emerald-500/40 transition-colors" />
+          <div className="flex items-center justify-between text-[10px] font-bold text-emerald-300 uppercase tracking-wider">
             <span>Total Recettes</span>
-            <div className="w-6 h-6 rounded-md bg-emerald-50 text-[#10B981] flex items-center justify-center">
-              <CreditCard className="w-3.5 h-3.5" />
+            <div className="w-8 h-8 rounded-xl bg-emerald-500/20 text-emerald-300 flex items-center justify-center border border-emerald-500/30 shadow-xs">
+              <CreditCard className="w-4 h-4" />
             </div>
           </div>
-          <p className="mt-1.5 text-xl sm:text-2xl font-black text-slate-900">{totalCollecte.toLocaleString()} F</p>
+          <p className="mt-2.5 text-2xl font-black text-white">{totalCollecte.toLocaleString()} F</p>
         </div>
 
-        <div className="bg-white p-3.5 rounded-xl border border-slate-200/90 shadow-2xs">
-          <div className="flex items-center justify-between text-[11px] font-semibold text-slate-500 uppercase">
+        <div className="relative overflow-hidden bg-gradient-to-br from-[#3C1A08] to-[#602709] text-white p-4 rounded-xl border border-orange-500/25 shadow-md group hover:scale-[1.01] transition-transform duration-200">
+          <div className="absolute -right-6 -top-6 w-16 h-16 bg-orange-500/25 rounded-full blur-xl group-hover:bg-orange-500/40 transition-colors" />
+          <div className="flex items-center justify-between text-[10px] font-bold text-orange-300 uppercase tracking-wider">
             <span>En attente</span>
-            <div className="w-6 h-6 rounded-md bg-orange-50 text-[#FB923C] flex items-center justify-center">
-              <Clock className="w-3.5 h-3.5" />
+            <div className="w-8 h-8 rounded-xl bg-orange-500/20 text-orange-300 flex items-center justify-center border border-orange-500/30 shadow-xs">
+              <Clock className="w-4 h-4" />
             </div>
           </div>
-          <p className="mt-1.5 text-xl sm:text-2xl font-black text-[#EA580C]">{pendingCount}</p>
+          <p className="mt-2.5 text-2xl font-black text-white">{pendingCount}</p>
         </div>
 
-        <div className="bg-white p-3.5 rounded-xl border border-slate-200/90 shadow-2xs">
-          <div className="flex items-center justify-between text-[11px] font-semibold text-slate-500 uppercase">
+        <div className="relative overflow-hidden bg-gradient-to-br from-[#101030] to-[#1D1D45] text-white p-4 rounded-xl border border-indigo-500/20 shadow-md group hover:scale-[1.01] transition-transform duration-200">
+          <div className="absolute -right-6 -top-6 w-16 h-16 bg-indigo-500/25 rounded-full blur-xl group-hover:bg-indigo-500/40 transition-colors" />
+          <div className="flex items-center justify-between text-[10px] font-bold text-indigo-300 uppercase tracking-wider">
             <span>Pass Activés</span>
-            <div className="w-6 h-6 rounded-md bg-indigo-50 text-[#6366F1] flex items-center justify-center">
-              <CheckCircle2 className="w-3.5 h-3.5" />
+            <div className="w-8 h-8 rounded-xl bg-indigo-500/20 text-indigo-300 flex items-center justify-center border border-indigo-500/30 shadow-xs">
+              <CheckCircle2 className="w-4 h-4" />
             </div>
           </div>
-          <p className="mt-1.5 text-xl sm:text-2xl font-black text-slate-900">{confirmedCount}</p>
+          <p className="mt-2.5 text-2xl font-black text-white">{confirmedCount}</p>
         </div>
 
-        <div className="bg-white p-3.5 rounded-xl border border-slate-200/90 shadow-2xs">
-          <div className="flex items-center justify-between text-[11px] font-semibold text-slate-500 uppercase">
+        <div className="relative overflow-hidden bg-gradient-to-br from-[#3B0712] to-[#5C0A1A] text-white p-4 rounded-xl border border-rose-500/25 shadow-md group hover:scale-[1.01] transition-transform duration-200">
+          <div className="absolute -right-6 -top-6 w-16 h-16 bg-rose-500/25 rounded-full blur-xl group-hover:bg-rose-500/40 transition-colors" />
+          <div className="flex items-center justify-between text-[10px] font-bold text-rose-300 uppercase tracking-wider">
             <span>Rejetés</span>
-            <div className="w-6 h-6 rounded-md bg-pink-50 text-[#EC4899] flex items-center justify-center">
-              <XCircle className="w-3.5 h-3.5" />
+            <div className="w-8 h-8 rounded-xl bg-rose-500/20 text-rose-300 flex items-center justify-center border border-rose-500/30 shadow-xs">
+              <XCircle className="w-4 h-4" />
             </div>
           </div>
-          <p className="mt-1.5 text-xl sm:text-2xl font-black text-slate-500">{rejectedCount}</p>
+          <p className="mt-2.5 text-2xl font-black text-white">{rejectedCount}</p>
         </div>
       </div>
 
@@ -154,7 +158,7 @@ export const PaiementsPage: React.FC<PaiementsPageProps> = ({
               placeholder="Rechercher par étudiant, email ou référence..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-8 pr-3 py-1.5 rounded-lg border border-slate-200 text-xs text-[#18181B] placeholder-slate-400 focus:outline-hidden focus:border-[#5B3CC4] focus:ring-2 focus:ring-[#5B3CC4]/15 transition-all bg-slate-50/60"
+              className="w-full pl-8 pr-3 py-1.5 rounded-lg border border-slate-200 text-xs text-slate-900 placeholder-slate-400 focus:outline-hidden focus:border-[#5B3CC4] focus:ring-2 focus:ring-[#5B3CC4]/15 transition-all bg-slate-50/60"
             />
           </div>
 
@@ -242,7 +246,7 @@ export const PaiementsPage: React.FC<PaiementsPageProps> = ({
                           {p.profile?.full_name ? p.profile.full_name.charAt(0) : 'E'}
                         </div>
                         <div className="min-w-0">
-                          <p className="font-extrabold text-xs text-[#18181B] truncate">{p.profile?.full_name || 'Étudiant'}</p>
+                          <p className="font-extrabold text-xs text-slate-900 truncate">{p.profile?.full_name || 'Étudiant'}</p>
                           <p className="text-[10px] text-slate-400 truncate">{p.profile?.email || 'N/A'}</p>
                         </div>
                       </div>
@@ -261,7 +265,7 @@ export const PaiementsPage: React.FC<PaiementsPageProps> = ({
                       </div>
                       <div className="space-y-0.5">
                         <span className="text-slate-400 font-bold block uppercase tracking-wider text-[8px]">Montant réglé</span>
-                        <span className="font-bold text-xs text-[#18181B]">{p.montant.toLocaleString()} F</span>
+                        <span className="font-bold text-xs text-slate-900">{p.montant.toLocaleString()} F</span>
                       </div>
                     </div>
 
@@ -334,7 +338,7 @@ export const PaiementsPage: React.FC<PaiementsPageProps> = ({
                               {p.profile?.full_name ? p.profile.full_name.charAt(0) : 'E'}
                             </div>
                             <div>
-                              <p className="font-bold text-xs text-[#18181B]">{p.profile?.full_name || 'Étudiant'}</p>
+                              <p className="font-bold text-xs text-slate-900">{p.profile?.full_name || 'Étudiant'}</p>
                               <p className="text-[11px] text-slate-400">{p.profile?.email || 'N/A'}</p>
                             </div>
                           </div>
@@ -347,7 +351,7 @@ export const PaiementsPage: React.FC<PaiementsPageProps> = ({
                         </td>
 
                         <td className="py-2.5 px-3 whitespace-nowrap">
-                          <span className="font-bold text-xs text-[#18181B]">{p.montant.toLocaleString()} F</span>
+                          <span className="font-bold text-xs text-slate-900">{p.montant.toLocaleString()} F</span>
                         </td>
 
                         <td className="py-2.5 px-3 whitespace-nowrap">

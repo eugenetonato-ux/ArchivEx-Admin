@@ -1,4 +1,6 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
+import { motion } from 'motion/react';
+import { Settings } from 'lucide-react';
 import { Sidebar } from './components/Sidebar';
 import { Header } from './components/Header';
 import { RessourceFormModal } from './components/RessourceFormModal';
@@ -9,6 +11,7 @@ import { UePage } from './pages/UePage';
 import { PaiementsPage } from './pages/PaiementsPage';
 import { EtudiantsPage } from './pages/EtudiantsPage';
 import { LoginPage } from './pages/LoginPage';
+import { OfflineIndicator } from './components/OfflineIndicator';
 import { archivexService } from './services/archivexService';
 import {
   UE,
@@ -19,14 +22,45 @@ import {
   KpiStats
 } from './types';
 
+export interface AccentPalette {
+  id: string;
+  name: string;
+  hex: string;
+  hover: string;
+  light: string;
+  bgClass: string;
+}
+
+export const ACCENT_PALETTES: AccentPalette[] = [
+  { id: 'violet', name: 'Classique Violet (ArchivEx)', hex: '#5B3CC4', hover: '#4C2FB0', light: '#EDE9FE', bgClass: 'bg-[#5B3CC4]' },
+  { id: 'blue', name: 'Bleu Océan', hex: '#0284C7', hover: '#0369A1', light: '#E0F2FE', bgClass: 'bg-[#0284C7]' },
+  { id: 'emerald', name: 'Vert Émeraude', hex: '#059669', hover: '#047857', light: '#D1FAE5', bgClass: 'bg-[#059669]' },
+  { id: 'crimson', name: 'Rouge Velours', hex: '#DC2626', hover: '#B91C1C', light: '#FEE2E2', bgClass: 'bg-[#DC2626]' },
+  { id: 'charcoal', name: 'Gris Charbon', hex: '#4B5563', hover: '#374151', light: '#F3F4F6', bgClass: 'bg-[#4B5563]' },
+  { id: 'amber', name: 'Ambre Doré', hex: '#D97706', hover: '#B45309', light: '#FEF3C7', bgClass: 'bg-[#D97706]' },
+];
+
 export function App() {
   const [currentUser, setCurrentUser] = useState<AdminUser | null>(archivexService.getCurrentUser());
-  const [activeTab, setActiveTab] = useState<'dashboard' | 'ressources' | 'ue' | 'paiements' | 'etudiants'>('dashboard');
+  const [activeTab, setActiveTab] = useState<'dashboard' | 'ressources' | 'ue' | 'paiements' | 'etudiants' | 'settings'>('dashboard');
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [globalSearchQuery, setGlobalSearchQuery] = useState('');
   const [isDarkMode, setIsDarkMode] = useState<boolean>(() => {
     return localStorage.getItem('archivex-dark-mode') === 'true';
   });
+  
+  const [accentPaletteId, setAccentPaletteId] = useState<string>(() => {
+    return localStorage.getItem('archivex-accent-palette') || 'violet';
+  });
+
+  useEffect(() => {
+    const palette = ACCENT_PALETTES.find(p => p.id === accentPaletteId) || ACCENT_PALETTES[0];
+    localStorage.setItem('archivex-accent-palette', palette.id);
+    const root = document.documentElement;
+    root.style.setProperty('--accent-color', palette.hex);
+    root.style.setProperty('--accent-color-hover', palette.hover);
+    root.style.setProperty('--accent-color-light', palette.light);
+  }, [accentPaletteId]);
 
   useEffect(() => {
     localStorage.setItem('archivex-dark-mode', String(isDarkMode));
@@ -271,6 +305,10 @@ export function App() {
     etudiants: {
       title: 'Comptes Étudiants & Accès',
       subtitle: 'Supervision des droits et déblocages des Pass Premium'
+    },
+    settings: {
+      title: 'Paramètres du Portail',
+      subtitle: 'Personnalisation de l\'interface, palettes de couleur d\'accentuation et préférences'
     }
   };
 
@@ -317,59 +355,188 @@ export function App() {
         />
 
         <main className="flex-1 p-4 sm:p-8 max-w-7xl w-full mx-auto">
-          {activeTab === 'dashboard' && (
-            <DashboardPage
-              stats={stats}
-              recentRessources={ressources}
-              allUes={ues}
-              pendingPaiements={pendingPayments}
-              onNavigateTab={setActiveTab}
-              onOpenNewRessource={() => setIsRessourceModalOpen(true)}
-              onOpenNewUe={() => setIsUeModalOpen(true)}
-              onValidatePayment={async (id) => {
-                await handleValidatePayment(id);
-              }}
-              searchQuery={globalSearchQuery}
-              onSearchQueryChange={setGlobalSearchQuery}
-            />
-          )}
+          <motion.div
+            key={activeTab}
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.3, ease: 'easeOut' }}
+            className="w-full"
+          >
+            {activeTab === 'dashboard' && (
+              <DashboardPage
+                stats={stats}
+                recentRessources={ressources}
+                allUes={ues}
+                pendingPaiements={pendingPayments}
+                onNavigateTab={setActiveTab}
+                onOpenNewRessource={() => setIsRessourceModalOpen(true)}
+                onOpenNewUe={() => setIsUeModalOpen(true)}
+                onValidatePayment={async (id) => {
+                  await handleValidatePayment(id);
+                }}
+                searchQuery={globalSearchQuery}
+                onSearchQueryChange={setGlobalSearchQuery}
+              />
+            )}
 
-          {activeTab === 'ressources' && (
-            <RessourcesPage
-              ressources={ressources}
-              ues={ues}
-              onOpenNewModal={() => setIsRessourceModalOpen(true)}
-              onDeleteRessource={handleDeleteRessource}
-              globalSearchQuery={globalSearchQuery}
-              onSearchQueryChange={setGlobalSearchQuery}
-            />
-          )}
+            {activeTab === 'ressources' && (
+              <RessourcesPage
+                ressources={ressources}
+                ues={ues}
+                onOpenNewModal={() => setIsRessourceModalOpen(true)}
+                onDeleteRessource={handleDeleteRessource}
+                globalSearchQuery={globalSearchQuery}
+                onSearchQueryChange={setGlobalSearchQuery}
+              />
+            )}
 
-          {activeTab === 'ue' && (
-            <UePage
-              ues={ues}
-              ressources={ressources}
-              onOpenNewModal={() => setIsUeModalOpen(true)}
-              onDeleteUe={handleDeleteUe}
-              globalSearchQuery={globalSearchQuery}
-              onSearchQueryChange={setGlobalSearchQuery}
-            />
-          )}
+            {activeTab === 'ue' && (
+              <UePage
+                ues={ues}
+                ressources={ressources}
+                onOpenNewModal={() => setIsUeModalOpen(true)}
+                onDeleteUe={handleDeleteUe}
+                globalSearchQuery={globalSearchQuery}
+                onSearchQueryChange={setGlobalSearchQuery}
+              />
+            )}
 
-          {activeTab === 'paiements' && (
-            <PaiementsPage
-              paiements={paiements}
-              onValidate={handleValidatePayment}
-              onReject={handleRejectPayment}
-            />
-          )}
+            {activeTab === 'paiements' && (
+              <PaiementsPage
+                paiements={paiements}
+                onValidate={handleValidatePayment}
+                onReject={handleRejectPayment}
+              />
+            )}
 
-          {activeTab === 'etudiants' && (
-            <EtudiantsPage
-              profiles={profiles}
-              onTogglePremium={handleTogglePremium}
-            />
-          )}
+            {activeTab === 'etudiants' && (
+              <EtudiantsPage
+                profiles={profiles}
+                onTogglePremium={handleTogglePremium}
+              />
+            )}
+
+            {activeTab === 'settings' && (
+              <div id="settings-page" className="max-w-3xl space-y-8 animate-in-scale">
+                {/* Visual Identity Customize Section */}
+                <div className="bg-white dark:bg-[#120F20] rounded-2xl border border-slate-200 dark:border-violet-500/10 p-6 sm:p-8 shadow-sm space-y-6">
+                  <div className="flex items-center gap-3 pb-4 border-b border-slate-100 dark:border-white/5">
+                    <span className="p-2 rounded-lg bg-accent-light text-accent flex items-center justify-center">
+                      <Settings className="w-5 h-5 text-accent" />
+                    </span>
+                    <div>
+                      <h2 className="text-sm sm:text-base font-extrabold text-slate-900 dark:text-white">Identité Visuelle de la Plateforme</h2>
+                      <p className="text-xs text-slate-500 dark:text-violet-300">Personnalisez l'ambiance et la palette de couleurs d'accentuation d'ArchivEx</p>
+                    </div>
+                  </div>
+
+                  <div className="space-y-4">
+                    <label className="block text-xs sm:text-sm font-bold text-slate-700 dark:text-violet-200">
+                      Palette de Couleur Principale (Accent)
+                    </label>
+                    <p className="text-xs text-slate-500 dark:text-violet-400">
+                      Sélectionnez une palette professionnelle ci-dessous. Cette couleur sera appliquée instantanément à la barre latérale, aux boutons principaux, aux états actifs de navigation et aux indicateurs visuels du portail.
+                    </p>
+
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 pt-2">
+                      {ACCENT_PALETTES.map((palette) => {
+                        const isSelected = accentPaletteId === palette.id;
+                        return (
+                          <button
+                            key={palette.id}
+                            id={`accent-palette-${palette.id}`}
+                            onClick={() => setAccentPaletteId(palette.id)}
+                            className={`flex items-center justify-between p-4 rounded-xl border text-left transition-all cursor-pointer ${
+                              isSelected
+                                ? 'border-accent bg-accent-light/30 dark:bg-accent/10 ring-2 ring-accent'
+                                : 'border-slate-200 dark:border-white/5 hover:border-slate-300 dark:hover:border-white/10 bg-slate-50/50 dark:bg-white/2 hover:scale-[1.01]'
+                            }`}
+                          >
+                            <div className="flex items-center gap-3">
+                              {/* Round Color Indicator */}
+                              <div className={`w-5 h-5 rounded-full ${palette.bgClass} flex items-center justify-center shrink-0 shadow-xs border border-white/20`}>
+                                {isSelected && (
+                                  <span className="text-white text-[10px] font-bold">✓</span>
+                                )}
+                              </div>
+                              <div>
+                                <span className="block text-xs font-bold text-slate-900 dark:text-white">
+                                  {palette.name}
+                                </span>
+                                <span className="block text-[10px] text-slate-400 font-mono">
+                                  {palette.hex}
+                                </span>
+                              </div>
+                            </div>
+
+                            {/* Tiny preview pill */}
+                            <span className={`px-2 py-0.5 rounded text-[9px] font-semibold text-white ${palette.bgClass}`}>
+                              Accent
+                            </span>
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </div>
+
+                  {/* Interface Preview box */}
+                  <div className="pt-6 border-t border-slate-100 dark:border-white/5">
+                    <h3 className="text-xs font-bold text-slate-700 dark:text-violet-300 uppercase tracking-wider pb-3">Aperçu en Temps Réel</h3>
+                    <div className="p-4 rounded-xl bg-slate-50 dark:bg-white/2 border border-slate-200/60 dark:border-white/5 space-y-4">
+                      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                        <div className="flex items-center gap-3">
+                          <span className="w-8 h-8 rounded-lg bg-accent text-white flex items-center justify-center font-bold text-xs">AE</span>
+                          <div>
+                            <p className="text-xs font-bold text-slate-900 dark:text-white">Boutons & Éléments Interactifs</p>
+                            <p className="text-[10px] text-slate-500 dark:text-violet-400">Exemple de bouton principal dynamique</p>
+                          </div>
+                        </div>
+
+                        <div className="flex items-center gap-2">
+                          <button className="px-4 py-1.5 rounded-lg bg-accent text-white text-xs font-bold shadow-sm hover:opacity-90 transition-opacity">
+                            Bouton Principal
+                          </button>
+                          <button className="px-3 py-1.5 rounded-lg text-accent bg-accent-light/40 dark:bg-accent/15 hover:opacity-90 transition-opacity text-xs font-bold">
+                            Bouton Secondaire
+                          </button>
+                        </div>
+                      </div>
+
+                      <div className="grid grid-cols-3 gap-2 pt-2 border-t border-slate-100 dark:border-white/5">
+                        <div className="p-2.5 rounded-lg border-2 border-accent bg-accent-light/10 text-center">
+                          <span className="block text-xs font-extrabold text-accent">Actif</span>
+                        </div>
+                        <div className="p-2.5 rounded-lg border border-slate-200 dark:border-white/5 bg-white dark:bg-transparent text-center">
+                          <span className="block text-xs font-semibold text-slate-500 dark:text-violet-400">Inactif</span>
+                        </div>
+                        <div className="p-2.5 rounded-lg border border-slate-200 dark:border-white/5 bg-white dark:bg-transparent text-center flex items-center justify-center gap-1">
+                          <span className="w-1.5 h-1.5 rounded-full bg-accent animate-pulse"></span>
+                          <span className="text-[10px] text-slate-500 dark:text-violet-400">Statut</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Technical Information / Service Worker status */}
+                <div className="bg-white dark:bg-[#120F20] rounded-2xl border border-slate-200 dark:border-violet-500/10 p-6 shadow-sm space-y-4">
+                  <h3 className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                    <span className="text-base">⚙️</span> Informations Système & Hors-ligne
+                  </h3>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
+                    <div className="p-3 bg-slate-50 dark:bg-white/2 rounded-xl space-y-1">
+                      <span className="text-slate-500 dark:text-violet-300 block">Service Worker</span>
+                      <span className="text-emerald-600 dark:text-emerald-400 font-bold block">✓ Actif & Enregistré</span>
+                    </div>
+                    <div className="p-3 bg-slate-50 dark:bg-white/2 rounded-xl space-y-1">
+                      <span className="text-slate-500 dark:text-violet-300 block">Base Locale (Fallback)</span>
+                      <span className="text-slate-900 dark:text-white font-bold block">Synchronisée (LocalStorage)</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+          </motion.div>
         </main>
       </div>
 
@@ -471,6 +638,9 @@ export function App() {
           </div>
         </div>
       )}
+
+      {/* Offline Status Toast Indicator */}
+      <OfflineIndicator />
     </div>
   );
 }

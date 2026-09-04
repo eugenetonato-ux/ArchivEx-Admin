@@ -12,6 +12,7 @@ export const UeModal: React.FC<UeModalProps> = ({ isOpen, onClose, onSubmit }) =
   const [nom, setNom] = useState('');
   const [code, setCode] = useState('');
   const [semestre, setSemestre] = useState<Semestre>('S1');
+  const [couleur, setCouleur] = useState<string>('#5B3CC4');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
 
@@ -35,10 +36,12 @@ export const UeModal: React.FC<UeModalProps> = ({ isOpen, onClose, onSubmit }) =
       await onSubmit({
         nom: nom.trim(),
         code: code.trim().toUpperCase(),
-        semestre
+        semestre,
+        couleur
       });
       setNom('');
       setCode('');
+      setCouleur('#5B3CC4');
       onClose();
     } catch (err: unknown) {
       setErrorMsg(err instanceof Error ? err.message : "Erreur lors de la création de l'UE");
@@ -132,6 +135,64 @@ export const UeModal: React.FC<UeModalProps> = ({ isOpen, onClose, onSubmit }) =
                   Semestre {s}
                 </button>
               ))}
+            </div>
+          </div>
+
+          <div>
+            <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-700 mb-1">
+              Couleur de la carte (Code Hex) *
+            </label>
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+              <div className="flex flex-wrap gap-1.5 flex-1">
+                {[
+                  { hex: '#5B3CC4', label: 'Violet' },
+                  { hex: '#6366F1', label: 'Indigo' },
+                  { hex: '#EC4899', label: 'Rose' },
+                  { hex: '#EA580C', label: 'Orange' },
+                  { hex: '#059669', label: 'Vert' }
+                ].map((c) => (
+                  <button
+                    key={c.hex}
+                    type="button"
+                    id={`color-choice-${c.hex.replace('#', '')}`}
+                    onClick={() => setCouleur(c.hex)}
+                    style={{ borderColor: couleur === c.hex ? c.hex : 'transparent' }}
+                    className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl border text-[10px] font-bold transition-all cursor-pointer ${
+                      couleur === c.hex
+                        ? `ring-2 ring-slate-400/15 shadow-2xs`
+                        : 'border-slate-200 text-slate-600 bg-slate-50/60 hover:bg-slate-100'
+                    }`}
+                  >
+                    <span className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: c.hex }} />
+                    {c.label}
+                  </button>
+                ))}
+              </div>
+
+              {/* Custom hex/color input */}
+              <div className="flex items-center gap-2 border border-slate-200 bg-slate-50/60 p-1 rounded-xl shrink-0">
+                <div className="relative w-7 h-7 rounded-lg overflow-hidden border border-slate-200 cursor-pointer flex items-center justify-center bg-white">
+                  <input
+                    type="color"
+                    value={couleur}
+                    onChange={(e) => setCouleur(e.target.value)}
+                    className="absolute inset-0 w-full h-full p-0 border-0 cursor-pointer opacity-0"
+                  />
+                  <div className="w-5 h-5 rounded-md border border-slate-200/50" style={{ backgroundColor: couleur }} />
+                </div>
+                <input
+                  type="text"
+                  maxLength={7}
+                  value={couleur}
+                  onChange={(e) => {
+                    let val = e.target.value;
+                    if (!val.startsWith('#') && val.length > 0) val = '#' + val;
+                    setCouleur(val);
+                  }}
+                  className="w-16 text-center text-[10px] font-mono font-bold bg-transparent border-0 p-0 text-slate-800 uppercase focus:ring-0 focus:outline-hidden dark:text-white"
+                  placeholder="#Hex"
+                />
+              </div>
             </div>
           </div>
 

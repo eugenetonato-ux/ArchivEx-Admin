@@ -2,6 +2,9 @@
 
 @layer base {
   :root {
+    --accent-color: #5B3CC4;
+    --accent-color-hover: #4C2FB0;
+    --accent-color-light: #EDE9FE;
     --color-primary-violet: #5B3CC4;
     --color-primary-violet-hover: #4C2FB0;
     --color-violet-light: #EDE9FE;
@@ -14,6 +17,45 @@
     --color-text-main: #18181B;
     --color-text-muted: #71717A;
     --color-border: #E4E4E7;
+  }
+
+  /* Custom Dynamic Accent Utility Classes */
+  .bg-accent {
+    background-color: var(--accent-color) !important;
+  }
+  .bg-accent-hover:hover {
+    background-color: var(--accent-color-hover) !important;
+  }
+  .text-accent {
+    color: var(--accent-color) !important;
+  }
+  .text-accent-hover:hover {
+    color: var(--accent-color-hover) !important;
+  }
+  .border-accent {
+    border-color: var(--accent-color) !important;
+  }
+  .border-accent-hover {
+    border-color: var(--accent-color-hover) !important;
+  }
+  .border-accent-light {
+    border-color: var(--accent-color-light) !important;
+  }
+  .bg-accent-light {
+    background-color: var(--accent-color-light) !important;
+  }
+  .bg-accent-hover {
+    background-color: var(--accent-color-hover) !important;
+  }
+  .bg-accent-light-hover:hover {
+    background-color: var(--accent-color-light) !important;
+  }
+  .ring-accent {
+    --tw-ring-color: var(--accent-color) !important;
+    border-color: var(--accent-color) !important;
+  }
+  .shadow-accent {
+    --tw-shadow-color: var(--accent-color) !important;
   }
 
   body {
@@ -114,6 +156,14 @@
 
 .dark .text-slate-400 {
   color: #7A75B4 !important;
+}
+
+.dark .text-\[\#18181B\] {
+  color: #F5F3FF !important;
+}
+
+.dark .text-\[\#71717A\] {
+  color: #938FCA !important;
 }
 
 .dark .bg-slate-50 {

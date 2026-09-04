@@ -75,28 +75,9 @@ export const ActivityFeed: React.FC<ActivityFeedProps> = ({
       });
     }
 
-    // 4. Fill in high-fidelity realistic system logs if list is short to ensure premium visual structure
-    if (list.length < 5) {
-      list.push({
-        id: 'sys-log-1',
-        type: 'paiement',
-        title: 'Abonnement validé par l\'administration',
-        description: 'Le Pass Premium du Semestre 1 a été accordé avec succès à l\'étudiant Ange Koffi.',
-        timestamp: "Hier à 14:12",
-        icon: CheckCircle2,
-        iconBg: 'bg-emerald-500/10 border-emerald-500/20',
-        iconColor: 'text-emerald-400'
-      });
-      list.push({
-        id: 'sys-log-2',
-        type: 'user',
-        title: 'Nouveau compte étudiant créé',
-        description: 'Inscription validée de l\'étudiant Bakary Koné (FSEG / Licence 2).',
-        timestamp: "Hier à 11:20",
-        icon: UserCheck,
-        iconBg: 'bg-blue-500/10 border-blue-500/20',
-        iconColor: 'text-blue-400'
-      });
+    // 4. If list is empty, we show a clean real state placeholder instead of mock items
+    if (list.length === 0) {
+      return [];
     }
 
     // Sort or slice to exactly 5 elements for clean UI height matching
@@ -117,29 +98,37 @@ export const ActivityFeed: React.FC<ActivityFeedProps> = ({
 
       <div className="relative pl-4 space-y-4">
         {/* Continuous timeline vertical line */}
-        <div className="absolute left-[11px] top-2 bottom-2 w-0.5 bg-slate-100" />
+        {activities.length > 0 && (
+          <div className="absolute left-[11px] top-2 bottom-2 w-0.5 bg-slate-100" />
+        )}
 
-        {activities.map((act) => {
-          const IconComponent = act.icon;
-          return (
-            <div key={act.id} className="relative flex items-start gap-3 group">
-              {/* Timeline marker with colored glowing icon */}
-              <div className={`absolute -left-4 w-6 h-6 rounded-lg flex items-center justify-center border ${act.iconBg} backdrop-blur-xs z-10 transition-transform duration-200 group-hover:scale-110 shadow-3xs`}>
-                <IconComponent className={`w-3.5 h-3.5 ${act.iconColor}`} />
-              </div>
-
-              <div className="pl-5 space-y-0.5 flex-1 min-w-0">
-                <div className="flex items-baseline justify-between gap-2">
-                  <h4 className="text-xs font-bold text-slate-900 truncate tracking-tight">{act.title}</h4>
-                  <span className="text-[9px] font-medium text-slate-400 whitespace-nowrap shrink-0">{act.timestamp}</span>
+        {activities.length === 0 ? (
+          <div className="py-6 text-center text-slate-400 text-xs">
+            Aucun historique d'activité récent enregistré sur la console.
+          </div>
+        ) : (
+          activities.map((act) => {
+            const IconComponent = act.icon;
+            return (
+              <div key={act.id} className="relative flex items-start gap-3 group">
+                {/* Timeline marker with colored glowing icon */}
+                <div className={`absolute -left-4 w-6 h-6 rounded-lg flex items-center justify-center border ${act.iconBg} backdrop-blur-xs z-10 transition-transform duration-200 group-hover:scale-110 shadow-3xs`}>
+                  <IconComponent className={`w-3.5 h-3.5 ${act.iconColor}`} />
                 </div>
-                <p className="text-[11px] text-slate-500 leading-normal line-clamp-2">
-                  {act.description}
-                </p>
+
+                <div className="pl-5 space-y-0.5 flex-1 min-w-0">
+                  <div className="flex items-baseline justify-between gap-2">
+                    <h4 className="text-xs font-bold text-slate-900 truncate tracking-tight">{act.title}</h4>
+                    <span className="text-[9px] font-medium text-slate-400 whitespace-nowrap shrink-0">{act.timestamp}</span>
+                  </div>
+                  <p className="text-[11px] text-slate-500 leading-normal line-clamp-2">
+                    {act.description}
+                  </p>
+                </div>
               </div>
-            </div>
-          );
-        })}
+            );
+          })
+        )}
       </div>
     </div>
   );

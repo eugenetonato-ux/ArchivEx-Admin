@@ -25,34 +25,43 @@ export const EtudiantsPage: React.FC<EtudiantsPageProps> = ({
   return (
     <div id="etudiants-page-container" className="space-y-4">
       {/* Top metric overview cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-3.5">
-        <div className="bg-white p-3.5 rounded-xl border border-slate-200/90 shadow-2xs flex items-center justify-between">
-          <div>
-            <p className="text-[11px] font-semibold text-slate-500 uppercase">Total Inscrits</p>
-            <p className="text-xl sm:text-2xl font-black text-slate-900 mt-1">{profiles.length}</p>
-          </div>
-          <div className="w-7 h-7 rounded-md bg-[#EDE9FE] text-[#5B3CC4] flex items-center justify-center">
-            <Users className="w-3.5 h-3.5" />
-          </div>
-        </div>
-
-        <div className="bg-white p-3.5 rounded-xl border border-slate-200/90 shadow-2xs flex items-center justify-between">
-          <div>
-            <p className="text-[11px] font-semibold text-slate-500 uppercase">Abonnés Pass S1</p>
-            <p className="text-xl sm:text-2xl font-black text-slate-900 mt-1">{countS1}</p>
-          </div>
-          <div className="w-7 h-7 rounded-md bg-indigo-50 text-[#6366F1] flex items-center justify-center">
-            <ShieldCheck className="w-3.5 h-3.5" />
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3.5">
+        <div className="relative overflow-hidden bg-gradient-to-br from-[#1E1145] to-[#12082C] text-white p-4 rounded-xl border border-violet-500/20 shadow-md group hover:scale-[1.01] transition-transform duration-200">
+          <div className="absolute -right-6 -top-6 w-16 h-16 bg-violet-600/25 rounded-full blur-xl group-hover:bg-violet-600/40 transition-colors" />
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-[10px] font-bold text-violet-300 uppercase tracking-wider">Total Inscrits</p>
+              <p className="text-2xl font-black text-white mt-1.5">{profiles.length}</p>
+            </div>
+            <div className="w-9 h-9 rounded-xl bg-violet-500/20 text-violet-300 flex items-center justify-center border border-violet-500/30">
+              <Users className="w-4 h-4" />
+            </div>
           </div>
         </div>
 
-        <div className="bg-white p-3.5 rounded-xl border border-slate-200/90 shadow-2xs flex items-center justify-between">
-          <div>
-            <p className="text-[11px] font-semibold text-slate-500 uppercase">Abonnés Pass S2</p>
-            <p className="text-xl sm:text-2xl font-black text-slate-900 mt-1">{countS2}</p>
+        <div className="relative overflow-hidden bg-gradient-to-br from-[#101030] to-[#1D1D45] text-white p-4 rounded-xl border border-indigo-500/20 shadow-md group hover:scale-[1.01] transition-transform duration-200">
+          <div className="absolute -right-6 -top-6 w-16 h-16 bg-indigo-500/25 rounded-full blur-xl group-hover:bg-indigo-500/40 transition-colors" />
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-[10px] font-bold text-indigo-300 uppercase tracking-wider">Abonnés Pass S1</p>
+              <p className="text-2xl font-black text-white mt-1.5">{countS1}</p>
+            </div>
+            <div className="w-9 h-9 rounded-xl bg-indigo-500/20 text-indigo-300 flex items-center justify-center border border-indigo-500/30">
+              <ShieldCheck className="w-4 h-4" />
+            </div>
           </div>
-          <div className="w-7 h-7 rounded-md bg-emerald-50 text-[#10B981] flex items-center justify-center">
-            <ShieldCheck className="w-3.5 h-3.5" />
+        </div>
+
+        <div className="relative overflow-hidden bg-gradient-to-br from-[#062F20] to-[#0A4D34] text-white p-4 rounded-xl border border-emerald-500/25 shadow-md group hover:scale-[1.01] transition-transform duration-200">
+          <div className="absolute -right-6 -top-6 w-16 h-16 bg-emerald-500/25 rounded-full blur-xl group-hover:bg-emerald-500/40 transition-colors" />
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-[10px] font-bold text-emerald-300 uppercase tracking-wider">Abonnés Pass S2</p>
+              <p className="text-2xl font-black text-white mt-1.5">{countS2}</p>
+            </div>
+            <div className="w-9 h-9 rounded-xl bg-emerald-500/20 text-emerald-300 flex items-center justify-center border border-emerald-500/30">
+              <ShieldCheck className="w-4 h-4" />
+            </div>
           </div>
         </div>
       </div>
@@ -67,7 +76,7 @@ export const EtudiantsPage: React.FC<EtudiantsPageProps> = ({
             placeholder="Rechercher par nom ou e-mail..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full pl-8 pr-3 py-1.5 rounded-lg border border-slate-200 text-xs text-[#18181B] placeholder-slate-400 focus:outline-hidden focus:border-[#5B3CC4] focus:ring-2 focus:ring-[#5B3CC4]/15 transition-all bg-slate-50/60"
+            className="w-full pl-8 pr-3 py-1.5 rounded-lg border border-slate-200 text-xs text-slate-900 placeholder-slate-400 focus:outline-hidden focus:border-[#5B3CC4] focus:ring-2 focus:ring-[#5B3CC4]/15 transition-all bg-slate-50/60"
           />
         </div>
 
@@ -112,7 +121,7 @@ export const EtudiantsPage: React.FC<EtudiantsPageProps> = ({
                         {initials || 'ET'}
                       </div>
                       <div className="min-w-0">
-                        <p className="font-extrabold text-xs text-[#18181B] truncate">{p.full_name}</p>
+                        <p className="font-extrabold text-xs text-slate-900 truncate">{p.full_name}</p>
                         <p className="text-[10px] text-slate-400 truncate">{p.email}</p>
                       </div>
                     </div>
@@ -215,7 +224,7 @@ export const EtudiantsPage: React.FC<EtudiantsPageProps> = ({
                               {initials || 'ET'}
                             </div>
                             <div>
-                              <p className="font-bold text-xs text-[#18181B]">{p.full_name}</p>
+                              <p className="font-bold text-xs text-slate-900">{p.full_name}</p>
                               <p className="text-[11px] text-slate-400">{p.email}</p>
                             </div>
                           </div>

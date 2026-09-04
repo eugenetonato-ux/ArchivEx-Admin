@@ -35,6 +35,7 @@ export const UePage: React.FC<UePageProps> = ({
   const [localSearchQuery, setLocalSearchQuery] = useState('');
   const [deletingId, setDeletingId] = useState<string | null>(null);
   const [ueToDelete, setUeToDelete] = useState<UE | null>(null);
+  const [hoveredCardId, setHoveredCardId] = useState<string | null>(null);
 
   const searchQuery = globalSearchQuery !== undefined ? globalSearchQuery : localSearchQuery;
   const setSearchQuery = (val: string) => {
@@ -123,7 +124,7 @@ export const UePage: React.FC<UePageProps> = ({
               placeholder="Rechercher par code (ex: INF101) ou intitulé..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-8 pr-3 py-1.5 rounded-lg border border-slate-200 text-xs text-[#18181B] placeholder-slate-400 focus:outline-hidden focus:border-[#5B3CC4] focus:ring-2 focus:ring-[#5B3CC4]/15 transition-all bg-slate-50/60"
+              className="w-full pl-8 pr-3 py-1.5 rounded-lg border border-slate-200 text-xs text-slate-900 placeholder-slate-400 focus:outline-hidden focus:border-[#5B3CC4] focus:ring-2 focus:ring-[#5B3CC4]/15 transition-all bg-slate-50/60"
             />
           </div>
 
@@ -163,7 +164,28 @@ export const UePage: React.FC<UePageProps> = ({
       {/* Grid of UEs: Modern Square Cards with Abstract Academic Graphics */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3.5">
         {filteredUes.map((ue, index) => {
-          const theme = colorThemes[index % colorThemes.length];
+          // Resolve standard or custom hex colors
+          const resolveUeColor = (ueColor: string | undefined, fallbackIndex: number) => {
+            const colorMap: Record<string, string> = {
+              violet: '#5B3CC4',
+              indigo: '#6366F1',
+              rose: '#EC4899',
+              orange: '#EA580C',
+              vert: '#059669'
+            };
+
+            let hex = ueColor || '#5B3CC4';
+            if (colorMap[hex]) {
+              hex = colorMap[hex];
+            }
+            if (!hex.startsWith('#')) {
+              hex = '#' + hex;
+            }
+            return hex;
+          };
+
+          const colorHex = resolveUeColor(ue.couleur, index);
+          const isHovered = hoveredCardId === ue.id;
           const resCount = ressources.filter((r) => r.ue_id === ue.id).length;
           const epreuveCount = ressources.filter((r) => r.ue_id === ue.id && r.type === 'epreuve').length;
           const corrigeCount = ressources.filter((r) => r.ue_id === ue.id && r.type === 'corrige').length;
@@ -172,16 +194,32 @@ export const UePage: React.FC<UePageProps> = ({
           return (
             <div
               key={ue.id}
-              className={`bg-white rounded-xl border border-slate-200/90 shadow-2xs overflow-hidden transition-all duration-150 ${theme.borderHover} hover:border-slate-300 flex flex-col justify-between group`}
+              onMouseEnter={() => setHoveredCardId(ue.id)}
+              onMouseLeave={() => setHoveredCardId(null)}
+              style={{
+                borderTop: `3.5px solid ${colorHex}`,
+                borderColor: isHovered ? colorHex : undefined,
+                boxShadow: isHovered ? `0 10px 15px -3px ${colorHex}25, 0 4px 6px -4px ${colorHex}20` : undefined
+              }}
+              className="bg-white rounded-xl border border-slate-200/90 shadow-2xs overflow-hidden transition-all duration-200 flex flex-col justify-between group"
             >
               {/* Card top banner */}
-              <div className={`p-3.5 bg-gradient-to-br ${theme.headerGradient} border-b border-slate-100 relative overflow-hidden`}>
+              <div
+                style={{ backgroundImage: `linear-gradient(to bottom right, ${colorHex}15, ${colorHex}03, transparent)` }}
+                className="p-3.5 border-b border-slate-100 relative overflow-hidden"
+              >
                 <div className="flex items-center justify-between relative z-10">
                   <div className="flex items-center gap-2">
-                    <div className={`w-7 h-7 rounded-lg flex items-center justify-center font-bold shadow-2xs ${theme.iconBg}`}>
+                    <div
+                      style={{ backgroundColor: `${colorHex}15`, color: colorHex }}
+                      className="w-7 h-7 rounded-lg flex items-center justify-center font-bold shadow-2xs"
+                    >
                       <GraduationCap className="w-3.5 h-3.5" />
                     </div>
-                    <span className={`text-xs font-mono font-bold px-2 py-0.5 rounded-md border ${theme.badgeBg}`}>
+                    <span
+                      style={{ backgroundColor: `${colorHex}10`, color: colorHex, borderColor: `${colorHex}25` }}
+                      className="text-xs font-mono font-bold px-2 py-0.5 rounded-md border"
+                    >
                       {ue.code}
                     </span>
                   </div>
@@ -192,7 +230,10 @@ export const UePage: React.FC<UePageProps> = ({
                 </div>
 
                 <div className="mt-2.5 relative z-10">
-                  <h3 className="text-xs sm:text-sm font-bold text-[#18181B] leading-snug group-hover:text-[#5B3CC4] transition-colors line-clamp-1">
+                  <h3
+                    style={{ color: isHovered ? colorHex : undefined }}
+                    className="text-xs sm:text-sm font-bold text-slate-900 leading-snug transition-colors line-clamp-1"
+                  >
                     {ue.nom}
                   </h3>
                 </div>

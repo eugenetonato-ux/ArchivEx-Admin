@@ -136,7 +136,7 @@ export const RessourcesPage: React.FC<RessourcesPageProps> = ({
                 setSearchQuery(e.target.value);
                 setCurrentPage(1);
               }}
-              className="w-full pl-8 pr-3 py-1.5 rounded-lg border border-slate-200 text-xs text-[#18181B] placeholder-slate-400 focus:outline-hidden focus:border-[#5B3CC4] focus:ring-2 focus:ring-[#5B3CC4]/15 transition-all bg-slate-50/60"
+              className="w-full pl-8 pr-3 py-1.5 rounded-lg border border-slate-200 text-xs text-slate-900 placeholder-slate-400 focus:outline-hidden focus:border-[#5B3CC4] focus:ring-2 focus:ring-[#5B3CC4]/15 transition-all bg-slate-50/60"
             />
             {searchQuery && (
               <button
@@ -287,7 +287,7 @@ export const RessourcesPage: React.FC<RessourcesPageProps> = ({
                             <FileText className="w-3.5 h-3.5" />
                           </div>
                           <div>
-                            <p className="font-bold text-xs text-[#18181B] line-clamp-1 group-hover:text-[#5B3CC4] transition-colors">
+                            <p className="font-bold text-xs text-slate-900 line-clamp-1 group-hover:text-[#5B3CC4] transition-colors">
                               {r.titre}
                             </p>
                             <div className="flex items-center gap-1.5 mt-0.5">
@@ -314,7 +314,7 @@ export const RessourcesPage: React.FC<RessourcesPageProps> = ({
 
                       <td className="py-2.5 px-3 whitespace-nowrap">
                         <div>
-                          <span className="font-mono font-bold text-xs text-[#18181B]">
+                          <span className="font-mono font-bold text-xs text-slate-900">
                             {r.ue ? `[${r.ue.code}]` : 'N/A'}
                           </span>
                           <span className="inline-block ml-1.5 text-[9px] font-bold uppercase px-1 py-0.2 rounded bg-slate-100 text-slate-600">
@@ -324,7 +324,7 @@ export const RessourcesPage: React.FC<RessourcesPageProps> = ({
                       </td>
 
                       <td className="py-2.5 px-3 whitespace-nowrap">
-                        <span className="text-xs font-bold text-[#18181B]">{r.annee}</span>
+                        <span className="text-xs font-bold text-slate-900">{r.annee}</span>
                         {r.session && (
                           <span className="text-[10px] text-slate-400 ml-1">({r.session})</span>
                         )}
@@ -428,7 +428,7 @@ export const RessourcesPage: React.FC<RessourcesPageProps> = ({
                   <FileText className="w-5 h-5" />
                 </div>
                 <div>
-                  <h3 className="font-extrabold text-[#18181B] text-base">{selectedPreview.titre}</h3>
+                  <h3 className="font-extrabold text-slate-900 text-base">{selectedPreview.titre}</h3>
                   <p className="text-xs text-[#71717A]">
                     {selectedPreview.ue ? `[${selectedPreview.ue.code}] ${selectedPreview.ue.nom}` : 'UE'}
                   </p>
@@ -436,7 +436,7 @@ export const RessourcesPage: React.FC<RessourcesPageProps> = ({
               </div>
               <button
                 onClick={() => setSelectedPreview(null)}
-                className="text-[#71717A] hover:text-[#18181B] p-1.5 rounded-xl hover:bg-slate-100"
+                className="text-slate-500 hover:text-slate-900 p-1.5 rounded-xl hover:bg-slate-100"
               >
                 ✕
               </button>
@@ -474,7 +474,7 @@ export const RessourcesPage: React.FC<RessourcesPageProps> = ({
             <div className="flex items-center justify-end gap-3 pt-2">
               <button
                 onClick={() => setSelectedPreview(null)}
-                className="px-4 py-2 text-xs font-bold text-[#71717A] hover:text-[#18181B] rounded-xl hover:bg-slate-100"
+                className="px-4 py-2 text-xs font-bold text-slate-500 hover:text-slate-900 rounded-xl hover:bg-slate-100"
               >
                 Fermer
               </button>

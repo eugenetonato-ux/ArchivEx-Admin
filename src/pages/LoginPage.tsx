@@ -188,21 +188,9 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
             </button>
           </form>
 
-          {/* Quick Demo Access Trigger Block */}
-          <div className="pt-4 border-t border-white/20 mt-4 space-y-2">
-            <div className="flex items-center justify-between">
-              <span className="text-[10px] text-white/80 font-bold drop-shadow-2xs">Remplissage rapide :</span>
-              <span className="text-[9px] font-black uppercase bg-white/20 text-white px-1.5 py-0.5 rounded-sm">Rôle Admin</span>
-            </div>
-            <button
-              type="button"
-              id="demo-autofill-btn"
-              onClick={handleDemoFill}
-              className="w-full py-2 bg-white/10 hover:bg-white/15 border border-white/20 rounded-xl text-xs font-bold text-white transition-all flex items-center justify-center gap-1.5 cursor-pointer"
-            >
-              <Sparkles className="w-3.5 h-3.5 text-white animate-pulse" />
-              Saisie automatique des identifiants
-            </button>
+          {/* Form Actions footer */}
+          <div className="pt-4 border-t border-white/20 mt-4 text-center">
+            <span className="text-[10px] text-white/80 font-bold drop-shadow-2xs">ArchivEx Console de Supervision</span>
           </div>
         </div>
 

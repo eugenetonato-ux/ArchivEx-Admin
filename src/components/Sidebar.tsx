@@ -13,13 +13,14 @@ import {
   BookOpen,
   ChevronRight,
   ExternalLink,
-  Layers
+  Layers,
+  Settings
 } from 'lucide-react';
 import { AdminUser } from '../types';
 
 interface SidebarProps {
-  activeTab: 'dashboard' | 'ressources' | 'ue' | 'paiements' | 'etudiants';
-  setActiveTab: (tab: 'dashboard' | 'ressources' | 'ue' | 'paiements' | 'etudiants') => void;
+  activeTab: 'dashboard' | 'ressources' | 'ue' | 'paiements' | 'etudiants' | 'settings';
+  setActiveTab: (tab: 'dashboard' | 'ressources' | 'ue' | 'paiements' | 'etudiants' | 'settings') => void;
   pendingPaymentsCount: number;
   currentUser: AdminUser | null;
   onLogout: () => void;
@@ -71,6 +72,12 @@ export const Sidebar: React.FC<SidebarProps> = ({
       label: 'Étudiants & Accès',
       icon: Users,
       badge: null
+    },
+    {
+      id: 'settings' as const,
+      label: 'Paramètres',
+      icon: Settings,
+      badge: null
     }
   ];
 
@@ -89,15 +96,15 @@ export const Sidebar: React.FC<SidebarProps> = ({
         id="app-sidebar"
         onMouseEnter={onMouseEnter}
         onMouseLeave={onMouseLeave}
-        className={`fixed top-0 left-0 bottom-0 z-50 w-72 bg-[#5B3CC4] text-white flex flex-col border-r border-[#4C2FB0] shadow-2xl transition-transform duration-200 ease-out lg:translate-x-0 ${
+        className={`fixed top-0 left-0 bottom-0 z-50 w-72 bg-accent text-white flex flex-col border-r border-accent-hover shadow-2xl transition-transform duration-200 ease-out lg:translate-x-0 ${
           isOpenMobile ? 'translate-x-0' : '-translate-x-full'
         }`}
       >
         {/* Brand Header */}
-        <div className="px-6 py-5 border-b border-[#4C2FB0] bg-[#5334B8] flex items-center justify-between">
+        <div className="px-6 py-5 border-b border-accent-hover bg-accent-hover flex items-center justify-between">
           <div className="flex items-center space-x-3">
-            <div className="w-10 h-10 rounded-xl bg-white text-[#5B3CC4] flex items-center justify-center font-bold shadow-md shadow-[#4C2FB0]/40 border border-white/20">
-              <ShieldCheck className="w-5 h-5 text-[#5B3CC4]" />
+            <div className="w-10 h-10 rounded-xl bg-white text-accent flex items-center justify-center font-bold shadow-md border border-white/20">
+              <ShieldCheck className="w-5 h-5 text-accent" />
             </div>
             <div>
               <div className="flex items-center gap-1.5">
@@ -112,7 +119,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
           <button
             id="close-mobile-sidebar-btn"
             onClick={onCloseMobile}
-            className="p-1.5 rounded-lg text-violet-200 hover:text-white hover:bg-[#4C2FB0] transition-colors"
+            className="p-1.5 rounded-lg text-violet-200 hover:text-white hover:bg-accent-hover transition-colors"
           >
             <X className="w-5 h-5" />
           </button>
@@ -138,14 +145,14 @@ export const Sidebar: React.FC<SidebarProps> = ({
                   }}
                   className={`w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl font-medium text-sm transition-all duration-150 group ${
                     isActive
-                      ? 'bg-white text-[#5B3CC4] shadow-md shadow-violet-950/20 font-bold'
-                      : 'text-violet-100 hover:text-white hover:bg-[#4C2FB0]'
+                      ? 'bg-white text-accent shadow-md shadow-slate-900/10 font-bold'
+                      : 'text-violet-100 hover:text-white hover:bg-accent-hover'
                   }`}
                 >
                   <div className="flex items-center gap-3">
                     <Icon
                       className={`w-4 h-4 transition-colors ${
-                        isActive ? 'text-[#5B3CC4]' : 'text-violet-200 group-hover:text-white'
+                        isActive ? 'text-accent' : 'text-violet-200 group-hover:text-white'
                       }`}
                     />
                     <span>{item.label}</span>
@@ -159,7 +166,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
                       {item.badge}
                     </span>
                   ) : (
-                    isActive && <ChevronRight className="w-4 h-4 text-[#5B3CC4] opacity-80" />
+                    isActive && <ChevronRight className="w-4 h-4 text-accent opacity-80" />
                   )}
                 </button>
               );
@@ -168,7 +175,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
 
           {/* Academic Architecture Status */}
           <div className="pt-1">
-            <div className="p-3 rounded-xl bg-[#4C2FB0] border border-[#3E2494] text-xs text-violet-100 flex items-center justify-between">
+            <div className="p-3 rounded-xl bg-black/15 border border-white/10 text-xs text-violet-100 flex items-center justify-between">
               <div className="flex items-center gap-2 font-medium text-white text-xs">
                 <Database className="w-3.5 h-3.5 text-violet-200" />
                 <span>Base Pédagogique</span>
@@ -181,11 +188,11 @@ export const Sidebar: React.FC<SidebarProps> = ({
           </div>
         </div>
 
-        {/* User profile & logout bottom card */}
-        <div className="p-4 border-t border-[#3E2494] bg-[#4527A0]">
+        {/* User profile & logout bottom card with dynamic black opacity overlay */}
+        <div className="p-4 border-t border-white/10 bg-black/20">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3 min-w-0">
-              <div className="w-9 h-9 rounded-xl bg-white text-[#5B3CC4] flex items-center justify-center font-bold text-sm shadow-xs border border-white/20 shrink-0">
+              <div className="w-9 h-9 rounded-xl bg-white text-accent flex items-center justify-center font-bold text-sm shadow-xs border border-white/20 shrink-0">
                 {currentUser?.name ? currentUser.name.charAt(0) : 'A'}
               </div>
               <div className="truncate">
@@ -197,7 +204,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
               id="sidebar-logout-button"
               onClick={onLogout}
               title="Déconnexion"
-              className="p-2 rounded-xl text-violet-200 hover:text-white hover:bg-[#5B3CC4] transition-colors shrink-0"
+              className="p-2 rounded-xl text-violet-200 hover:text-white hover:bg-white/15 transition-colors shrink-0"
             >
               <LogOut className="w-4 h-4" />
             </button>

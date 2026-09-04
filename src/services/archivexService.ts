@@ -182,7 +182,8 @@ class ArchivexService {
       id: 'ue-' + Math.random().toString(36).substring(2, 9),
       nom: data.nom.trim(),
       code: data.code.trim().toUpperCase(),
-      semestre: data.semestre
+      semestre: data.semestre,
+      couleur: data.couleur
     };
 
     if (this.isUsingSupabase && this.supabaseClient) {

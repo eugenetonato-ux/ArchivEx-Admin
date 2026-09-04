@@ -11,6 +11,7 @@ export interface UE {
   nom: string;
   code: string;
   semestre: Semestre;
+  couleur?: string;
 }
 
 export interface Ressource {

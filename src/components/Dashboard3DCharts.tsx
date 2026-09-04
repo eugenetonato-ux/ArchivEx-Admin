@@ -235,9 +235,6 @@ export const Dashboard3DCharts: React.FC<Dashboard3DChartsProps> = ({ stats, rec
                   {stats.totalRessources} fichier{stats.totalRessources > 1 ? 's' : ''} en ligne
                 </span>
               </div>
-              <p className="text-[11px] text-violet-200/60 leading-relaxed">
-                <strong>Rôle :</strong> Affiche la proportion de chaque type de document disponible (épreuves, corrigés officiels ou fiches de résumés). Idéal pour analyser l'équilibre de votre catalogue académique.
-              </p>
             </div>
 
             {/* 3D Ring SVG Canvas */}
@@ -506,9 +503,6 @@ export const Dashboard3DCharts: React.FC<Dashboard3DChartsProps> = ({ stats, rec
                   {stats.totalUe} matières actives
                 </span>
               </div>
-              <p className="text-[11px] text-violet-200/60 leading-relaxed">
-                <strong>Rôle :</strong> Permet de surveiller et comparer d'un coup d'œil le volume d'épreuves, de corrigés et de résumés par rapport aux matières actives du semestre 1, semestre 2, ainsi que le nombre d'étudiants ayant souscrit à un Pass payant.
-              </p>
             </div>
 
             {/* 3D Bar SVG Canvas */}
