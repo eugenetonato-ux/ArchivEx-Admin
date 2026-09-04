@@ -1,10 +1,42 @@
 <div class="charts-grid-container">
-  <!-- Chart 1: Line Chart - Platform Consultations & Downloads -->
+  <!-- Top Bar Controls: 3D / 2D Toggle & Info Badge -->
+  <div class="charts-mode-header">
+    <div class="mode-info">
+      <span class="badge-3d-pulse">
+        <span class="pulse-dot"></span>
+        3D WebGL Render Engine
+      </span>
+      <span class="mode-desc">Graphiques tridimensionnels interactifs avec ombrages physiques & raytracing</span>
+    </div>
+
+    <div class="mode-actions">
+      <button
+        class="mode-toggle-btn"
+        [class.active]="viewMode() === '3d'"
+        (click)="toggleViewMode('3d')">
+        <ion-icon name="cube-outline"></ion-icon>
+        Vue 3D WebGL
+      </button>
+
+      <button
+        class="mode-toggle-btn"
+        [class.active]="viewMode() === '2d'"
+        (click)="toggleViewMode('2d')">
+        <ion-icon name="stats-chart-outline"></ion-icon>
+        Vue 2D Plat
+      </button>
+    </div>
+  </div>
+
+  <!-- Chart 1: Main Line / Area Chart - Consultations & Downloads -->
   <div class="chart-card main-chart-card">
     <div class="chart-header">
       <div class="chart-titles">
-        <h3 class="chart-title">📊 Évolution de l'Activité & Consultations</h3>
-        <p class="chart-subtitle">Volume de consultations de fiches et téléchargements PDF</p>
+        <h3 class="chart-title">
+          <ion-icon name="analytics-outline" class="title-icon"></ion-icon>
+          Évolution de l'Activité & Consultations 3D
+        </h3>
+        <p class="chart-subtitle">Volume de consultations de fiches et téléchargements PDF (Rendu 3D temps réel)</p>
       </div>
 
       <!-- Time Range Selector Pills -->
@@ -30,53 +62,89 @@
       </div>
     </div>
 
-    <div class="chart-body line-chart-body">
-      <canvas
-        baseChart
-        [data]="lineChartData"
-        [options]="lineChartOptions"
-        [type]="'line'">
-      </canvas>
+    <div class="chart-body line-chart-body" [class.hidden]="viewMode() === '2d'">
+      <div class="canvas-3d-wrapper" (mousemove)="on3DLineMouseMove($event)" (mouseleave)="hover3dTooltip = null">
+        <canvas #line3DCanvas class="canvas-3d"></canvas>
+        <div class="three-hint-tag">
+          <ion-icon name="hand-draw-outline"></ion-icon> Survolez pour inspecter en 3D
+        </div>
+      </div>
+    </div>
+
+    <div class="chart-body line-chart-body" [class.hidden]="viewMode() === '3d'">
+      <canvas #lineCanvas></canvas>
     </div>
   </div>
 
   <div class="charts-row-split">
-    <!-- Chart 2: Doughnut Chart - Resource Type Breakdown -->
+    <!-- Chart 2: 3D Doughnut / Torus Chart - Resource Breakdown -->
     <div class="chart-card doughnut-card">
       <div class="chart-header">
         <div class="chart-titles">
-          <h3 class="chart-title">📑 Répartition des Documents</h3>
-          <p class="chart-subtitle">Part épreuves vs corrigés & résumés premium</p>
+          <h3 class="chart-title">
+            <ion-icon name="pie-chart-outline" class="title-icon"></ion-icon>
+            Répartition 3D des Documents
+          </h3>
+          <p class="chart-subtitle">Anneau tridimensionnel (Épreuves vs Corrigés Pass)</p>
         </div>
       </div>
 
-      <div class="chart-body doughnut-chart-body">
-        <canvas
-          baseChart
-          [data]="doughnutChartData"
-          [options]="doughnutChartOptions"
-          [type]="'doughnut'">
-        </canvas>
+      <div class="chart-body doughnut-chart-body" [class.hidden]="viewMode() === '2d'">
+        <div class="canvas-3d-wrapper" (mousemove)="on3DDoughnutMouseMove($event)" (mouseleave)="hover3dTooltip = null">
+          <canvas #doughnut3DCanvas class="canvas-3d"></canvas>
+        </div>
+        <div class="legend-3d-pills">
+          <span class="leg-pill free"><span class="leg-dot"></span> Épreuves (50%)</span>
+          <span class="leg-pill pass"><span class="leg-dot"></span> Corrigés Pass (32%)</span>
+          <span class="leg-pill fiches"><span class="leg-dot"></span> Fiches (18%)</span>
+        </div>
+      </div>
+
+      <div class="chart-body doughnut-chart-body" [class.hidden]="viewMode() === '3d'">
+        <canvas #doughnutCanvas></canvas>
       </div>
     </div>
 
-    <!-- Chart 3: Bar Chart - Revenues per Payment Gateway -->
+    <!-- Chart 3: 3D Bar Chart - Revenue per Gateway -->
     <div class="chart-card bar-card">
       <div class="chart-header">
         <div class="chart-titles">
-          <h3 class="chart-title">💳 Recettes par Canal de Paiement</h3>
-          <p class="chart-subtitle">MoMo, Moov Money, Celtiis et Wave</p>
+          <h3 class="chart-title">
+            <ion-icon name="bar-chart-outline" class="title-icon"></ion-icon>
+            Recettes 3D par Canal de Paiement
+          </h3>
+          <p class="chart-subtitle">Colonnes prismatiques 3D (MoMo, Moov, Celtiis, Wave)</p>
         </div>
       </div>
 
-      <div class="chart-body bar-chart-body">
-        <canvas
-          baseChart
-          [data]="barChartData"
-          [options]="barChartOptions"
-          [type]="'bar'">
-        </canvas>
+      <div class="chart-body bar-chart-body" [class.hidden]="viewMode() === '2d'">
+        <div class="canvas-3d-wrapper" (mousemove)="on3DBarMouseMove($event)" (mouseleave)="hover3dTooltip = null">
+          <canvas #bar3DCanvas class="canvas-3d"></canvas>
+        </div>
+        <div class="legend-3d-pills">
+          <span class="leg-pill momo"><span class="leg-dot"></span> MTN MoMo</span>
+          <span class="leg-pill moov"><span class="leg-dot"></span> Moov Money</span>
+          <span class="leg-pill celtiis"><span class="leg-dot"></span> Celtiis Cash</span>
+          <span class="leg-pill wave"><span class="leg-dot"></span> Carte / Wave</span>
+        </div>
       </div>
+
+      <div class="chart-body bar-chart-body" [class.hidden]="viewMode() === '3d'">
+        <canvas #barCanvas></canvas>
+      </div>
+    </div>
+  </div>
+
+  <!-- Interactive Floating 3D Tooltip -->
+  <div
+    *ngIf="hover3dTooltip"
+    class="tooltip-3d-floating"
+    [style.left.px]="hover3dTooltip.x"
+    [style.top.px]="hover3dTooltip.y">
+    <div class="tooltip-badge" [style.background-color]="hover3dTooltip.color"></div>
+    <div class="tooltip-content">
+      <span class="tooltip-title">{{ hover3dTooltip.title }}</span>
+      <span class="tooltip-val">{{ hover3dTooltip.value }}</span>
     </div>
   </div>
 </div>

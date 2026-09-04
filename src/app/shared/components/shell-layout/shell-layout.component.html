@@ -1,14 +1,12 @@
-<div class="shell-container" [class.collapsed]="sidebarCollapsed()" [class.mobile-open]="mobileMenuOpen()">
+<div class="shell-container" [class.mobile-open]="mobileMenuOpen()">
   <!-- Backdrop Overlay for Mobile Screen -->
   <div class="mobile-backdrop" (click)="closeMobileMenu()"></div>
 
   <!-- Integrated Standalone Responsive Sidebar Component -->
   <app-sidebar-nav
     class="sidebar-host"
-    [collapsed]="sidebarCollapsed()"
     [currentUserEmail]="authSvc.currentUser()?.email || 'admin@archivex.univ.bj'"
     [pendingPaiementsCount]="pendingPaiementsCount()"
-    (toggleCollapse)="toggleSidebar()"
     (linkClick)="closeMobileMenu()"
     (logout)="logout()">
   </app-sidebar-nav>
@@ -18,26 +16,11 @@
     <!-- Remodeled High-End Top Bar / Navbar -->
     <header class="admin-topbar">
       <div class="topbar-left">
-        <!-- 3-Dots / Hamburger Menu Toggle Button in Navbar -->
-        <button
-          class="topbar-three-dots-btn desktop-only"
-          (click)="toggleSidebar()"
-          [title]="sidebarCollapsed() ? 'Déplier la barre latérale' : 'Réduire la barre latérale'">
-          <div class="dots-stack">
-            <span class="p-dot"></span>
-            <span class="p-dot"></span>
-            <span class="p-dot"></span>
-          </div>
-        </button>
-
-        <button class="mobile-toggle-btn mobile-only" (click)="toggleMobileMenu()" title="Ouvrir le menu navigation">
-          <ion-icon name="menu-outline"></ion-icon>
-        </button>
-
-        <div class="title-meta-wrap">
+        <div class="brand-badge-pill" (click)="toggleMobileMenu()">
           <span class="app-tag">ARCHIVEX SYSTEM</span>
-          <h1 class="page-title">{{ pageTitle }}</h1>
         </div>
+
+        <h1 class="page-title">{{ pageTitle }}</h1>
       </div>
 
       <div class="topbar-right">

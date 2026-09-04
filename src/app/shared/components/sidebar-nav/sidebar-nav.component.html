@@ -1,11 +1,5 @@
-<aside
-  class="admin-sidebar-inner"
-  [class.is-collapsed]="collapsed && !hoverExpanded()"
-  [class.is-hover-expanded]="collapsed && hoverExpanded()"
-  (mouseenter)="onMouseEnter()"
-  (mouseleave)="onMouseLeave()">
-
-  <!-- Sidebar Header with Brand & 3-Dots Hamburger Menu Trigger -->
+<aside class="admin-sidebar-inner">
+  <!-- Sidebar Header with Brand -->
   <div class="sidebar-header">
     <div class="brand-logo" routerLink="/dashboard" (click)="onNavItemClick()">
       <div class="logo-icon">
@@ -17,19 +11,7 @@
       </div>
     </div>
 
-    <!-- Stylish 3-Dots Hamburger Menu Toggle Button -->
-    <button
-      class="three-dots-toggle-btn desktop-only"
-      (click)="onCollapseToggle()"
-      (mouseenter)="onMouseEnter()"
-      [title]="collapsed ? 'Déplier le menu (Survoler ou Cliquer)' : 'Réduire le menu'">
-      <div class="dots-wrapper">
-        <span class="dot"></span>
-        <span class="dot"></span>
-        <span class="dot"></span>
-      </div>
-    </button>
-
+    <!-- Mobile Close Button (Mobile Only) -->
     <button
       class="close-mobile-btn mobile-only"
       (click)="onNavItemClick()"
@@ -51,8 +33,7 @@
             [routerLink]="item.url"
             routerLinkActive="active"
             (click)="onNavItemClick()"
-            class="nav-link"
-            [title]="collapsed && !hoverExpanded() ? item.title : ''">
+            class="nav-link">
 
             <div class="icon-glow-wrap">
               <ion-icon [name]="item.icon" class="nav-icon"></ion-icon>
@@ -66,11 +47,6 @@
               class="nav-badge">
               {{ item.badge }}
             </ion-badge>
-
-            <!-- Tooltip preview when collapsed -->
-            <div class="collapsed-tooltip">
-              {{ item.title }}
-            </div>
           </a>
         </li>
       </ul>

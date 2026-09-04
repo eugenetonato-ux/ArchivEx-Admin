@@ -1,7 +1,6 @@
 $sidebar-width: 270px;
-$sidebar-collapsed-width: 80px;
 $topbar-height: 68px;
-$transition-speed: 0.32s;
+$transition-speed: 0.3s;
 $cubic-ease: cubic-bezier(0.16, 1, 0.3, 1);
 
 $topbar-bg-light: rgba(255, 255, 255, 0.88);
@@ -25,7 +24,7 @@ $topbar-bg-light: rgba(255, 255, 255, 0.88);
 }
 
 // ------------------------------------
-// MAIN CONTENT WRAPPER & REMODELED TOPBAR
+// MAIN CONTENT WRAPPER & TOPBAR
 // ------------------------------------
 .admin-main-wrapper {
   flex: 1;
@@ -43,7 +42,7 @@ $topbar-bg-light: rgba(255, 255, 255, 0.88);
   align-items: center;
   justify-content: space-between;
   background: var(--ion-card-background, $topbar-bg-light);
-  border-bottom: 2px solid rgba(91, 60, 196, 0.15);
+  border-bottom: 1px solid rgba(91, 60, 196, 0.12);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   z-index: 90;
@@ -52,79 +51,36 @@ $topbar-bg-light: rgba(255, 255, 255, 0.88);
   .topbar-left {
     display: flex;
     align-items: center;
-    gap: 18px;
+    gap: 16px;
 
-    // Stylish 3-Dots Button in Navbar
-    .topbar-three-dots-btn {
-      background: var(--ion-color-step-100, #f1f5f9);
-      border: 1px solid var(--ion-color-step-200, rgba(0, 0, 0, 0.08));
-      padding: 8px 10px;
-      border-radius: 12px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+    .brand-badge-pill {
+      background: linear-gradient(135deg, rgba(91, 60, 196, 0.1) 0%, rgba(139, 92, 246, 0.05) 100%);
+      border: 1px solid rgba(91, 60, 196, 0.2);
+      padding: 4px 10px;
+      border-radius: 20px;
       cursor: pointer;
-      transition: all 0.25s $cubic-ease;
-
-      .dots-stack {
-        display: flex;
-        gap: 4px;
-        align-items: center;
-
-        .p-dot {
-          width: 5px;
-          height: 5px;
-          border-radius: 50%;
-          background: var(--ion-color-primary, #5b3cc4);
-          transition: all 0.25s $cubic-ease;
-        }
-      }
-
-      &:hover {
-        background: linear-gradient(135deg, var(--ion-color-primary, #5b3cc4) 0%, #8b5cf6 100%);
-        box-shadow: 0 4px 14px rgba(91, 60, 196, 0.35);
-        transform: scale(1.08);
-
-        .p-dot {
-          background-color: #ffffff;
-          box-shadow: 0 0 6px rgba(255, 255, 255, 0.9);
-
-          &:nth-child(2) {
-            transform: scale(1.3);
-          }
-        }
-      }
-    }
-
-    .mobile-toggle-btn {
-      background: none;
-      border: none;
-      font-size: 1.6rem;
-      color: var(--ion-text-color, #1e293b);
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-    }
-
-    .title-meta-wrap {
-      display: flex;
-      flex-direction: column;
+      transition: all 0.22s ease;
 
       .app-tag {
-        font-size: 0.62rem;
+        font-size: 0.65rem;
         font-weight: 800;
         letter-spacing: 1.2px;
         color: var(--ion-color-primary, #5b3cc4);
         text-transform: uppercase;
       }
 
-      .page-title {
-        font-size: 1.3rem;
-        font-weight: 800;
-        letter-spacing: -0.4px;
-        margin: 0;
-        color: var(--ion-text-color, #0f172a);
+      &:hover {
+        background: var(--ion-color-primary, #5b3cc4);
+        .app-tag { color: #ffffff; }
       }
+    }
+
+    .page-title {
+      font-size: 1.32rem;
+      font-weight: 800;
+      letter-spacing: -0.4px;
+      margin: 0;
+      color: var(--ion-text-color, #0f172a);
     }
   }
 

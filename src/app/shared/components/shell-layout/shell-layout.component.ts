@@ -26,7 +26,6 @@ import { ShortcutsModalComponent } from '../shortcuts-modal/shortcuts-modal.comp
 export class ShellLayoutComponent implements OnInit {
   @Input() pageTitle = 'Dashboard Admin';
 
-  sidebarCollapsed = signal<boolean>(false);
   mobileMenuOpen = signal<boolean>(false);
   pendingPaiementsCount = signal<number>(3);
 
@@ -46,10 +45,6 @@ export class ShellLayoutComponent implements OnInit {
     } catch {
       // Keep default fallback count
     }
-  }
-
-  toggleSidebar() {
-    this.sidebarCollapsed.update(val => !val);
   }
 
   toggleMobileMenu() {
