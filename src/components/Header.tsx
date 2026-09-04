@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Menu, Plus, RefreshCw, Sparkles, Bell, CheckCircle2, Clock, Search, X, Sun, Moon } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { Menu, Plus, RefreshCw, Sparkles, Bell, CheckCircle2, Clock, Search, X, Sun, Moon, Maximize2, Minimize2 } from 'lucide-react';
 
 interface HeaderProps {
   title: string;
@@ -33,6 +33,27 @@ export const Header: React.FC<HeaderProps> = ({
   onToggleDarkMode
 }) => {
   const [isRefreshing, setIsRefreshing] = useState(false);
+  const [isFullscreen, setIsFullscreen] = useState(false);
+
+  useEffect(() => {
+    const handleFullscreenChange = () => {
+      setIsFullscreen(!!document.fullscreenElement);
+    };
+    document.addEventListener('fullscreenchange', handleFullscreenChange);
+    return () => {
+      document.removeEventListener('fullscreenchange', handleFullscreenChange);
+    };
+  }, []);
+
+  const toggleFullscreen = () => {
+    if (!document.fullscreenElement) {
+      document.documentElement.requestFullscreen().catch((err) => {
+        console.error(`Erreur d'activation du plein écran : ${err.message}`);
+      });
+    } else {
+      document.exitFullscreen();
+    }
+  };
 
   const handleRefreshClick = () => {
     if (onRefresh) {
@@ -108,6 +129,20 @@ export const Header: React.FC<HeaderProps> = ({
             <Sun className="w-4 h-4 text-amber-300" />
           ) : (
             <Moon className="w-4 h-4 text-violet-100" />
+          )}
+        </button>
+
+        {/* Fullscreen Toggle */}
+        <button
+          id="header-fullscreen-toggle"
+          onClick={toggleFullscreen}
+          title={isFullscreen ? 'Quitter le plein écran' : 'Passer en plein écran'}
+          className="p-1.5 rounded-lg text-white/90 hover:text-white hover:bg-white/15 transition-all flex items-center justify-center cursor-pointer active:scale-95 shadow-2xs"
+        >
+          {isFullscreen ? (
+            <Minimize2 className="w-4 h-4 text-violet-100" />
+          ) : (
+            <Maximize2 className="w-4 h-4 text-violet-100" />
           )}
         </button>
 

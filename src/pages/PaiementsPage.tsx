@@ -223,93 +223,176 @@ export const PaiementsPage: React.FC<PaiementsPageProps> = ({
             </p>
           </div>
         ) : (
-          <div className="overflow-x-auto">
-            <table id="paiements-table" className="w-full text-left text-xs">
-              <thead className="bg-slate-50/80 text-slate-500 uppercase text-[10px] font-bold tracking-wider border-b border-slate-200">
-                <tr>
-                  <th className="py-2.5 px-3 sm:px-4">Étudiant</th>
-                  <th className="py-2.5 px-3">Pass</th>
-                  <th className="py-2.5 px-3">Montant</th>
-                  <th className="py-2.5 px-3">Référence</th>
-                  <th className="py-2.5 px-3">Date</th>
-                  <th className="py-2.5 px-3">Statut</th>
-                  <th className="py-2.5 px-3 text-right">Actions</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-slate-100">
-                {filtered.map((p) => {
-                  const dateStr = new Date(p.created_at).toLocaleDateString('fr-FR', {
-                    day: 'numeric',
-                    month: 'short',
-                    year: 'numeric'
-                  });
+          <>
+            {/* 1. Mobile Cards View (Hidden on Tablet/Desktop, perfect for portrait and landscape phones) */}
+            <div className="block md:hidden divide-y divide-slate-100">
+              {filtered.map((p) => {
+                const dateStr = new Date(p.created_at).toLocaleDateString('fr-FR', {
+                  day: 'numeric',
+                  month: 'short',
+                  year: 'numeric'
+                });
 
-                  return (
-                    <tr key={p.id} className="hover:bg-slate-50/80 transition-colors">
-                      <td className="py-2.5 px-3 sm:px-4">
-                        <div className="flex items-center gap-2">
-                          <div className="w-7 h-7 rounded-lg bg-[#EDE9FE] text-[#5B3CC4] flex items-center justify-center font-bold text-xs shrink-0 border border-[#5B3CC4]/15">
-                            {p.profile?.full_name ? p.profile.full_name.charAt(0) : 'E'}
-                          </div>
-                          <div>
-                            <p className="font-bold text-xs text-[#18181B]">{p.profile?.full_name || 'Étudiant'}</p>
-                            <p className="text-[11px] text-slate-400">{p.profile?.email || 'N/A'}</p>
-                          </div>
+                return (
+                  <div key={p.id} className="p-4 space-y-3.5 hover:bg-slate-50/50 transition-colors">
+                    {/* Student Info & Status */}
+                    <div className="flex items-start justify-between gap-2">
+                      <div className="flex items-center gap-2">
+                        <div className="w-8 h-8 rounded-lg bg-[#EDE9FE] text-[#5B3CC4] flex items-center justify-center font-bold text-xs shrink-0 border border-[#5B3CC4]/15">
+                          {p.profile?.full_name ? p.profile.full_name.charAt(0) : 'E'}
                         </div>
-                      </td>
+                        <div className="min-w-0">
+                          <p className="font-extrabold text-xs text-[#18181B] truncate">{p.profile?.full_name || 'Étudiant'}</p>
+                          <p className="text-[10px] text-slate-400 truncate">{p.profile?.email || 'N/A'}</p>
+                        </div>
+                      </div>
+                      <div className="shrink-0">
+                        {getStatusBadge(p.statut)}
+                      </div>
+                    </div>
 
-                      <td className="py-2.5 px-3 whitespace-nowrap">
-                        <span className="inline-flex items-center px-2 py-0.5 rounded-md text-[11px] font-bold bg-[#EDE9FE] text-[#5B3CC4] border border-[#5B3CC4]/20">
+                    {/* Financial details grid */}
+                    <div className="grid grid-cols-2 gap-2 bg-slate-50 p-2.5 rounded-xl border border-slate-100 text-[10px]">
+                      <div className="space-y-0.5">
+                        <span className="text-slate-400 font-bold block uppercase tracking-wider text-[8px]">Type d'accès</span>
+                        <span className="inline-flex items-center px-1.5 py-0.2 rounded-md text-[10px] font-bold bg-[#EDE9FE] text-[#5B3CC4] border border-[#5B3CC4]/20">
                           Pass S{p.semestre}
                         </span>
-                      </td>
-
-                      <td className="py-2.5 px-3 whitespace-nowrap">
+                      </div>
+                      <div className="space-y-0.5">
+                        <span className="text-slate-400 font-bold block uppercase tracking-wider text-[8px]">Montant réglé</span>
                         <span className="font-bold text-xs text-[#18181B]">{p.montant.toLocaleString()} F</span>
-                      </td>
+                      </div>
+                    </div>
 
-                      <td className="py-2.5 px-3 whitespace-nowrap">
-                        <code className="text-[11px] font-mono font-bold bg-slate-50 px-2 py-0.5 rounded border border-slate-200 text-slate-800">
+                    {/* Reference and Date info */}
+                    <div className="flex items-center justify-between gap-2.5 text-[10px]">
+                      <div>
+                        <span className="text-slate-400 font-semibold mr-1">Réf:</span>
+                        <code className="font-mono font-bold bg-slate-50 px-1.5 py-0.2 rounded border border-slate-200 text-slate-800">
                           {p.reference || 'Aucune'}
                         </code>
-                      </td>
+                      </div>
+                      <span className="text-[10px] text-slate-400">Date: <strong>{dateStr}</strong></span>
+                    </div>
 
-                      <td className="py-2.5 px-3 whitespace-nowrap text-[11px] text-slate-500">{dateStr}</td>
+                    {/* Quick action buttons for pending payments */}
+                    {p.statut === 'en_attente' && (
+                      <div className="flex items-center justify-end gap-1.5 pt-1 border-t border-slate-50">
+                        <button
+                          id={`mobile-valider-payment-${p.id}`}
+                          disabled={processingId === p.id}
+                          onClick={() => handleValidate(p.id)}
+                          className="px-2.5 py-1.5 rounded-lg bg-[#10B981] hover:bg-[#059669] text-white text-[10px] font-bold transition-all shadow-2xs flex items-center gap-1 active:scale-[0.98] disabled:opacity-50"
+                        >
+                          <CheckCircle2 className="w-3 h-3" />
+                          <span>Valider</span>
+                        </button>
+                        <button
+                          id={`mobile-rejeter-payment-${p.id}`}
+                          disabled={processingId === p.id}
+                          onClick={() => setPaymentToReject(p.id)}
+                          className="px-2.5 py-1.5 rounded-lg bg-white border border-rose-200 text-rose-600 hover:bg-rose-50 text-[10px] font-bold transition-all active:scale-[0.98] disabled:opacity-50"
+                        >
+                          <XCircle className="w-3 h-3" />
+                          <span>Rejeter</span>
+                        </button>
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
 
-                      <td className="py-2.5 px-3 whitespace-nowrap">{getStatusBadge(p.statut)}</td>
+            {/* 2. Desktop Table View (Hidden on Mobile, Visible from tablet md: and up) */}
+            <div className="hidden md:block overflow-x-auto">
+              <table id="paiements-table" className="w-full text-left text-xs">
+                <thead className="bg-slate-50/80 text-slate-500 uppercase text-[10px] font-bold tracking-wider border-b border-slate-200">
+                  <tr>
+                    <th className="py-2.5 px-3 sm:px-4">Étudiant</th>
+                    <th className="py-2.5 px-3">Pass</th>
+                    <th className="py-2.5 px-3">Montant</th>
+                    <th className="py-2.5 px-3">Référence</th>
+                    <th className="py-2.5 px-3">Date</th>
+                    <th className="py-2.5 px-3">Statut</th>
+                    <th className="py-2.5 px-3 text-right">Actions</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-slate-100">
+                  {filtered.map((p) => {
+                    const dateStr = new Date(p.created_at).toLocaleDateString('fr-FR', {
+                      day: 'numeric',
+                      month: 'short',
+                      year: 'numeric'
+                    });
 
-                      <td className="py-2.5 px-3 text-right whitespace-nowrap">
-                        {p.statut === 'en_attente' ? (
-                          <div className="flex items-center justify-end gap-1.5">
-                            <button
-                              id={`valider-payment-${p.id}`}
-                              disabled={processingId === p.id}
-                              onClick={() => handleValidate(p.id)}
-                              className="px-2.5 py-1 rounded-lg bg-[#10B981] hover:bg-[#059669] text-white text-xs font-bold transition-all shadow-2xs flex items-center gap-1 active:scale-[0.98] disabled:opacity-50"
-                            >
-                              <CheckCircle2 className="w-3 h-3" />
-                              <span>Valider</span>
-                            </button>
-                            <button
-                              id={`rejeter-payment-${p.id}`}
-                              disabled={processingId === p.id}
-                              onClick={() => setPaymentToReject(p.id)}
-                              className="px-2.5 py-1 rounded-lg bg-white border border-rose-200 text-rose-600 hover:bg-rose-50 text-xs font-semibold transition-all active:scale-[0.98] disabled:opacity-50"
-                            >
-                              <XCircle className="w-3 h-3" />
-                              <span>Rejeter</span>
-                            </button>
+                    return (
+                      <tr key={p.id} className="hover:bg-slate-50/80 transition-colors">
+                        <td className="py-2.5 px-3 sm:px-4">
+                          <div className="flex items-center gap-2">
+                            <div className="w-7 h-7 rounded-lg bg-[#EDE9FE] text-[#5B3CC4] flex items-center justify-center font-bold text-xs shrink-0 border border-[#5B3CC4]/15">
+                              {p.profile?.full_name ? p.profile.full_name.charAt(0) : 'E'}
+                            </div>
+                            <div>
+                              <p className="font-bold text-xs text-[#18181B]">{p.profile?.full_name || 'Étudiant'}</p>
+                              <p className="text-[11px] text-slate-400">{p.profile?.email || 'N/A'}</p>
+                            </div>
                           </div>
-                        ) : (
-                          <span className="text-[11px] text-slate-400">Traité</span>
-                        )}
-                      </td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
-          </div>
+                        </td>
+
+                        <td className="py-2.5 px-3 whitespace-nowrap">
+                          <span className="inline-flex items-center px-2 py-0.5 rounded-md text-[11px] font-bold bg-[#EDE9FE] text-[#5B3CC4] border border-[#5B3CC4]/20">
+                            Pass S{p.semestre}
+                          </span>
+                        </td>
+
+                        <td className="py-2.5 px-3 whitespace-nowrap">
+                          <span className="font-bold text-xs text-[#18181B]">{p.montant.toLocaleString()} F</span>
+                        </td>
+
+                        <td className="py-2.5 px-3 whitespace-nowrap">
+                          <code className="text-[11px] font-mono font-bold bg-slate-50 px-2 py-0.5 rounded border border-slate-200 text-slate-800">
+                            {p.reference || 'Aucune'}
+                          </code>
+                        </td>
+
+                        <td className="py-2.5 px-3 whitespace-nowrap text-[11px] text-slate-500">{dateStr}</td>
+
+                        <td className="py-2.5 px-3 whitespace-nowrap">{getStatusBadge(p.statut)}</td>
+
+                        <td className="py-2.5 px-3 text-right whitespace-nowrap">
+                          {p.statut === 'en_attente' ? (
+                            <div className="flex items-center justify-end gap-1.5">
+                              <button
+                                id={`valider-payment-${p.id}`}
+                                disabled={processingId === p.id}
+                                onClick={() => handleValidate(p.id)}
+                                className="px-2.5 py-1 rounded-lg bg-[#10B981] hover:bg-[#059669] text-white text-xs font-bold transition-all shadow-2xs flex items-center gap-1 active:scale-[0.98] disabled:opacity-50"
+                              >
+                                <CheckCircle2 className="w-3 h-3" />
+                                <span>Valider</span>
+                              </button>
+                              <button
+                                id={`rejeter-payment-${p.id}`}
+                                disabled={processingId === p.id}
+                                onClick={() => setPaymentToReject(p.id)}
+                                className="px-2.5 py-1 rounded-lg bg-white border border-rose-200 text-rose-600 hover:bg-rose-50 text-xs font-semibold transition-all active:scale-[0.98] disabled:opacity-50"
+                              >
+                                <XCircle className="w-3 h-3" />
+                                <span>Rejeter</span>
+                              </button>
+                            </div>
+                          ) : (
+                            <span className="text-[11px] text-slate-400">Traité</span>
+                          )}
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
+          </>
         )}
       </div>
 
