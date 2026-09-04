@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { RouterLink } from '@angular/router';
 import {
   IonHeader,
   IonToolbar,
@@ -20,7 +21,8 @@ import {
   IonBadge,
   IonList,
   IonItem,
-  IonLabel
+  IonLabel,
+  IonButton
 } from '@ionic/angular/standalone';
 import { RessourcesService } from '../../core/services/ressources';
 import { PaiementsService } from '../../core/services/paiements';
@@ -42,6 +44,7 @@ export interface ActivityItem {
   standalone: true,
   imports: [
     CommonModule,
+    RouterLink,
     IonHeader,
     IonToolbar,
     IonTitle,
@@ -61,7 +64,8 @@ export interface ActivityItem {
     IonBadge,
     IonList,
     IonItem,
-    IonLabel
+    IonLabel,
+    IonButton
   ],
   templateUrl: './dashboard.page.html',
   styleUrls: ['./dashboard.page.scss']
@@ -123,6 +127,11 @@ export class DashboardPage implements OnInit {
   ) {}
 
   async ngOnInit() {
+    await this.chargerData();
+  }
+
+  async chargerData() {
+    this.loading = true;
     try {
       const [resList, ueList, paiementsList, etudiantsList] = await Promise.all([
         this.ressourcesSvc.list().catch(() => []),
@@ -130,12 +139,11 @@ export class DashboardPage implements OnInit {
         this.paiementsSvc.list('en_attente').catch(() => []),
         this.etudiantsSvc.list().catch(() => [])
       ]);
-      this.stats.totalRessources = resList.length || 28;
-      this.stats.totalUEs = ueList.length || 14;
-      this.stats.paiementsEnAttente = paiementsList.length || 3;
-      this.stats.etudiantsPremium = etudiantsList.filter(e => e.premium_s1 || e.premium_s2).length || 18;
-    } catch (e) {
-      console.error(e);
+      this.stats.totalRessources = resList.length;
+      this.stats.totalUEs = ueList.length;
+      this.stats.paiementsEnAttente = paiementsList.length;
+      this.stats.etudiantsPremium = etudiantsList.filter(e => e.premium_s1 || e.premium_s2).length;
+      this.stats.recettesEstimees = (this.stats.etudiantsPremium + 200) * 5000;
     } finally {
       this.loading = false;
     }

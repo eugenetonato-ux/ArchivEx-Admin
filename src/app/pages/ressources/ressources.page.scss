@@ -1,5 +1,23 @@
 .file-input {
-  display: block;
   margin-top: 8px;
+  padding: 8px 0;
   width: 100%;
+}
+
+.helper-text {
+  font-size: 0.85rem;
+  color: var(--ion-color-warning-shade);
+}
+
+.badges-group {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  align-items: flex-end;
+  margin-right: 8px;
+}
+
+.empty-state {
+  margin-top: 40px;
+  color: var(--ion-color-medium);
 }

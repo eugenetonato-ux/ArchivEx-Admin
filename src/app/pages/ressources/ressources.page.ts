@@ -22,7 +22,10 @@ import {
   IonSelectOption,
   IonInput,
   IonCheckbox,
-  IonBadge
+  IonBadge,
+  IonSearchbar,
+  IonSegment,
+  IonSegmentButton
 } from '@ionic/angular/standalone';
 import { RessourcesService } from '../../core/services/ressources';
 import { UeService } from '../../core/services/ue';
@@ -55,7 +58,10 @@ import { UE } from '../../core/models/ue.model';
     IonSelectOption,
     IonInput,
     IonCheckbox,
-    IonBadge
+    IonBadge,
+    IonSearchbar,
+    IonSegment,
+    IonSegmentButton
   ],
   templateUrl: './ressources.page.html',
   styleUrls: ['./ressources.page.scss']
@@ -64,6 +70,12 @@ export class RessourcesPage implements OnInit {
   ressources: Ressource[] = [];
   ues: UE[] = [];
   loading = true;
+
+  filtreQuery = '';
+  filtreSemestre = 'tous';
+  filtreType = 'tous';
+
+  afficherFormulaire = false;
 
   form = {
     type: 'epreuve' as TypeRessource,
@@ -94,9 +106,21 @@ export class RessourcesPage implements OnInit {
     try {
       this.ressources = await this.ressourcesSvc.list();
       this.ues = await this.ueSvc.list();
+      if (this.ues.length > 0 && !this.form.ue_id) {
+        this.form.ue_id = this.ues[0].id;
+      }
     } finally {
       this.loading = false;
     }
+  }
+
+  get ressourcesFiltrees(): Ressource[] {
+    return this.ressources.filter(r => {
+      const matchQuery = !this.filtreQuery || r.titre.toLowerCase().includes(this.filtreQuery.toLowerCase());
+      const matchSemestre = this.filtreSemestre === 'tous' || r.semestre === this.filtreSemestre;
+      const matchType = this.filtreType === 'tous' || r.type === this.filtreType;
+      return matchQuery && matchSemestre && matchType;
+    });
   }
 
   onFichierChange(event: Event) {
@@ -105,7 +129,7 @@ export class RessourcesPage implements OnInit {
   }
 
   async ajouter() {
-    if (!this.form.fichier || !this.form.titre || !this.form.ue_id) return;
+    if (!this.form.titre.trim() || !this.form.ue_id) return;
     await this.ressourcesSvc.creer(
       {
         type: this.form.type,
@@ -121,11 +145,17 @@ export class RessourcesPage implements OnInit {
     );
     this.form.titre = '';
     this.form.fichier = null;
+    this.afficherFormulaire = false;
     await this.charger();
   }
 
   async supprimer(id: string) {
     await this.ressourcesSvc.supprimer(id);
     await this.charger();
+  }
+
+  getNomUe(ueId: string): string {
+    const ue = this.ues.find(u => u.id === ueId);
+    return ue ? `${ue.nom} (${ue.code})` : 'Matière générale';
   }
 }

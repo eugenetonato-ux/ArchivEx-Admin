@@ -13,6 +13,22 @@
   </div>
 
   <div *ngIf="!loading">
+    <!-- Quick Actions Header -->
+    <div class="actions-bar ion-margin-bottom">
+      <ion-button routerLink="/ressources" color="primary" size="small">
+        <ion-icon name="add-circle" slot="start"></ion-icon>
+        Nouvelle Ressource
+      </ion-button>
+      <ion-button routerLink="/ue" color="tertiary" size="small">
+        <ion-icon name="book" slot="start"></ion-icon>
+        Gestion UEs
+      </ion-button>
+      <ion-button routerLink="/paiements" color="warning" size="small">
+        <ion-icon name="card" slot="start"></ion-icon>
+        File Paiements ({{ stats.paiementsEnAttente }})
+      </ion-button>
+    </div>
+
     <!-- KPI Cards Row -->
     <ion-grid>
       <ion-row>
@@ -29,7 +45,7 @@
         </ion-col>
 
         <ion-col size="12" size-sm="6" size-md="3">
-          <ion-card class="kpi-card">
+          <ion-card class="kpi-card clickable" routerLink="/etudiants">
             <ion-card-header>
               <ion-card-subtitle>Étudiants Premium</ion-card-subtitle>
               <ion-card-title class="kpi-value">{{ stats.etudiantsPremium }}</ion-card-title>
@@ -41,9 +57,9 @@
         </ion-col>
 
         <ion-col size="12" size-sm="6" size-md="3">
-          <ion-card class="kpi-card">
+          <ion-card class="kpi-card clickable" routerLink="/ressources">
             <ion-card-header>
-              <ion-card-subtitle>Ressources</ion-card-subtitle>
+              <ion-card-subtitle>Ressources Pédagogiques</ion-card-subtitle>
               <ion-card-title class="kpi-value">{{ stats.totalRessources }}</ion-card-title>
             </ion-card-header>
             <ion-card-content>
@@ -53,7 +69,7 @@
         </ion-col>
 
         <ion-col size="12" size-sm="6" size-md="3">
-          <ion-card class="kpi-card">
+          <ion-card class="kpi-card clickable" routerLink="/paiements">
             <ion-card-header>
               <ion-card-subtitle>File Paiements</ion-card-subtitle>
               <ion-card-title class="kpi-value">{{ stats.paiementsEnAttente }}</ion-card-title>

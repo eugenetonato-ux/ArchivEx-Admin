@@ -20,7 +20,10 @@ import {
   IonCardContent,
   IonSelect,
   IonSelectOption,
-  IonInput
+  IonInput,
+  IonBadge,
+  IonSegment,
+  IonSegmentButton
 } from '@ionic/angular/standalone';
 import { UeService } from '../../core/services/ue';
 import { UE, Semestre } from '../../core/models/ue.model';
@@ -49,7 +52,10 @@ import { UE, Semestre } from '../../core/models/ue.model';
     IonCardContent,
     IonSelect,
     IonSelectOption,
-    IonInput
+    IonInput,
+    IonBadge,
+    IonSegment,
+    IonSegmentButton
   ],
   templateUrl: './ue.page.html',
   styleUrls: ['./ue.page.scss']
@@ -57,6 +63,7 @@ import { UE, Semestre } from '../../core/models/ue.model';
 export class UePage implements OnInit {
   ues: UE[] = [];
   loading = true;
+  filtreSemestre: string = 'tous';
 
   nouvelleUe = {
     nom: '',
@@ -79,8 +86,13 @@ export class UePage implements OnInit {
     }
   }
 
+  get uesFiltrees(): UE[] {
+    if (this.filtreSemestre === 'tous') return this.ues;
+    return this.ues.filter(u => u.semestre === this.filtreSemestre);
+  }
+
   async ajouter() {
-    if (!this.nouvelleUe.nom || !this.nouvelleUe.code) return;
+    if (!this.nouvelleUe.nom.trim() || !this.nouvelleUe.code.trim()) return;
     await this.ueSvc.creer(this.nouvelleUe);
     this.nouvelleUe.nom = '';
     this.nouvelleUe.code = '';

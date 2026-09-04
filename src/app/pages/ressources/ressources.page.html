@@ -3,72 +3,92 @@
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
-    <ion-title>Gestion des Ressources</ion-title>
+    <ion-title>Bibliothèque de Ressources Pédagogiques</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="afficherFormulaire = !afficherFormulaire">
+        <ion-icon [name]="afficherFormulaire ? 'close-circle' : 'add-circle'" slot="start"></ion-icon>
+        {{ afficherFormulaire ? 'Fermer' : 'Publier' }}
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+
+  <ion-toolbar color="primary">
+    <ion-searchbar [(ngModel)]="filtreQuery" placeholder="Rechercher une épreuve, corrigé, résumé..."></ion-searchbar>
+  </ion-toolbar>
+
+  <ion-toolbar color="light">
+    <ion-segment [(ngModel)]="filtreSemestre">
+      <ion-segment-button value="tous">
+        <ion-label>Tous Semestres</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="S1">
+        <ion-label>Semestre 1 (S1)</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="S2">
+        <ion-label>Semestre 2 (S2)</ion-label>
+      </ion-segment-button>
+    </ion-segment>
   </ion-toolbar>
 </ion-header>
 
 <ion-content class="ion-padding">
-  <ion-card>
+  <!-- Formulaire de publication -->
+  <ion-card *ngIf="afficherFormulaire" class="form-card ion-margin-bottom">
     <ion-card-header>
-      <ion-card-title>Nouvelle Ressource Pédagogique</ion-card-title>
+      <ion-card-title>📄 Publier un nouveau document pédagogique</ion-card-title>
     </ion-card-header>
     <ion-card-content>
-      <ion-item>
-        <ion-label position="stacked">Titre de la ressource</ion-label>
-        <ion-input [(ngModel)]="form.titre" placeholder="ex: Examen Final 2024"></ion-input>
-      </ion-item>
-
-      <ion-item>
-        <ion-label position="stacked">Type</ion-label>
+      <ion-item lines="full">
+        <ion-label position="stacked">Type de document</ion-label>
         <ion-select [(ngModel)]="form.type">
-          <ion-select-option value="epreuve">Épreuve</ion-select-option>
-          <ion-select-option value="corrige">Corrigé (Premium forcé)</ion-select-option>
-          <ion-select-option value="resume">Résumé (Premium forcé)</ion-select-option>
+          <ion-select-option value="epreuve">Épreuve (Sujet)</ion-select-option>
+          <ion-select-option value="corrige">Corrigé Détaillé (Pass Premium)</ion-select-option>
+          <ion-select-option value="resume">Fiche de Résumé / Synthèse (Pass Premium)</ion-select-option>
         </ion-select>
       </ion-item>
 
-      <ion-item>
-        <ion-label position="stacked">Matière / UE</ion-label>
+      <ion-item lines="full">
+        <ion-label position="stacked">Titre du document</ion-label>
+        <ion-input [(ngModel)]="form.titre" placeholder="ex: Examen Final Algorithmique 2024"></ion-input>
+      </ion-item>
+
+      <ion-item lines="full">
+        <ion-label position="stacked">Matière / UE associée</ion-label>
         <ion-select [(ngModel)]="form.ue_id">
           <ion-select-option *ngFor="let ue of ues" [value]="ue.id">
-            {{ ue.nom }} ({{ ue.code }})
+            [{{ ue.semestre }}] {{ ue.nom }} ({{ ue.code }})
           </ion-select-option>
         </ion-select>
       </ion-item>
 
-      <ion-item>
+      <ion-item lines="full">
         <ion-label position="stacked">Semestre</ion-label>
         <ion-select [(ngModel)]="form.semestre">
-          <ion-select-option value="S1">S1</ion-select-option>
-          <ion-select-option value="S2">S2</ion-select-option>
+          <ion-select-option value="S1">Semestre 1 (S1)</ion-select-option>
+          <ion-select-option value="S2">Semestre 2 (S2)</ion-select-option>
         </ion-select>
       </ion-item>
 
-      <ion-item>
-        <ion-label position="stacked">Année</ion-label>
-        <ion-input type="number" [(ngModel)]="form.annee"></ion-input>
+      <ion-item lines="full">
+        <ion-label position="stacked">Fichier PDF (Téléversement Supabase Storage)</ion-label>
+        <input type="file" (change)="onFichierChange($event)" accept=".pdf,.doc,.docx" class="file-input" />
       </ion-item>
 
-      <ion-item>
-        <ion-label position="stacked">Session</ion-label>
-        <ion-select [(ngModel)]="form.session">
-          <ion-select-option value="normale">Normale</ion-select-option>
-          <ion-select-option value="rattrapage">Rattrapage</ion-select-option>
-        </ion-select>
-      </ion-item>
-
-      <ion-item>
-        <ion-checkbox [disabled]="premiumForce" [ngModel]="premiumForce ? true : form.is_premium" (ngModelChange)="form.is_premium = $event">
-          Contenu Premium
+      <!-- Règle métier : Rendre obligatoire le premium pour Corrigés et Résumés -->
+      <ion-item lines="none" class="ion-margin-top">
+        <ion-checkbox
+          [checked]="premiumForce ? true : form.is_premium"
+          [disabled]="premiumForce"
+          (ionChange)="form.is_premium = $event.detail.checked">
+          Accès Réservé Étudiants Premium (Pass {{ form.semestre }})
         </ion-checkbox>
       </ion-item>
-
-      <div class="ion-margin-top">
-        <label>Fichier PDF / Document :</label>
-        <input type="file" (change)="onFichierChange($event)" class="file-input" />
-      </div>
+      <p *ngIf="premiumForce" class="helper-text ion-margin-start">
+        ⚠️ <strong>Règle métier active :</strong> Les corrigés et résumés de cours sont automatiquement configurés en mode <strong>Premium</strong>.
+      </p>
 
       <ion-button expand="block" class="ion-margin-top" (click)="ajouter()">
+        <ion-icon name="cloud-upload" slot="start"></ion-icon>
         Publier la ressource
       </ion-button>
     </ion-card-content>
@@ -78,15 +98,31 @@
     <ion-spinner></ion-spinner>
   </div>
 
-  <ion-list *ngIf="!loading">
-    <ion-item *ngFor="let res of ressources">
-      <ion-label>
+  <div *ngIf="!loading && ressourcesFiltrees.length === 0" class="empty-state ion-text-center ion-padding">
+    <ion-icon name="document-text-outline" size="large" color="medium"></ion-icon>
+    <p>Aucune ressource ne correspond aux critères de recherche.</p>
+  </div>
+
+  <ion-list *ngIf="!loading && ressourcesFiltrees.length > 0">
+    <ion-item *ngFor="let res of ressourcesFiltrees">
+      <ion-icon
+        [name]="res.type === 'epreuve' ? 'document-text' : res.type === 'corrige' ? 'checkmark-done-circle' : 'bookmark'"
+        [color]="res.type === 'epreuve' ? 'primary' : res.type === 'corrige' ? 'success' : 'tertiary'"
+        slot="start">
+      </ion-icon>
+
+      <ion-label class="ion-text-wrap">
         <h2>{{ res.titre }}</h2>
-        <p>Type: {{ res.type }} | Semestre: {{ res.semestre }} | Année: {{ res.annee }}</p>
+        <p>{{ getNomUe(res.ue_id) }} • {{ res.annee }} (Session {{ res.session }})</p>
       </ion-label>
-      <ion-badge slot="end" [color]="res.is_premium ? 'warning' : 'medium'">
-        {{ res.is_premium ? 'Premium' : 'Gratuit' }}
-      </ion-badge>
+
+      <div slot="end" class="badges-group">
+        <ion-badge [color]="res.semestre === 'S1' ? 'primary' : 'tertiary'">{{ res.semestre }}</ion-badge>
+        <ion-badge [color]="res.is_premium ? 'warning' : 'medium'">
+          {{ res.is_premium ? '⭐ Premium' : 'Gratuit' }}
+        </ion-badge>
+      </div>
+
       <ion-button slot="end" color="danger" fill="clear" (click)="supprimer(res.id)">
         <ion-icon name="trash" slot="icon-only"></ion-icon>
       </ion-button>
