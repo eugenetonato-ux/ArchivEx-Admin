@@ -1,41 +1,41 @@
-<ion-header>
-  <ion-toolbar color="primary">
-    <ion-buttons slot="start">
-      <ion-menu-button></ion-menu-button>
-    </ion-buttons>
-    <ion-title>Bibliothèque de Ressources Pédagogiques</ion-title>
-    <ion-buttons slot="end">
-      <ion-button (click)="afficherFormulaire = !afficherFormulaire">
-        <ion-icon [name]="afficherFormulaire ? 'close-circle' : 'add-circle'" slot="start"></ion-icon>
-        {{ afficherFormulaire ? 'Fermer' : 'Publier' }}
-      </ion-button>
-    </ion-buttons>
-  </ion-toolbar>
-
-  <ion-toolbar color="primary">
-    <ion-searchbar [(ngModel)]="filtreQuery" placeholder="Rechercher une épreuve, corrigé, résumé..."></ion-searchbar>
-  </ion-toolbar>
-
-  <ion-toolbar color="light">
-    <ion-segment [(ngModel)]="filtreSemestre">
-      <ion-segment-button value="tous">
-        <ion-label>Tous Semestres</ion-label>
-      </ion-segment-button>
-      <ion-segment-button value="S1">
-        <ion-label>Semestre 1 (S1)</ion-label>
-      </ion-segment-button>
-      <ion-segment-button value="S2">
-        <ion-label>Semestre 2 (S2)</ion-label>
-      </ion-segment-button>
-    </ion-segment>
-  </ion-toolbar>
-</ion-header>
-
 <ion-content class="ion-padding">
+  <!-- Top Action & Filter Bar -->
+  <div class="page-top-actions ion-margin-bottom">
+    <div class="actions-row">
+      <ion-searchbar
+        [(ngModel)]="filtreQuery"
+        placeholder="Rechercher une épreuve, un corrigé, un résumé..."
+        class="custom-searchbar">
+      </ion-searchbar>
+
+      <ion-button (click)="afficherFormulaire = !afficherFormulaire" color="primary" class="publish-toggle-btn">
+        <i [class]="afficherFormulaire ? 'fa-solid fa-xmark' : 'fa-solid fa-cloud-arrow-up'" style="margin-right: 8px;"></i>
+        {{ afficherFormulaire ? 'Fermer le formulaire' : 'Publier un document' }}
+      </ion-button>
+    </div>
+
+    <div class="segment-row ion-margin-top">
+      <ion-segment [(ngModel)]="filtreSemestre">
+        <ion-segment-button value="tous">
+          <ion-label>Tous Semestres</ion-label>
+        </ion-segment-button>
+        <ion-segment-button value="S1">
+          <ion-label>Semestre 1 (S1)</ion-label>
+        </ion-segment-button>
+        <ion-segment-button value="S2">
+          <ion-label>Semestre 2 (S2)</ion-label>
+        </ion-segment-button>
+      </ion-segment>
+    </div>
+  </div>
+
   <!-- Formulaire de publication -->
   <ion-card *ngIf="afficherFormulaire" class="form-card ion-margin-bottom">
     <ion-card-header>
-      <ion-card-title>📄 Publier un nouveau document pédagogique</ion-card-title>
+      <ion-card-title>
+        <i class="fa-solid fa-file-arrow-up" style="margin-right: 8px; color: var(--ion-color-primary);"></i>
+        Publier un nouveau document pédagogique
+      </ion-card-title>
     </ion-card-header>
     <ion-card-content>
       <ion-item lines="full">
@@ -83,12 +83,13 @@
           Accès Réservé Étudiants Premium (Pass {{ form.semestre }})
         </ion-checkbox>
       </ion-item>
-      <p *ngIf="premiumForce" class="helper-text ion-margin-start">
-        ⚠️ <strong>Règle métier active :</strong> Les corrigés et résumés de cours sont automatiquement configurés en mode <strong>Premium</strong>.
+      <p *ngIf="premiumForce" class="helper-text ion-margin-start" style="color: #f59e0b; font-size: 0.84rem;">
+        <i class="fa-solid fa-triangle-exclamation" style="margin-right: 6px;"></i>
+        <strong>Règle métier active :</strong> Les corrigés et résumés de cours sont automatiquement configurés en mode <strong>Premium</strong>.
       </p>
 
       <ion-button expand="block" class="ion-margin-top" (click)="ajouter()">
-        <ion-icon name="cloud-upload" slot="start"></ion-icon>
+        <i class="fa-solid fa-cloud-arrow-up" style="margin-right: 8px;"></i>
         Publier la ressource
       </ion-button>
     </ion-card-content>
@@ -101,32 +102,34 @@
   </app-loading-spinner>
 
   <div *ngIf="!loading && ressourcesFiltrees.length === 0" class="empty-state ion-text-center ion-padding">
-    <ion-icon name="document-text-outline" size="large" color="medium"></ion-icon>
-    <p>Aucune ressource ne correspond aux critères de recherche.</p>
+    <i class="fa-solid fa-file-lines" style="font-size: 2.5rem; color: #94a3b8; margin-bottom: 12px; display: block;"></i>
+    <p style="font-size: 0.95rem; color: #64748b; margin: 0;">Aucune ressource enregistrée pour le moment (Nouveau projet).</p>
   </div>
 
   <ion-list *ngIf="!loading && ressourcesFiltrees.length > 0">
     <ion-item *ngFor="let res of ressourcesFiltrees">
-      <ion-icon
-        [name]="res.type === 'epreuve' ? 'document-text' : res.type === 'corrige' ? 'checkmark-done-circle' : 'bookmark'"
-        [color]="res.type === 'epreuve' ? 'primary' : res.type === 'corrige' ? 'success' : 'tertiary'"
-        slot="start">
-      </ion-icon>
+      <i
+        [class]="res.type === 'epreuve' ? 'fa-solid fa-file-lines' : res.type === 'corrige' ? 'fa-solid fa-circle-check' : 'fa-solid fa-bookmark'"
+        [style.color]="res.type === 'epreuve' ? 'var(--ion-color-primary)' : res.type === 'corrige' ? '#10b981' : '#f59e0b'"
+        slot="start"
+        style="font-size: 1.2rem; margin-right: 12px;">
+      </i>
 
       <ion-label class="ion-text-wrap">
         <h2>{{ res.titre }}</h2>
         <p>{{ getNomUe(res.ue_id) }} • {{ res.annee }} (Session {{ res.session }})</p>
       </ion-label>
 
-      <div slot="end" class="badges-group">
+      <div slot="end" class="badges-group" style="display: flex; gap: 6px; align-items: center;">
         <ion-badge [color]="res.semestre === 'S1' ? 'primary' : 'tertiary'">{{ res.semestre }}</ion-badge>
         <ion-badge [color]="res.is_premium ? 'warning' : 'medium'">
-          {{ res.is_premium ? '⭐ Premium' : 'Gratuit' }}
+          <i *ngIf="res.is_premium" class="fa-solid fa-crown" style="margin-right: 4px; font-size: 0.75rem;"></i>
+          {{ res.is_premium ? 'Premium' : 'Gratuit' }}
         </ion-badge>
       </div>
 
       <ion-button slot="end" color="danger" fill="clear" (click)="supprimer(res.id)">
-        <ion-icon name="trash" slot="icon-only"></ion-icon>
+        <i class="fa-solid fa-trash-can" style="font-size: 1rem;"></i>
       </ion-button>
     </ion-item>
   </ion-list>

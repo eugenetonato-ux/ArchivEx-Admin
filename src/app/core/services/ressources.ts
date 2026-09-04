@@ -105,7 +105,7 @@ export class RessourcesService {
     ressource: Omit<Ressource, 'id' | 'fichier_url' | 'created_at'>,
     fichier?: File | null
   ): Promise<Ressource> {
-    // ⚠️ REGLER METIER TRG_FORCER_PREMIUM :
+    // REGLER METIER TRG_FORCER_PREMIUM :
     // Tout corrigé ou résumé est FORCÉMENT Premium
     const forcePremium = ressource.type === 'corrige' || ressource.type === 'resume';
     const isPremiumFinal = forcePremium ? true : ressource.is_premium;

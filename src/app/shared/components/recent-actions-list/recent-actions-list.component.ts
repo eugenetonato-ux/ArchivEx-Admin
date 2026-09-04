@@ -1,7 +1,7 @@
 import { Component, OnInit, signal, computed, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonIcon, IonBadge } from '@ionic/angular/standalone';
+import { IonBadge } from '@ionic/angular/standalone';
 import { AdminActionsService } from '../../../core/services/admin-actions';
 import { AdminAction, ActionCategory } from '../../../core/models/admin-action.model';
 import { AuthService } from '../../../core/services/auth';
@@ -12,7 +12,6 @@ import { AuthService } from '../../../core/services/auth';
   imports: [
     CommonModule,
     FormsModule,
-    IonIcon,
     IonBadge
   ],
   templateUrl: './recent-actions-list.component.html',
@@ -55,23 +54,12 @@ export class RecentActionsListComponent implements OnInit {
 
   getCategoryIcon(cat: ActionCategory): string {
     switch (cat) {
-      case 'payment': return 'card-outline';
-      case 'ressource': return 'document-text-outline';
-      case 'ue': return 'book-outline';
-      case 'etudiant': return 'people-outline';
-      case 'system': return 'cog-outline';
-      default: return 'flash-outline';
-    }
-  }
-
-  getCategoryColor(cat: ActionCategory): string {
-    switch (cat) {
-      case 'payment': return 'warning';
-      case 'ressource': return 'tertiary';
-      case 'ue': return 'primary';
-      case 'etudiant': return 'success';
-      case 'system': return 'medium';
-      default: return 'dark';
+      case 'payment': return 'fa-solid fa-credit-card';
+      case 'ressource': return 'fa-solid fa-file-lines';
+      case 'ue': return 'fa-solid fa-graduation-cap';
+      case 'etudiant': return 'fa-solid fa-user-graduate';
+      case 'system': return 'fa-solid fa-gear';
+      default: return 'fa-solid fa-bolt';
     }
   }
 
@@ -80,44 +68,43 @@ export class RecentActionsListComponent implements OnInit {
       case 'success': return 'success';
       case 'warning': return 'warning';
       case 'danger': return 'danger';
-      case 'info': return 'tertiary';
-      default: return 'medium';
+      default: return 'primary';
     }
   }
 
-  formatTimeAgo(isoString: string): string {
-    if (!isoString) return '';
-    const date = new Date(isoString);
-    const now = new Date();
-    const diffMs = now.getTime() - date.getTime();
-    const diffMins = Math.floor(diffMs / 60000);
+  formatTimeAgo(dateStr: string): string {
+    try {
+      const date = new Date(dateStr);
+      const now = new Date();
+      const diffSec = Math.floor((now.getTime() - date.getTime()) / 1000);
 
-    if (diffMins < 1) return 'À l\'instant';
-    if (diffMins < 60) return `Il y a ${diffMins} min`;
-
-    const diffHours = Math.floor(diffMins / 60);
-    if (diffHours < 24) return `Il y a ${diffHours} h`;
-
-    const diffDays = Math.floor(diffHours / 24);
-    if (diffDays === 1) return 'Hier';
-    if (diffDays < 7) return `Il y a ${diffDays} j`;
-
-    return date.toLocaleDateString('fr-FR', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' });
+      if (diffSec < 60) return 'À l\'instant';
+      if (diffSec < 3600) return `Il y a ${Math.floor(diffSec / 60)} min`;
+      if (diffSec < 86400) return `Il y a ${Math.floor(diffSec / 3600)} h`;
+      return date.toLocaleDateString('fr-FR', { day: 'numeric', month: 'short' });
+    } catch {
+      return dateStr;
+    }
   }
 
   async submitNewAction() {
     if (!this.newActionForm.title.trim()) return;
 
-    await this.adminActionsSvc.logAction({
-      title: this.newActionForm.title,
-      description: this.newActionForm.description || 'Action administrative enregistrée manuellement.',
-      category: this.newActionForm.category,
-      status: this.newActionForm.status,
-      actor_email: this.authSvc.currentUser()?.email || 'admin@archivex.univ.bj'
-    });
+    const email = this.authSvc.currentUser()?.email || 'admin@archivex.univ.bj';
+    await this.adminActionsSvc.recordAction(
+      this.newActionForm.title,
+      this.newActionForm.description,
+      this.newActionForm.category,
+      this.newActionForm.status,
+      email
+    );
 
-    this.newActionForm.title = '';
-    this.newActionForm.description = '';
+    this.newActionForm = {
+      title: '',
+      description: '',
+      category: 'system',
+      status: 'success'
+    };
     this.showAddModal.set(false);
   }
 
@@ -126,8 +113,8 @@ export class RecentActionsListComponent implements OnInit {
   }
 
   async clearHistory() {
-    if (confirm('Voulez-vous vraiment réinitialiser l\'historique des actions récentes ?')) {
-      await this.adminActionsSvc.clearAllActions();
+    if (confirm('Voulez-vous réinitialiser l\'historique des actions locales ?')) {
+      await this.adminActionsSvc.clearLocalHistory();
     }
   }
 }

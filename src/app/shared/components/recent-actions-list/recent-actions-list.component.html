@@ -3,21 +3,24 @@
   <div class="actions-header">
     <div class="header-left">
       <div class="header-badge-icon">
-        <ion-icon name="time-outline"></ion-icon>
+        <i class="fa-solid fa-clock-rotate-left"></i>
       </div>
       <div>
-        <h2 class="header-title">⚡ Historique Chronologique des Actions</h2>
+        <h2 class="header-title">
+          <i class="fa-solid fa-bolt" style="color: var(--ion-color-primary); margin-right: 6px;"></i>
+          Historique Chronologique des Actions
+        </h2>
         <p class="header-subtitle">Suivi persistant des activités administratives (Supabase)</p>
       </div>
     </div>
 
     <div class="header-right-btns">
       <button class="icon-action-btn" (click)="refreshLogs()" title="Rafraîchir les logs">
-        <ion-icon name="refresh-outline" [class.spin]="adminActionsSvc.loading()"></ion-icon>
+        <i class="fa-solid fa-arrows-rotate" [class.spin]="adminActionsSvc.loading()"></i>
       </button>
 
       <button class="add-log-btn" (click)="showAddModal.set(true)" title="Enregistrer une action">
-        <ion-icon name="add-circle-outline"></ion-icon>
+        <i class="fa-solid fa-circle-plus" style="margin-right: 6px;"></i>
         <span>Enregistrer Action</span>
       </button>
     </div>
@@ -26,7 +29,7 @@
   <!-- Filters & Search Toolbar -->
   <div class="toolbar-section">
     <div class="search-wrap">
-      <ion-icon name="search-outline" class="search-icon"></ion-icon>
+      <i class="fa-solid fa-magnifying-glass search-icon"></i>
       <input
         type="text"
         class="custom-search-input"
@@ -46,25 +49,29 @@
         class="chip-btn"
         [class.active]="activeFilter() === 'payment'"
         (click)="activeFilter.set('payment')">
-        💳 Paiements
+        <i class="fa-solid fa-credit-card" style="margin-right: 5px;"></i>
+        Paiements
       </button>
       <button
         class="chip-btn"
         [class.active]="activeFilter() === 'ressource'"
         (click)="activeFilter.set('ressource')">
-        📄 Ressources
+        <i class="fa-solid fa-file-lines" style="margin-right: 5px;"></i>
+        Ressources
       </button>
       <button
         class="chip-btn"
         [class.active]="activeFilter() === 'ue'"
         (click)="activeFilter.set('ue')">
-        📚 UEs
+        <i class="fa-solid fa-graduation-cap" style="margin-right: 5px;"></i>
+        UEs
       </button>
       <button
         class="chip-btn"
         [class.active]="activeFilter() === 'etudiant'"
         (click)="activeFilter.set('etudiant')">
-        🎓 Étudiants
+        <i class="fa-solid fa-user-graduate" style="margin-right: 5px;"></i>
+        Étudiants
       </button>
     </div>
   </div>
@@ -72,21 +79,21 @@
   <!-- Actions Timeline List -->
   <div class="actions-list-wrapper">
     <div *ngIf="adminActionsSvc.loading()" class="loading-placeholder">
-      <ion-icon name="sync-outline" class="spin-icon"></ion-icon>
+      <i class="fa-solid fa-arrows-rotate spin-icon"></i>
       <span>Chargement de l'historique Supabase...</span>
     </div>
 
     <div *ngIf="!adminActionsSvc.loading() && filteredActions().length === 0" class="empty-state">
-      <ion-icon name="file-tray-outline" class="empty-icon"></ion-icon>
+      <i class="fa-solid fa-inbox empty-icon" style="font-size: 2.2rem; color: #94a3b8; display: block; margin-bottom: 8px;"></i>
       <p class="empty-title">Aucune action enregistrée</p>
-      <p class="empty-desc">Les nouvelles opérations administratives apparaîtront automatiquement ici.</p>
+      <p class="empty-desc">Les nouvelles opérations administratives apparaîtront automatiquement ici (Nouveau projet).</p>
     </div>
 
     <div *ngIf="!adminActionsSvc.loading() && filteredActions().length > 0" class="timeline-container">
       <div *ngFor="let act of filteredActions()" class="timeline-item">
         <!-- Category Icon Badge -->
         <div class="timeline-badge" [ngClass]="act.category">
-          <ion-icon [name]="getCategoryIcon(act.category)"></ion-icon>
+          <i [class]="getCategoryIcon(act.category)"></i>
         </div>
 
         <!-- Action Detail Content -->
@@ -100,7 +107,7 @@
 
           <div class="content-footer">
             <span class="actor-tag">
-              <ion-icon name="person-circle-outline"></ion-icon>
+              <i class="fa-solid fa-circle-user" style="margin-right: 5px;"></i>
               {{ act.actor_email }}
             </span>
 
@@ -121,7 +128,7 @@
     </span>
 
     <button class="clear-btn" (click)="clearHistory()" title="Effacer l'historique">
-      <ion-icon name="trash-outline"></ion-icon>
+      <i class="fa-solid fa-trash-can" style="margin-right: 5px;"></i>
       <span>Réinitialiser</span>
     </button>
   </div>
@@ -131,9 +138,12 @@
 <div class="modal-backdrop" *ngIf="showAddModal()" (click)="showAddModal.set(false)">
   <div class="modal-card" (click)="$event.stopPropagation()">
     <div class="modal-header">
-      <h3>✨ Enregistrer une Action Administrative</h3>
+      <h3>
+        <i class="fa-solid fa-circle-plus" style="margin-right: 8px; color: var(--ion-color-primary);"></i>
+        Enregistrer une Action Administrative
+      </h3>
       <button class="close-btn" (click)="showAddModal.set(false)">
-        <ion-icon name="close-outline"></ion-icon>
+        <i class="fa-solid fa-xmark"></i>
       </button>
     </div>
 
@@ -143,7 +153,7 @@
         <input
           type="text"
           class="form-control"
-          placeholder="ex: Validation manuelle de la note d'examen"
+          placeholder="ex: Validation manuelle de paiement ou ajout de ressource"
           [(ngModel)]="newActionForm.title" />
       </div>
 
@@ -152,7 +162,7 @@
         <textarea
           class="form-control"
           rows="3"
-          placeholder="ex: Attestation de réussite délivrée à l'étudiant #INF-2024"
+          placeholder="ex: Validation effectuée après contrôle bancaire"
           [(ngModel)]="newActionForm.description"></textarea>
       </div>
 
@@ -160,11 +170,11 @@
         <div class="form-group flex-1">
           <label>Catégorie</label>
           <select class="form-control" [(ngModel)]="newActionForm.category">
-            <option value="payment">💳 Paiement</option>
-            <option value="ressource">📄 Ressource</option>
-            <option value="ue">📚 Unité d'Enseignement</option>
-            <option value="etudiant">🎓 Étudiant</option>
-            <option value="system">⚙️ Système</option>
+            <option value="payment">Paiement</option>
+            <option value="ressource">Ressource</option>
+            <option value="ue">Unité d'Enseignement</option>
+            <option value="etudiant">Étudiant</option>
+            <option value="system">Système</option>
           </select>
         </div>
 

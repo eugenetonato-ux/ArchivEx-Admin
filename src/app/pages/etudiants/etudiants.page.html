@@ -1,24 +1,24 @@
-<ion-header>
-  <ion-toolbar color="primary">
-    <ion-buttons slot="start">
-      <ion-menu-button></ion-menu-button>
-    </ion-buttons>
-    <ion-title>Gestion des Étudiants & Accès Premium</ion-title>
-  </ion-toolbar>
-  <ion-toolbar color="primary">
-    <ion-searchbar [(ngModel)]="filtre" placeholder="Rechercher par nom ou email... (Ctrl+K)"></ion-searchbar>
-  </ion-toolbar>
-</ion-header>
-
 <ion-content class="ion-padding">
+  <!-- Searchbar Filter Area -->
+  <div class="page-filter-bar ion-margin-bottom">
+    <ion-searchbar [(ngModel)]="filtre" placeholder="Rechercher par nom ou email... (Ctrl+K)"></ion-searchbar>
+  </div>
+
   <app-loading-spinner
     *ngIf="loading"
     message="Chargement de l'annuaire des étudiants..."
     size="medium">
   </app-loading-spinner>
 
-  <ion-list *ngIf="!loading">
+  <div *ngIf="!loading && etudiantsFiltres.length === 0" class="empty-state ion-text-center ion-padding">
+    <i class="fa-solid fa-user-graduate" style="font-size: 2.5rem; color: #94a3b8; margin-bottom: 12px; display: block;"></i>
+    <p style="font-size: 0.95rem; color: #64748b; margin: 0;">Aucun étudiant inscrit pour le moment (Nouveau projet).</p>
+  </div>
+
+  <ion-list *ngIf="!loading && etudiantsFiltres.length > 0">
     <ion-item *ngFor="let e of etudiantsFiltres">
+      <i class="fa-solid fa-user" slot="start" style="font-size: 1.2rem; color: var(--ion-color-primary); margin-right: 12px;"></i>
+
       <ion-label>
         <h2>{{ e.full_name || 'Nom non renseigné' }}</h2>
         <p>{{ e.email }}</p>

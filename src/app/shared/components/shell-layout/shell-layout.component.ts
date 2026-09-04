@@ -1,7 +1,6 @@
-import { Component, Input, OnInit, signal, inject } from '@angular/core';
+import { Component, Input, OnInit, signal, inject, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
-import { IonIcon } from '@ionic/angular/standalone';
 import { AuthService } from '../../../core/services/auth';
 import { ThemeService } from '../../../core/services/theme';
 import { ShortcutsService } from '../../../core/services/shortcuts';
@@ -15,7 +14,6 @@ import { ShortcutsModalComponent } from '../shortcuts-modal/shortcuts-modal.comp
   standalone: true,
   imports: [
     CommonModule,
-    IonIcon,
     SidebarNavComponent,
     GlobalSearchComponent,
     ShortcutsModalComponent
@@ -27,7 +25,8 @@ export class ShellLayoutComponent implements OnInit {
   @Input() pageTitle = 'Dashboard Admin';
 
   mobileMenuOpen = signal<boolean>(false);
-  pendingPaiementsCount = signal<number>(3);
+  pendingPaiementsCount = signal<number>(0);
+  isFullscreen = signal<boolean>(false);
 
   private paiementsSvc = inject(PaiementsService);
 
@@ -43,7 +42,30 @@ export class ShellLayoutComponent implements OnInit {
       const list = await this.paiementsSvc.list('en_attente');
       this.pendingPaiementsCount.set(list.length);
     } catch {
-      // Keep default fallback count
+      this.pendingPaiementsCount.set(0);
+    }
+  }
+
+  @HostListener('document:fullscreenchange')
+  onFullscreenChange() {
+    this.isFullscreen.set(!!document.fullscreenElement);
+  }
+
+  toggleFullscreen() {
+    if (!document.fullscreenElement) {
+      document.documentElement.requestFullscreen().then(() => {
+        this.isFullscreen.set(true);
+      }).catch(err => {
+        console.warn('Fullscreen error:', err);
+      });
+    } else {
+      if (document.exitFullscreen) {
+        document.exitFullscreen().then(() => {
+          this.isFullscreen.set(false);
+        }).catch(err => {
+          console.warn('Exit fullscreen error:', err);
+        });
+      }
     }
   }
 

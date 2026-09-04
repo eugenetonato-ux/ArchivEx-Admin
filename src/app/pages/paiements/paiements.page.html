@@ -1,41 +1,35 @@
-<ion-header>
-  <ion-toolbar color="primary">
-    <ion-buttons slot="start">
-      <ion-menu-button></ion-menu-button>
-    </ion-buttons>
-    <ion-title>Validation des Paiements</ion-title>
-  </ion-toolbar>
-  <ion-toolbar color="primary">
+<ion-content class="ion-padding">
+  <!-- Status Filter Segment -->
+  <div class="page-filter-bar ion-margin-bottom">
     <ion-segment [value]="filtreStatut" (ionChange)="changerFiltre($event)">
       <ion-segment-button value="en_attente">
-        <ion-label>En attente</ion-label>
+        <ion-label>En attente (0)</ion-label>
       </ion-segment-button>
       <ion-segment-button value="confirme">
-        <ion-label>Confirmés</ion-label>
+        <ion-label>Confirmés (0)</ion-label>
       </ion-segment-button>
       <ion-segment-button value="rejete">
-        <ion-label>Rejetés</ion-label>
+        <ion-label>Rejetés (0)</ion-label>
       </ion-segment-button>
     </ion-segment>
-  </ion-toolbar>
-</ion-header>
+  </div>
 
-<ion-content class="ion-padding">
   <app-loading-spinner
     *ngIf="loading"
     message="Vérification et chargement de la file de transactions..."
     size="medium">
   </app-loading-spinner>
 
-  <div *ngIf="!loading && paiements.length === 0" class="ion-text-center ion-padding">
-    <p>Aucun paiement trouvé pour ce filtre.</p>
+  <div *ngIf="!loading && paiements.length === 0" class="empty-state ion-text-center ion-padding">
+    <i class="fa-solid fa-credit-card" style="font-size: 2.5rem; color: #94a3b8; margin-bottom: 12px; display: block;"></i>
+    <p style="font-size: 0.95rem; color: #64748b; margin: 0;">Aucune transaction enregistrée pour le moment (Nouveau projet).</p>
   </div>
 
   <ion-list *ngIf="!loading && paiements.length > 0">
     <ion-item *ngFor="let p of paiements">
       <ion-label>
         <h2>{{ p.profile?.full_name || 'Étudiant' }} ({{ p.profile?.email }})</h2>
-        <p>Montant: {{ p.montant }} FCFA | Semestre: {{ p.semestre }}</p>
+        <p>Montant: {{ p.montant | number }} FCFA | Semestre: {{ p.semestre }}</p>
         <p *ngIf="p.reference">Réf: {{ p.reference }}</p>
       </ion-label>
 
@@ -44,6 +38,7 @@
       </ion-badge>
 
       <ion-button *ngIf="p.statut === 'en_attente'" slot="end" color="success" (click)="valider(p.id)">
+        <i class="fa-solid fa-check" style="margin-right: 6px;"></i>
         Valider
       </ion-button>
     </ion-item>

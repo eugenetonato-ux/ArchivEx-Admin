@@ -3,7 +3,7 @@
   <div class="sidebar-header">
     <div class="brand-logo" routerLink="/dashboard" (click)="onNavItemClick()">
       <div class="logo-icon">
-        <ion-icon name="folder-open"></ion-icon>
+        <i class="fa-solid fa-folder-open"></i>
       </div>
       <div class="brand-text">
         <span class="brand-title">ArchivEx</span>
@@ -28,7 +28,7 @@
             class="nav-link">
 
             <div class="icon-glow-wrap">
-              <ion-icon [name]="item.icon" class="nav-icon"></ion-icon>
+              <i [class]="item.icon" class="nav-icon"></i>
             </div>
 
             <span class="nav-text">{{ item.title }}</span>
@@ -61,7 +61,7 @@
       class="logout-btn"
       (click)="onLogoutClick()"
       [title]="'Se déconnecter (' + currentUserEmail + ')'">
-      <ion-icon name="log-out-outline"></ion-icon>
+      <i class="fa-solid fa-right-from-bracket"></i>
       <span class="logout-text">Déconnexion</span>
     </button>
   </div>

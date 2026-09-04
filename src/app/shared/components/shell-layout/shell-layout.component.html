@@ -13,9 +13,17 @@
 
   <!-- Main Content Layout Area -->
   <div class="admin-main-wrapper">
-    <!-- Remodeled High-End Top Bar / Navbar -->
+    <!-- Remodeled High-End Top Bar / Navbar with Uniform Primary Background -->
     <header class="admin-topbar">
       <div class="topbar-left">
+        <!-- Single Mobile Hamburger Toggle Button -->
+        <button
+          class="mobile-hamburger-btn mobile-only"
+          (click)="toggleMobileMenu()"
+          title="Ouvrir le menu">
+          <i class="fa-solid fa-bars"></i>
+        </button>
+
         <div class="brand-badge-pill">
           <span class="app-tag">ARCHIVEX SYSTEM</span>
         </div>
@@ -23,20 +31,33 @@
         <h1 class="page-title">{{ pageTitle }}</h1>
       </div>
 
-      <div class="topbar-right">
-        <!-- Global Command Palette Search Bar Component -->
+      <!-- Centered Search Bar -->
+      <div class="topbar-center">
         <app-global-search></app-global-search>
+      </div>
+
+      <div class="topbar-right">
+        <!-- Fullscreen Mode Switcher -->
+        <button
+          class="topbar-action-pill fullscreen-btn"
+          (click)="toggleFullscreen()"
+          [title]="isFullscreen() ? 'Quitter le mode plein écran' : 'Passer en mode plein écran'">
+          <div class="pill-icon-wrap">
+            <i [class]="isFullscreen() ? 'fa-solid fa-compress' : 'fa-solid fa-expand'"></i>
+          </div>
+          <span class="pill-label desktop-only">{{ isFullscreen() ? 'Réduire' : 'Plein écran' }}</span>
+        </button>
 
         <!-- Dark / Light Mode Quick Switcher with Persistence -->
         <button
-          class="theme-toggle-pill"
+          class="topbar-action-pill theme-toggle-pill"
           (click)="themeSvc.toggleDarkMode()"
           [title]="themeSvc.darkMode() ? 'Passer en mode clair' : 'Passer en mode sombre'"
           [class.is-dark]="themeSvc.darkMode()">
-          <div class="theme-icon-wrap">
-            <ion-icon [name]="themeSvc.darkMode() ? 'sunny-outline' : 'moon-outline'"></ion-icon>
+          <div class="pill-icon-wrap">
+            <i [class]="themeSvc.darkMode() ? 'fa-solid fa-sun' : 'fa-solid fa-moon'"></i>
           </div>
-          <span class="theme-label desktop-only">{{ themeSvc.darkMode() ? 'Clair' : 'Sombre' }}</span>
+          <span class="pill-label desktop-only">{{ themeSvc.darkMode() ? 'Clair' : 'Sombre' }}</span>
         </button>
 
         <!-- User Quick Status Badge -->
@@ -61,7 +82,7 @@
     class="floating-shortcuts-btn"
     (click)="shortcutsSvc.toggleHelpModal()"
     title="Raccourcis clavier (?) ou H">
-    <span class="btn-symbol">?</span>
+    <i class="fa-solid fa-question btn-symbol"></i>
     <span class="btn-tooltip">Raccourcis Clavier (?)</span>
   </button>
 

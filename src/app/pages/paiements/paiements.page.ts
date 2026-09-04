@@ -1,11 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
-  IonHeader,
-  IonToolbar,
-  IonTitle,
-  IonButtons,
-  IonMenuButton,
   IonContent,
   IonList,
   IonItem,
@@ -25,11 +20,6 @@ import { LoadingSpinnerComponent } from '../../shared/components/loading-spinner
   standalone: true,
   imports: [
     CommonModule,
-    IonHeader,
-    IonToolbar,
-    IonTitle,
-    IonButtons,
-    IonMenuButton,
     IonContent,
     IonList,
     IonItem,

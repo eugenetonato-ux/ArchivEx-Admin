@@ -4,8 +4,8 @@
     <div class="chart-header">
       <div class="chart-titles">
         <h3 class="chart-title">
-          <ion-icon name="cube-outline" class="title-icon-3d"></ion-icon>
-          Évolution de l'Activité & Consultations (Vue 3D WebGL)
+          <i class="fa-solid fa-cube title-icon-3d"></i>
+          Évolution de l'Activité & Consultations (Vue 3D Isométrique)
         </h3>
         <p class="chart-subtitle">Analyse tridimensionnelle des vues, téléchargements et interactions</p>
       </div>
@@ -35,14 +35,11 @@
 
     <!-- 3D Canvas Container -->
     <div class="chart-body line-chart-body">
-      <div
-        class="canvas-3d-wrapper"
-        (mousemove)="on3DLineMouseMove($event)"
-        (mouseleave)="hover3dTooltip = null">
+      <div class="canvas-3d-wrapper">
         <canvas #line3DCanvas class="canvas-3d"></canvas>
         <div class="three-badge-overlay">
           <span class="pulse-dot"></span>
-          Rendu 3D Temps Réel
+          Rendu 3D Isométrique &bull; 0 consultation
         </div>
       </div>
     </div>
@@ -54,24 +51,21 @@
       <div class="chart-header">
         <div class="chart-titles">
           <h3 class="chart-title">
-            <ion-icon name="pie-chart-outline" class="title-icon-3d"></ion-icon>
+            <i class="fa-solid fa-chart-pie title-icon-3d"></i>
             Répartition 3D des Documents
           </h3>
-          <p class="chart-subtitle">Tore tridimensionnel interactif</p>
+          <p class="chart-subtitle">Tore tridimensionnel volumétrique</p>
         </div>
       </div>
 
       <div class="chart-body doughnut-chart-body">
-        <div
-          class="canvas-3d-wrapper"
-          (mousemove)="on3DDoughnutMouseMove($event)"
-          (mouseleave)="hover3dTooltip = null">
+        <div class="canvas-3d-wrapper">
           <canvas #doughnut3DCanvas class="canvas-3d"></canvas>
         </div>
         <div class="legend-3d-pills">
-          <span class="leg-pill free"><span class="leg-dot"></span> Épreuves (50%)</span>
-          <span class="leg-pill pass"><span class="leg-dot"></span> Corrigés Pass (32%)</span>
-          <span class="leg-pill fiches"><span class="leg-dot"></span> Fiches Résumé (18%)</span>
+          <span class="leg-pill free"><span class="leg-dot"></span> Épreuves (0)</span>
+          <span class="leg-pill pass"><span class="leg-dot"></span> Corrigés (0)</span>
+          <span class="leg-pill fiches"><span class="leg-dot"></span> Fiches (0)</span>
         </div>
       </div>
     </div>
@@ -81,7 +75,7 @@
       <div class="chart-header">
         <div class="chart-titles">
           <h3 class="chart-title">
-            <ion-icon name="bar-chart-outline" class="title-icon-3d"></ion-icon>
+            <i class="fa-solid fa-chart-simple title-icon-3d"></i>
             Recettes 3D par Canal de Paiement
           </h3>
           <p class="chart-subtitle">Prismes 3D volumétriques</p>
@@ -89,17 +83,14 @@
       </div>
 
       <div class="chart-body bar-chart-body">
-        <div
-          class="canvas-3d-wrapper"
-          (mousemove)="on3DBarMouseMove($event)"
-          (mouseleave)="hover3dTooltip = null">
+        <div class="canvas-3d-wrapper">
           <canvas #bar3DCanvas class="canvas-3d"></canvas>
         </div>
         <div class="legend-3d-pills">
-          <span class="leg-pill momo"><span class="leg-dot"></span> MTN MoMo</span>
-          <span class="leg-pill moov"><span class="leg-dot"></span> Moov Money</span>
-          <span class="leg-pill celtiis"><span class="leg-dot"></span> Celtiis Cash</span>
-          <span class="leg-pill wave"><span class="leg-dot"></span> Carte / Wave</span>
+          <span class="leg-pill momo"><span class="leg-dot"></span> MTN MoMo (0 F)</span>
+          <span class="leg-pill moov"><span class="leg-dot"></span> Moov Money (0 F)</span>
+          <span class="leg-pill celtiis"><span class="leg-dot"></span> Celtiis (0 F)</span>
+          <span class="leg-pill wave"><span class="leg-dot"></span> Carte / Wave (0 F)</span>
         </div>
       </div>
     </div>

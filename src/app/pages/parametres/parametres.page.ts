@@ -1,11 +1,6 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
-  IonHeader,
-  IonToolbar,
-  IonTitle,
-  IonButtons,
-  IonMenuButton,
   IonContent,
   IonCard,
   IonCardHeader,
@@ -24,11 +19,6 @@ import { ThemeService, ACCENT_COLORS, AccentColor } from '../../core/services/th
   standalone: true,
   imports: [
     CommonModule,
-    IonHeader,
-    IonToolbar,
-    IonTitle,
-    IonButtons,
-    IonMenuButton,
     IonContent,
     IonCard,
     IonCardHeader,

@@ -1,0 +1,23 @@
+# Node modules & dependencies
+node_modules/
+package-lock.json
+
+# Build & compiled output
+dist/
+www/
+.angular/
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# IDE & Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db

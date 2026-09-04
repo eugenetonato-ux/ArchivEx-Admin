@@ -9,15 +9,15 @@
     <!-- Quick Actions Header -->
     <div class="actions-bar ion-margin-bottom">
       <ion-button routerLink="/ressources" color="primary" size="small">
-        <ion-icon name="add-circle" slot="start"></ion-icon>
+        <i class="fa-solid fa-circle-plus" style="margin-right: 6px;"></i>
         Nouvelle Ressource
       </ion-button>
       <ion-button routerLink="/ue" color="tertiary" size="small">
-        <ion-icon name="book" slot="start"></ion-icon>
+        <i class="fa-solid fa-graduation-cap" style="margin-right: 6px;"></i>
         Gestion UEs
       </ion-button>
       <ion-button routerLink="/paiements" color="warning" size="small">
-        <ion-icon name="card" slot="start"></ion-icon>
+        <i class="fa-solid fa-credit-card" style="margin-right: 6px;"></i>
         File Paiements ({{ stats.paiementsEnAttente }})
       </ion-button>
     </div>
@@ -31,13 +31,13 @@
               <div class="kpi-card-top">
                 <ion-card-subtitle>Recettes Globales</ion-card-subtitle>
                 <div class="kpi-icon-box emerald">
-                  <ion-icon name="cash-outline"></ion-icon>
+                  <i class="fa-solid fa-money-bill-wave"></i>
                 </div>
               </div>
               <ion-card-title class="kpi-value emerald-text">{{ stats.recettesEstimees | number }} FCFA</ion-card-title>
             </ion-card-header>
             <ion-card-content>
-              <ion-badge color="success">+18% ce mois</ion-badge>
+              <ion-badge color="success">0 FCFA encaissé</ion-badge>
             </ion-card-content>
           </ion-card>
         </ion-col>
@@ -48,13 +48,13 @@
               <div class="kpi-card-top">
                 <ion-card-subtitle>Étudiants Premium</ion-card-subtitle>
                 <div class="kpi-icon-box indigo">
-                  <ion-icon name="people-outline"></ion-icon>
+                  <i class="fa-solid fa-user-graduate"></i>
                 </div>
               </div>
               <ion-card-title class="kpi-value indigo-text">{{ stats.etudiantsPremium }}</ion-card-title>
             </ion-card-header>
             <ion-card-content>
-              <ion-badge color="primary">Pass S1 & S2 actifs</ion-badge>
+              <ion-badge color="primary">0 compte actif</ion-badge>
             </ion-card-content>
           </ion-card>
         </ion-col>
@@ -65,13 +65,13 @@
               <div class="kpi-card-top">
                 <ion-card-subtitle>Ressources Pédagogiques</ion-card-subtitle>
                 <div class="kpi-icon-box sky">
-                  <ion-icon name="document-text-outline"></ion-icon>
+                  <i class="fa-solid fa-file-lines"></i>
                 </div>
               </div>
               <ion-card-title class="kpi-value sky-text">{{ stats.totalRessources }}</ion-card-title>
             </ion-card-header>
             <ion-card-content>
-              <ion-badge color="tertiary">Épreuves, Corrigés, Résumés</ion-badge>
+              <ion-badge color="tertiary">0 document</ion-badge>
             </ion-card-content>
           </ion-card>
         </ion-col>
@@ -82,13 +82,13 @@
               <div class="kpi-card-top">
                 <ion-card-subtitle>File Paiements</ion-card-subtitle>
                 <div class="kpi-icon-box amber">
-                  <ion-icon name="card-outline"></ion-icon>
+                  <i class="fa-solid fa-clock-rotate-left"></i>
                 </div>
               </div>
               <ion-card-title class="kpi-value amber-text">{{ stats.paiementsEnAttente }}</ion-card-title>
             </ion-card-header>
             <ion-card-content>
-              <ion-badge color="warning">À valider</ion-badge>
+              <ion-badge color="warning">0 en attente</ion-badge>
             </ion-card-content>
           </ion-card>
         </ion-col>
